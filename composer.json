@@ -1,0 +1,30 @@
+{
+    "name": "helori/laravel-cms",
+    "description": "An easy to use CMS for creating Laravel websites",
+    "keywords": ["laravel", "CMS"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Helori Lanos",
+            "email": "helori@algoart.fr",
+            "homepage": "https://algoart.fr"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/helori/laravel-cms.git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Helori\\LaravelCms\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "require-dev": {
+        
+    }
+}
