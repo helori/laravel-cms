@@ -35,9 +35,9 @@ class CmsServiceProvider extends ServiceProvider
         if(!class_exists('CreateAdminsTable')){
             $migrations[__DIR__.'/migrations/create_admins_table.php'] = database_path('migrations/'.$timestamp.'_create_admins_table.php');
         }
-        /*if(!class_exists('CreatePagesTable')){
+        if(!class_exists('CreatePagesTable')){
             $migrations[__DIR__.'/migrations/create_pages_table.php'] = database_path('migrations/'.$timestamp.'_create_pages_table.php');
-        }*/
+        }
         $this->publishes($migrations, 'migrations');
 	}
 

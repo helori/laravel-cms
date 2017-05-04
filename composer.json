@@ -1,6 +1,6 @@
 {
     "name": "helori/laravel-cms",
-    "description": "An easy to use CMS for creating Laravel websites",
+    "description": "A CMS for creating Laravel websites. Work still in progress...",
     "keywords": ["laravel", "CMS"],
     "license": "MIT",
     "authors": [
