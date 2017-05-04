@@ -2,20 +2,15 @@
 <html>
 <head>
 
-    <title>Administration</title>
-
-    <base href="/">
+    <title>Admin login</title>
 
     <meta charset="UTF-8" />
-    <meta name="fragment" content="!" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="white" />
     <link rel="shortcut icon" href="favicon.png" type="image/png" />
-
-    <link href="{{ mix('css/admin.css') }}" rel="stylesheet" type="text/css" />
 
 </head>
 

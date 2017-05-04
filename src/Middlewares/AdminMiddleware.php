@@ -1,6 +1,6 @@
 <?php
 
-namespace Helori\LaravelAdmin;
+namespace Helori\LaravelCms\Middlewares;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;

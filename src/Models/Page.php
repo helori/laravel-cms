@@ -1,6 +1,6 @@
 <?php
 
-namespace Helori\LaravelCms;
+namespace Helori\LaravelCms\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Helori\LaravelCms\Traits\HasMedia;

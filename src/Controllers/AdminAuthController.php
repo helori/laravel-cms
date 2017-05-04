@@ -1,6 +1,6 @@
 <?php
 
-namespace Helori\LaravelAdmin;
+namespace Helori\LaravelCms\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -15,7 +15,7 @@ class AdminAuthController extends Controller
     protected $guard = 'admin';
     protected $redirectTo = '/admin';
     protected $redirectAfterLogout = '/admin/login';
-    protected $loginView = 'laravel-admin::login';
+    protected $loginView = 'laravel-cms::admin.login';
 
     // overloaded :
     public function showLoginForm()
@@ -31,6 +31,6 @@ class AdminAuthController extends Controller
 
     public function welcome(Request $request)
     {
-        return view('laravel-admin::welcome', ['layout_view' => 'laravel-admin::layout']);
+        return view('laravel-cms::admin.welcome', ['layout_view' => 'laravel-cms::admin.layout']);
     }
 }
