@@ -1,8 +1,9 @@
 # laravel-cms
-An easy to use CMS for creating Laravel websites
+A CMS for creating Laravel websites. Work still in progress
 
 ## Installation and setup
 
+On a fresh Laravel installation, install the package by running:
 ```bash
 composer require helori/laravel-cms
 ```
@@ -47,22 +48,10 @@ Create the first administrator to be able to connect the first time:
 ```bash
 php artisan tinker
 $admin = new \Helori\LaravelCms\Models\Admin
-$admin->email = "admin_email@domain.com"
+$admin->email = "admin@domain.com"
 $admin->password = bcrypt('admin_password')
 $admin->save()
 exit
-```
-
-Add routes for the admin panel:
-// routes/web.pbp
-```php
-// Login, logout and welcome views :
-Helori\LaravelCms\CmsServiceProvider::routes('admin');
-
-Route::group(['prefix' => 'admin', 'middleware' => 'auth.admin'], function ()
-{
-    Helori\LaravelCms\CmsServiceProvider::routes('crudui');
-});
 ```
 
 Publish the laravel-cms default assets and Vue components:
@@ -131,4 +120,7 @@ You can also publish the translations to overwrite de defaults:
 ```bash
 php artisan vendor:publish --tag=laravel-cms-translations
 ```
+
+## Usage
+
 
