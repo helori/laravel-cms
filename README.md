@@ -29,13 +29,44 @@ Configure your application:
         'driver' => 'eloquent',
         'model' => Helori\LaravelCms\Models\Admin::class,
     ]
-]
-
-// app/Http/Kernel.php
-protected $routeMiddleware = [
+],
+'passwords' => [
     ...
-    'auth.admin' => \Helori\LaravelCms\Middlewares\AdminMiddleware::class,
-];
+    'admins' => [
+        'provider' => 'admins',
+        'table' => 'admins_resets',
+        'expire' => 60,
+    ],
+],
+
+// app/Exceptions/Handler.php
+protected function unauthenticated($request, AuthenticationException $exception)
+{
+    if ($request->expectsJson()) {
+        return response()->json(['error' => 'Unauthenticated.'], 401);
+    }
+
+    $guard = array_get($exception->guards(), 0);
+    if($guard === 'admin'){
+        return redirect()->guest(route('admin-login'));
+    }else{
+        return redirect()->guest(route('login'));
+    }
+}
+
+// app/Middleware/RedirectIfAuthenticated.php
+public function handle($request, Closure $next, $guard = null)
+{
+    if (Auth::guard($guard)->check()) {
+        if($guard === 'admin'){
+            return redirect()->route('admin-home');
+        }else{
+            return redirect('/');
+        }
+    }
+
+    return $next($request);
+}
 ```
 
 Publish and run the migrations:
