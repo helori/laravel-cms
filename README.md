@@ -15,6 +15,8 @@ Configure your application:
     ...
     Helori\LaravelCms\CmsServiceProvider::class,
 ];
+```
+```php
 // config/auth.php
 'guards' => [
     ...
@@ -38,7 +40,8 @@ Configure your application:
         'expire' => 60,
     ],
 ],
-
+```
+```php
 // app/Exceptions/Handler.php
 protected function unauthenticated($request, AuthenticationException $exception)
 {
@@ -53,7 +56,8 @@ protected function unauthenticated($request, AuthenticationException $exception)
         return redirect()->guest(route('login'));
     }
 }
-
+```
+```php
 // app/Middleware/RedirectIfAuthenticated.php
 public function handle($request, Closure $next, $guard = null)
 {
