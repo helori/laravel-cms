@@ -1,6 +1,6 @@
-@extends($layout_view)
-@section('content')    
-<div id="admin-welcome">
+@extends('laravel-cms::admin.layout')
+@section('content')
+<div id="admin-home">
 
     <div class="container">
 
