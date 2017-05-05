@@ -1,0 +1,351 @@
+@import "medias.scss";
+
+[ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak {
+    display: none !important;
+}
+
+#crud-table{
+	h1{
+		margin: 0 0 15px 0;
+		line-height: 34px;
+		font-size: 22px;
+		font-weight: 300;
+		text-align: left;
+	}
+	.items{
+		position: relative;
+		margin: 0 0 15px 0;
+		th, td{
+			vertical-align: middle;
+			text-align: center;
+		}
+		.item{
+			line-height: 34px;
+			.sortable{
+				width: 60px;
+				line-height: 34px;
+				font-size: 19px;
+				color: #888;
+				text-align: center;
+				cursor: move;
+			}
+			.actions{
+				width: 100px;
+			}
+		}
+		.position-placeholder{
+			height: 50px;
+			background: yellow;
+		}
+		.image-wrapper{
+			display: table;
+		    background: url(/images/image-back-alpha.png) repeat left top;
+		    margin: 0 auto;
+		    .image {
+		    	position: relative;
+		    	display: table-cell;
+				width: 120px;
+				height: 90px;
+				vertical-align: middle;
+      			text-align: center;
+				//background-color: black;
+				background-size: contain;
+				background-position: center center;
+				background-repeat: no-repeat;
+				.text{
+					position: absolute;
+					bottom: 0;
+					left: 0; right: 0;
+					width: 100%;
+					padding: 5px;
+					background: rgba(0, 0, 0, 0.9);
+					color: white;
+				}
+				/*img{
+					max-height: 80px;
+					max-width: 100%;
+				}*/
+			}
+		 }
+	}
+	.pagination{
+		margin: 0 0 15px 0;
+	}
+	#saving{
+		position: fixed;
+		z-index: 100;
+		bottom: -50px;
+		left: 0; right: 0;
+		width: 100%;
+		height: 50px;
+		line-height: 50px;
+		background: rgba(0, 0, 0, 0.9);
+		text-align: center;
+		transition: all 0.2s ease;
+		font-size: 18px;
+		font-weight: 300;
+		color: white;
+	}
+	#saving.active{
+		bottom: 0;
+	}
+}
+
+#crud-form{
+	h1{
+		margin: 0 0 15px 0;
+		line-height: 34px;
+		font-size: 22px;
+		font-weight: 300;
+		text-align: center;
+	}
+	.image{
+		img{
+			max-height: 80px;
+		}
+	}
+}
+
+#crud-filters{
+	margin: 0 0 15px 0;
+	padding: 15px;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	h3{
+		margin: 0 0 30px 0;
+		text-align: center;
+		font-weight: 300;
+		font-size: 20px;
+	}
+}
+
+.row.narrow{
+	margin-left: -5px;
+	margin-right: -5px;
+	.col{
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+}
+
+.btn{
+  position: relative;
+  padding-left: 46px;
+  font-weight: 300;
+  height: 34px;
+  //letter-spacing: 0.025em;
+  i{
+    display: block;
+    position: absolute;
+    left: 0; top: 0;
+    width: 34px;
+    height: 100%;
+    line-height: 34px;
+    font-size: 18px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+.btn.icon-only{
+	min-width: 36px;
+	padding-left: 0;
+	overflow: hidden;
+	i{
+		width: 100%;
+	}
+}
+
+// -------------------------------------------
+//  Checkbox
+// -------------------------------------------
+.checkbox-wrapper{
+  margin: 5px 0 0 0;
+  label{
+    display: block;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    font-weight: 400;
+    text-align: center;
+    input{
+      position: absolute;
+      left: -9999px;
+    }
+    .icon{
+      display: inline-block;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      //border: 1px solid rgba(0, 0, 0, 0.3);
+      text-align: center;
+      color: white;
+      background: #DDD;
+      line-height: 20px;
+      padding-top: 0;
+      i.fa-check{
+        display: none;
+      }
+      i.fa-close{
+        display: inline-block;
+      }
+    }
+    .text{
+      margin-left: 25px;
+    }
+  }
+}
+.checkbox-wrapper.checked{
+  .icon{
+    background: #60B398;
+    i.fa-check{
+      display: inline-block;
+    }
+    i.fa-close{
+      display: none;
+    }
+  }
+}
+
+.multi-check{
+	.checkbox-wrapper{
+		label{
+			text-align: left;
+			.icon{
+				float: left;
+				display: block;
+			}
+		}
+	}
+}
+
+
+// -------------------------------------------------------------
+//	Checkboxes
+// -------------------------------------------------------------
+// On cache la checkbox originale
+[type="checkbox"].toogle:not(:checked),
+[type="checkbox"].toogle:checked {
+  	position: absolute;
+  	left: -9999px;
+}
+// Le label est décalé à droite : on va dessiner la custom checkbox à gauche
+[type="checkbox"].toogle:not(:checked) + label,
+[type="checkbox"].toogle:checked + label {
+	display: inline-block;
+	height: 34px;
+	margin: 0;
+  	position: relative;
+	padding-left: 90px;
+	padding-top: 0;
+	cursor: pointer;
+}
+// On utilise le "before" et le "after" pour la case à cocher
+[type="checkbox"].toogle:not(:checked) + label:before,
+[type="checkbox"].toogle:checked + label:before,
+[type="checkbox"].toogle:not(:checked) + label:after,
+[type="checkbox"].toogle:checked + label:after {
+	content: '';
+  	position: absolute;
+}
+// Le "before" (background) : aspect général
+[type="checkbox"].toogle:not(:checked) + label:before,
+[type="checkbox"].toogle:checked + label:before{
+	left: 0;
+    top: 0;
+    width: 80px;
+    height: 34px;
+    background: #DDDDDD;
+    border-radius: 17px;
+    transition: background-color .2s;
+}
+// Le "before" : aspect coché
+[type="checkbox"].toogle:checked + label:before {
+    background: #34495E;
+}
+// Le "after" (curseur) : aspect général
+[type="checkbox"].toogle:not(:checked) + label:after,
+[type="checkbox"].toogle:checked + label:after{
+	top: 5px;
+    left: 5px;
+	width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #7F8C9A;
+    transition: all .2s;
+}
+// Le "after" : aspect coché
+[type="checkbox"].toogle:checked + label:after {
+    background: #39D2B4;
+    left: 51px;
+}
+
+//[type="checkbox"].toogle:checked + label .ui, 
+[type="checkbox"].toogle:not(:checked) + label .ui:before, 
+[type="checkbox"].toogle:checked + label .ui:after {
+	display: block;
+    position: absolute;
+    top: 5px;
+    left: 6px;
+    width: 40px;
+    line-height: 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    transition: all .2s;
+}
+[type="checkbox"].toogle:checked + label .ui:after {
+    content: "oui";
+    color: #39D2B4;
+}
+[type="checkbox"].toogle:not(:checked) + label .ui:before {
+    content: "non";
+    left: 34px;
+    color: #7F8C9A;
+}
+
+// ---------------------------------------------------
+//  Global medias
+// ---------------------------------------------------
+.file-input-wrapper{
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+	vertical-align: bottom;
+	input{
+		position: absolute;
+		left: -9999px;
+	}
+	label{
+		display: inline-block;
+	}
+}
+#global-medias{
+	.btn{
+		margin: 0 5px 5px 0;
+	}
+	.media-upload{
+		margin: 0 0 5px 0;
+		padding: 5px;
+		background: #F0F0F0;
+		border: 1px solid #ddd;
+	}
+	.file-type {
+	    margin: 0 0 5px 0;
+	    color: #888;
+	    font-size: 12px;
+	    font-style: italic;
+	}
+	.media-left .image {
+		line-height: 80px;
+	    width: 80px;
+	    height: 80px;
+	    text-align: center;
+	    background: #3E4149;
+	    border: 1px solid #3E4149;
+	    color: #fff;
+	    font-size: 16px;
+	    img {
+		    max-width: 100%;
+		    max-height: 100%;
+		    vertical-align: middle;
+		}
+	}
+}

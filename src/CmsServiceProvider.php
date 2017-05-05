@@ -16,36 +16,31 @@ class CmsServiceProvider extends ServiceProvider
     
     public function boot()
 	{
+        $this->loadRoutesFrom(__DIR__.'/routes/routes.php');
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
+        $this->loadTranslationsFrom(__DIR__.'/translations', 'laravel-cms');
+        // use echo trans('laravel-cms::file.key');
 		$this->loadViewsFrom(__DIR__.'/views', 'laravel-cms');
+        // use return view('laravel-cms::folder.view-file');
 
-		$this->publishes([
+        $this->publishes([
+            __DIR__.'/config/laravel-cms.php' => config_path('laravel-cms.php'),
+        ], 'laravel-cms-config');
+
+        $this->publishes([
+            __DIR__.'/translations' => resource_path('lang/vendor/laravel-cms'),
+        ], 'laravel-cms-translations');
+
+        $this->publishes([
             __DIR__.'/views' => base_path('resources/views/vendor/laravel-cms'),
-        ], 'views');
+        ], 'laravel-cms-views');
 
-		$this->publishes([
-            __DIR__.'/config/laravel-cms.php' => config_path('laravel-cms.php')
-        ], 'config');
-
-        $migrations = [];
-        $timestamp = date('Y_m_d_His', time());
-
-        if(!class_exists('CreateMediasTable')){
-            $migrations[__DIR__.'/migrations/create_medias_table.php'] = database_path('migrations/'.$timestamp.'_create_medias_table.php');
-        }
-        if(!class_exists('CreateAdminsTable')){
-            $migrations[__DIR__.'/migrations/create_admins_table.php'] = database_path('migrations/'.$timestamp.'_create_admins_table.php');
-        }
-        if(!class_exists('CreateAdminsPasswordResetTable')){
-            $migrations[__DIR__.'/migrations/create_admins_password_reset_table.php'] = database_path('migrations/'.$timestamp.'_create_admins_password_reset_table.php');
-        }
-        if(!class_exists('CreatePagesTable')){
-            $migrations[__DIR__.'/migrations/create_pages_table.php'] = database_path('migrations/'.$timestamp.'_create_pages_table.php');
-        }
-        $this->publishes($migrations, 'migrations');
+        $this->publishes([
+            __DIR__.'/components' => base_path('resources/assets/js/components/laravel-cms'),
+            __DIR__.'/assets/admin.js' => base_path('resources/assets/js/admin.js'),
+            __DIR__.'/assets/admin.scss' => base_path('resources/assets/sass/admin.scss'),
+            __DIR__.'/assets/website.js' => base_path('resources/assets/js/website.js'),
+            __DIR__.'/assets/website.scss' => base_path('resources/assets/sass/website.scss'),
+        ], 'laravel-cms-assets');
 	}
-
-    public static function routes($routes)
-    {
-        require(__DIR__.'/routes/'.$routes.'.php');
-    }
 }

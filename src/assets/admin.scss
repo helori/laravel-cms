@@ -1,0 +1,14 @@
+// Font Awesome
+$fa-font-path: "/fonts";
+@import "node_modules/font-awesome/scss/font-awesome";
+
+// Bootstrap
+$grid-float-breakpoint: 768px;
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+// JQuery-ui
+//@import "node_modules/jquery-ui-dist/jquery-ui.min";
+
+// Vendor
+@import "vendor/helori/laravel-cms/src/assets/sass/crudui";
+
