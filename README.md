@@ -14,6 +14,12 @@ Configure your application:
 'providers' => [
     ...
     Helori\LaravelCms\CmsServiceProvider::class,
+    Intervention\Image\ImageServiceProvider::class,
+];
+
+'aliases' => [
+	...
+	'Image' => Intervention\Image\Facades\Image::class,
 ];
 ```
 ```php
