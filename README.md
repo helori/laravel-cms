@@ -1,10 +1,10 @@
 # laravel-cms
 Work still in progress...
-This package provides many things you usually need when creating a website for your clients : a secured admin panel with users management, an advanced media manager to upload and optimize files (images, videos, documents...), and a powerful tool to define your website's specific elements : blog articles, home page elements, partners, portfolio... This package also provides a way include structured data in your website. The only thing you will have to do is using these components in your front controller, and build your design. And if you need, a pre-configured AMP compatible layout is also available.
+This package provides many things you usually need when creating a website for your clients : a secured admin panel with users management, an advanced media manager to upload and optimize files (images, videos, documents...), and a powerful tool to define your website's specific elements : blog articles, home page elements, partners, portfolio... This package also provides a way to include structured data in your website. The only thing you will have to do is using these components in your front controller, and build your design. And if you need, a pre-configured AMP compatible layout is also available.
 
 ## Installation and setup
 
-On a fresh Laravel installation, install the package by running:
+On a fresh Laravel (>= v5.4) installation, install the package by running:
 ```bash
 composer require helori/laravel-cms
 ```
