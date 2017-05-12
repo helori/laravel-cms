@@ -18,8 +18,8 @@ Configure your application:
 ];
 
 'aliases' => [
-	...
-	'Image' => Intervention\Image\Facades\Image::class,
+    ...
+    'Image' => Intervention\Image\Facades\Image::class,
 ];
 ```
 ```php
@@ -79,9 +79,8 @@ public function handle($request, Closure $next, $guard = null)
 }
 ```
 
-Publish and run the migrations:
+Run the migrations:
 ```bash
-php artisan vendor:publish --tag=laravel-cms-migrations
 php artisan migrate
 ```
 
@@ -145,11 +144,9 @@ mix.copy(
 ).version();
 ```
 
-Compile your assets running one of these commands (see Laravel mix docs for more information):
+Compile your assets :
 ```bash
-npm run prod // for production
-npm run dev // for development
-npm run watch // when developping
+npm run dev
 ```
 
 If you want to modify the default views, publish them to your application's resources directory:
