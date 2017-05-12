@@ -118,8 +118,8 @@ npm install font-awesome --save-dev
 ```
 
 Edit your laravel mix config file :
-// webpack.mix.js
 ```js
+// webpack.mix.js
 const { mix } = require('laravel-mix');
 mix.copy(
     "./node_modules/font-awesome/fonts",

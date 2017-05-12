@@ -3,31 +3,13 @@
 </style>
 
 <template>
-    <!--div class="input-wrapper" :class="{'touched': hasFocus || dataValue, 'has-error': error}">
-        <input
-            type="date"
-            :id="name"
-            class="form-control"
-            v-model="dataValue"
-            @focus="hasFocus = true"
-            @blur="hasFocus = false"
-            @change="updateValue" />
-        <label :for="name">{{ label }}</label>
-        <p class="error" v-if="error">{{ error }}</p>
-    </div-->
+    
+    <input type="date"
+        :id="name"
+        class="form-control"
+        v-model="dataValue"
+        @change="updateValue" />
 
-    <div class="form-group" :class="{'has-error': error}">
-        <label :for="name" class="control-label col-sm-5">{{ label }} :</label>
-        <div class="col-sm-7">
-            <input
-                type="date"
-                :id="name"
-                class="form-control"
-                v-model="dataValue"
-                @change="updateValue" />
-            <p class="help-block" v-if="error">{{ error }}</p>
-        </div>
-    </div>
 </template>
 
 <script>
@@ -35,8 +17,7 @@
         data(){
             return{
                 loaded: false,
-                dataValue: '',
-                hasFocus: false
+                dataValue: ''
             };
         },
 
@@ -46,17 +27,9 @@
               type: String,
               default: ''
             },
-            'label': {
-              type: String,
-              default: ''
-            },
             'name': {
               type: String,
               default: ''
-            },
-            'error': {
-              type: String,
-              default: null
             }
         },
 

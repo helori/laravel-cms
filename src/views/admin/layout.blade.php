@@ -50,12 +50,19 @@
                         <li><a href="{{ route('admin-login') }}"><i class="fa fa-sign-in"></i> Connexion</a></li>
                     @else
 
+                        @foreach($tables as $table)
+                            <li><a href="{{ route('table-manager', ['table_id' => $table->id]) }}">{{ $table->name }}</a></li>
+                        @endforeach
+
+                        <li><a href="{{ route('medias-manager') }}"><i class="fa fa-file-image-o"></i> Médias</a></li>
+                        <li><a href="{{ url('/') }}" target="_blank"><i class="fa fa-desktop"></i> Ouvrir le site</a></li>
+
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 <i class="fa fa-user"></i> {{ Auth::guard('admin')->user()->name }} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ url('/') }}" target="_blank"><i class="fa fa-desktop"></i> Voir le site</a></li>
+                                <li><a href="{{ route('tables-manager') }}"><i class="fa fa-cubes"></i> Éléments personnalisés</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li>
                                     <a href="{{ url('/logout') }}" 
@@ -78,13 +85,20 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <!-- Content -->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
-    @yield('content')
+    <main id="main-content">
+        @yield('content')
+    </main>
 
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <!-- Scripts -->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
+    <script>
+        window.Laravel = <?php echo json_encode([
+            'csrfToken' => csrf_token(),
+        ]); ?>
+    </script>
     <script src="{{ mix('js/admin.js') }}"></script>
-    <script src="{{ url('tinymce/tinymce.min.js') }}"></script>
+    <!--script src="{{ url('tinymce/tinymce.min.js') }}"></script-->
 
 </body>

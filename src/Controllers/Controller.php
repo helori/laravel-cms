@@ -7,7 +7,22 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+use Auth;
+use Helori\LaravelCms\Models\Table;
+
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected $data = [];
+
+    public function __construct(){
+    	$this->middleware(function ($request, $next) {
+            if(Auth::guard('admin')->check()){
+	    		$this->data['tables'] = Table::where('in_admin', true)->get();	
+	    	}
+            return $next($request);
+        });
+    }
 }

@@ -33,6 +33,25 @@ Route::group(['middleware' => ['web']], function ()
 		Route::group(['middleware' => 'auth:admin'], function () use($admin_controllers)
 		{
 			Route::get('/', ['uses' => $admin_controllers.'FrontController@home', 'as' => 'admin-home']);
+
+			Route::get('/medias-manager', ['uses' => $admin_controllers.'MediasController@medias', 'as' => 'medias-manager']);
+			
+			Route::get('/medias', ['uses' => $admin_controllers.'MediasController@read']);
+		    Route::post('/medias', ['uses' => $admin_controllers.'MediasController@create']);
+		    Route::put('/medias/{id}', ['uses' => $admin_controllers.'MediasController@update']);
+		    Route::delete('/medias/{id}', ['uses' => $admin_controllers.'MediasController@delete']);
+		    Route::get('/media/{id}/download', ['uses' => $admin_controllers.'MediasController@download']);
+
+		    Route::get('/tables-manager', ['uses' => $admin_controllers.'TablesController@tables', 'as' => 'tables-manager']);
+
+		    Route::get('/tables/{id?}', ['uses' => $admin_controllers.'TablesController@read']);
+		    Route::post('/tables', ['uses' => $admin_controllers.'TablesController@create']);
+		    Route::put('/tables/{id}', ['uses' => $admin_controllers.'TablesController@update']);
+		    Route::delete('/tables/{id}', ['uses' => $admin_controllers.'TablesController@delete']);
+
+		    Route::get('/table-manager/{table_id}', ['uses' => $admin_controllers.'TableController@table', 'as' => 'table-manager']);
+
+		    Route::get('/table/{table_id}/{id?}', ['uses' => $admin_controllers.'TableController@read']);
 		});
 	});
 
