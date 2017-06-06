@@ -3,6 +3,7 @@
 namespace Helori\LaravelCms;
 
 use Illuminate\Support\ServiceProvider;
+use Helori\LaravelCms\Models\Element;
 
 
 class CmsServiceProvider extends ServiceProvider

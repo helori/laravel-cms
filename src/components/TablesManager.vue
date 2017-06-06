@@ -60,6 +60,7 @@
         border-radius: 5px;
         box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
         text-align: center;
+        background: white;
     }
     .tables-manager .item h3{
         margin: 0 0 15px 0;
@@ -86,7 +87,7 @@
         margin: 0 0 5px 0;
     }
     .fields-dialog .modal-dialog{
-        width: 1000px;
+        width: 1200px;
         max-width: 95%;
     }
     .fields-head{
@@ -116,7 +117,7 @@
             <div class="row">
                 <div class="col-sm-6 col-md-4" v-for="item in items">
 
-                    <div class="item bg-grey">
+                    <div class="item">
 
                         <h3>{{ item.name }}</h3>
                         <div class="infos">
@@ -127,6 +128,10 @@
                             <div>
                                 <span class="lab">Champs : </span>
                                 <span class="text-info">{{ item.fields.length }}</span>
+                            </div>
+                            <div>
+                                <span class="lab">Nombre d'éléments : </span>
+                                <span class="text-info">{{ item.multiple ? 'Multiple' : 'Un seul' }}</span>
                             </div>
                         </div>
 
@@ -286,13 +291,20 @@
                             <div class="form-group">
                                 <label :for="'in_admin-' + id" class="col-sm-4 control-label">Administrable :</label>
                                 <div class="col-sm-8">
-                                    <div class="checkbox">
-                                        <label :for="'in_admin-' + id">
-                                            <input type="checkbox"
-                                                :id="'in_admin-' + id"
-                                                v-model="fields.in_admin">
-                                        </label>
-                                    </div>
+                                    <input-checkbox 
+                                        v-model="fields.in_admin"
+                                        :name="'in_admin-' + id">
+                                    </input-checkbox>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label :for="'in_admin-' + id" class="col-sm-4 control-label">Éléments multiples :</label>
+                                <div class="col-sm-8">
+                                    <input-checkbox 
+                                        v-model="fields.multiple"
+                                        :name="'multiple-' + id">
+                                    </input-checkbox>
                                 </div>
                             </div>
 
@@ -391,22 +403,31 @@
                         <div class="fields">
                             <div class="fields-head">
                                 <div class="row narrow">
+                                    <div class="col col-sm-1">Ordre</div>
                                     <div class="col col-sm-2">Type</div>
-                                    <div class="col col-sm-3">Nom</div>
-                                    <div class="col col-sm-3">Titre</div>
-                                    <div class="col col-sm-3">Valeur par défaut</div>
+                                    <div class="col col-sm-2">Nom</div>
+                                    <div class="col col-sm-2">Titre</div>
+                                    <div class="col col-sm-2">Valeur par défaut</div>
+                                    <div class="col col-sm-1">Création</div>
+                                    <div class="col col-sm-1">Liste</div>
                                     <div class="col col-sm-1"></div>
                                 </div>
                             </div>
 
                             <div class="field" v-for="(field, idx) in fields.fields">
                                 <div class="row narrow">
+                                    <div class="col col-sm-1">
+                                        <input type="text" 
+                                            v-model="field.position" 
+                                            class="form-control" 
+                                            placeholder="#">
+                                    </div>
                                     <div class="col col-sm-2">
                                         <select class="form-control" v-model="field.type" @change="resetDefault(field)">
                                             <option value="text">Champ de texte</option>
-                                            <option value="textarea">Champ de texte (multi-lignes)</option>
-                                            <option value="select">Liste déroulante</option>
+                                            <option value="textarea">Zone de texte (multi-lignes)</option>
                                             <option value="editor">Éditeur de texte</option>
+                                            <option value="select">Liste déroulante</option>
                                             <option value="checkbox">Case à cocher</option>
                                             <option value="media">Fichier média</option>
                                             <option value="medias">Fichiers média</option>
@@ -415,16 +436,16 @@
                                             <option value="date">Date</option>
                                         </select>
                                     </div>
-                                    <div class="col col-sm-3">
+                                    <div class="col col-sm-2">
                                         <input type="text" 
                                             v-model="field.name" 
                                             class="form-control" 
                                             placeholder="Nom du champ...">
                                     </div>
-                                    <div class="col col-sm-3">
+                                    <div class="col col-sm-2">
                                         <input type="text" v-model="field.title" class="form-control" placeholder="Titre...">
                                     </div>
-                                    <div class="col col-sm-3">
+                                    <div class="col col-sm-2">
 
                                         <input-text
                                             v-if="field.type == 'text'"
@@ -445,6 +466,18 @@
                                             :name="'default-' + idx">
                                         </input-checkbox>
 
+                                    </div>
+                                    <div class="col col-sm-1">
+                                        <input-checkbox 
+                                            v-model="field.create"
+                                            :name="'create-' + idx">
+                                        </input-checkbox>
+                                    </div>
+                                    <div class="col col-sm-1">
+                                        <input-checkbox 
+                                            v-model="field.list"
+                                            :name="'list-' + idx">
+                                        </input-checkbox>
                                     </div>
                                     <div class="col col-sm-1">
                                         <button type="button" class="btn btn-danger btn-block"
@@ -513,6 +546,7 @@
                     alias: '',
                     table: '',
                     in_admin: false,
+                    multiple: true,
                     fields: []
                 }
             };
@@ -580,6 +614,7 @@
                 this.fields.alias = item.alias;
                 this.fields.table = item.table;
                 this.fields.in_admin = item.in_admin;
+                this.fields.multiple = item.multiple;
                 this.fields.fields = item.fields;
             },
 

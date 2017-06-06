@@ -52,6 +52,9 @@ Route::group(['middleware' => ['web']], function ()
 		    Route::get('/table-manager/{table_id}', ['uses' => $admin_controllers.'TableController@table', 'as' => 'table-manager']);
 
 		    Route::get('/table/{table_id}/{id?}', ['uses' => $admin_controllers.'TableController@read']);
+		    Route::post('/table/{table_id}', ['uses' => $admin_controllers.'TableController@create']);
+		    Route::put('/table/{table_id}/{id}', ['uses' => $admin_controllers.'TableController@update']);
+		    Route::delete('/table/{table_id}/{id}', ['uses' => $admin_controllers.'TableController@delete']);
 		});
 	});
 

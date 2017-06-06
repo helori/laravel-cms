@@ -12,6 +12,10 @@ class Field extends Model
     public $timestamps = true; // Model should be timestamped
     protected $guarded = []; // Not mass assignable
 
+    protected $casts = [
+        'create' => 'boolean'
+    ];
+
     public function table(){
         return $this->belongsTo(Table::class);
     }

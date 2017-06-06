@@ -4,10 +4,13 @@
 
 <template>
     
-    <input type="date"
+    <input 
+        type="text"
         :id="name"
         class="form-control"
         v-model="dataValue"
+        placeholder="YYYY-MM-DD"
+        pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"
         @change="updateValue" />
 
 </template>
@@ -16,8 +19,7 @@
     export default {
         data(){
             return{
-                loaded: false,
-                dataValue: ''
+                dataValue: this.formatDate(new Date(this.value))
             };
         },
 
@@ -34,16 +36,11 @@
         },
 
         watch: {
-            value: function(val){
-                if(!this.loaded){
+            value: {
+                handler: function (val) {
                     this.dataValue = this.formatDate(new Date(val));
-                    this.loaded = true;
                 }
             }
-        },
-
-        mounted() {
-            this.dataValue = this.formatDate(new Date(this.value));
         },
 
         methods: {

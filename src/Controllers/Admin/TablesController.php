@@ -21,11 +21,11 @@ class TablesController extends Controller
 
     public function read(Request $request, $id = null)
     {
-    	if($id){
-    		return Table::with('fields')->findOrFail($id);
-    	}else{
-    		return Table::with('fields')->get();
-    	}
+    	$q = Table::with(['fields' => function ($query) {
+		    $query->orderBy('position', 'asc');
+		}])->orderBy('position', 'asc');
+
+    	return $id ? $q->findOrFail($id) : $q->get();
     }
 
     public function delete(Request $request, $id)
@@ -73,7 +73,6 @@ class TablesController extends Controller
 		$item->name = $name;
 		$item->alias = $alias;
 		$item->table = $table_name;
-		$item->fields = [];
 		$item->save();
 
 		return $item;
@@ -85,6 +84,7 @@ class TablesController extends Controller
     	$alias = $request->input('alias', null);
     	$table_name = $request->input('table', null);
     	$in_admin = ($request->input('in_admin', false) == 'true');
+    	$multiple = ($request->input('multiple', false) == 'true');
 
     	if(!$name || !$alias || !$table_name){
     		return response()->json([
@@ -105,6 +105,7 @@ class TablesController extends Controller
 		$item->alias = $alias;
 		$item->table = $table_name;
 		$item->in_admin = $in_admin;
+		$item->multiple = $multiple;
 		$item->save();
 
 		if($request->has('fields'))
@@ -130,6 +131,15 @@ class TablesController extends Controller
 				if(!isset($input_field['title'])){
 					$input_field['title'] = '';
 				}
+				if(!isset($input_field['position'])){
+					$input_field['position'] = false;
+				}
+				if(!isset($input_field['create'])){
+					$input_field['create'] = false;
+				}
+				if(!isset($input_field['list'])){
+					$input_field['list'] = false;
+				}
 
 				// Create missing fields
 				if(!isset($input_field['id']))
@@ -141,6 +151,9 @@ class TablesController extends Controller
 					$field->name = $input_field['name'];
 					$field->title = $input_field['title'];
 					$field->default = $input_field['default'];
+					$field->position = $input_field['position'];
+					$field->create = $input_field['create'];
+					$field->list = $input_field['list'];
 					$field->save();
 
 					try{
@@ -162,7 +175,7 @@ class TablesController extends Controller
 								}
 							}
 							else if(in_array($type, ['checkbox'])){
-								$table->boolean($name)->default($default ? true : false);
+								$table->boolean($name)->nullable()->default($default ? true : false);
 							}
 							else if(in_array($type, ['date'])){
 								$table->date($name)->nullable()->default($default);
@@ -186,6 +199,9 @@ class TablesController extends Controller
 					$name = $input_field['name'];
 					$title = $input_field['title'];
 					$default = $input_field['default'];
+					$position = $input_field['position'];
+					$create = $input_field['create'];
+					$list = $input_field['list'];
 
 					// Rename column if needed
 					if($field->name != $name)
@@ -238,6 +254,9 @@ class TablesController extends Controller
 					$field->name = $name;
 					$field->title = $title;
 					$field->default = $default;
+					$field->position = $position;
+					$field->create = $create;
+					$field->list = $list;
 					$field->save();
 				}
 			}

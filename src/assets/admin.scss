@@ -6,9 +6,25 @@ $fa-font-path: "/fonts";
 $grid-float-breakpoint: 768px;
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+// TinyMCE
+@import "node_modules/tinymce/skins/lightgray/content.min";
+@import "node_modules/tinymce/skins/lightgray/skin.min";
+
 // JQuery-ui
 //@import "node_modules/jquery-ui-dist/jquery-ui.min";
 
 // Vendor
-@import "vendor/helori/laravel-cms/src/assets/sass/crudui";
+//@import "vendor/helori/laravel-cms/src/assets/sass/crudui";
 
+
+
+// ------------------------------------------------------------------
+//  Menu
+// ------------------------------------------------------------------
+#menu{
+  margin: 0;
+  border: 0;
+  background: white;
+  border-top: 5px solid blue;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}

@@ -231,13 +231,13 @@ class MediasController extends Controller
 
         $cmds_default = [
             'gif' => 'gifsicle',
-            'jpg' => 'jpegoptim2',
+            'jpg' => 'jpegoptim',
             'png' => 'pngquant',
         ];
 
         $opts_default = [
             'gifsicle' => '-b -O2',
-            'jpegoptim2' => '-m'.$quality.' --strip-all',
+            'jpegoptim' => '-m'.$quality.' --strip-all',
             'pngquant' => '--ext=.png --force',
             'optipng' => '-o5 -strip all',
         ];

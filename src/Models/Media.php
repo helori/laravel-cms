@@ -12,9 +12,4 @@ class Media extends Model
     public $timestamps = true;
     protected $hidden = [];
     protected $guarded = [];
-
-    public function mediable()
-    {
-        return $this->morphTo();
-    }
 }

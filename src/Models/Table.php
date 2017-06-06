@@ -13,7 +13,8 @@ class Table extends Model
     protected $guarded = []; // Not mass assignable
 
     protected $casts = [
-        'in_admin' => 'boolean'
+        'in_admin' => 'boolean',
+        'multiple' => 'boolean',
     ];
 
     public function fields(){

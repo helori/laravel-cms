@@ -17,6 +17,9 @@ class CreateFieldsTable extends Migration
             $table->string('name')->nullable()->default(null);
             $table->string('title')->nullable()->default(null);
             $table->string('default')->nullable()->default(null);
+            $table->integer('position')->unsigned()->nullable()->default(0);
+            $table->boolean('create')->nullable()->default(false);
+            $table->boolean('list')->nullable()->default(false);
         });
     }
 

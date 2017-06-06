@@ -23,7 +23,7 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <!-- Menu  -->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav id="menu" class="navbar navbar-default navbar-static-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-menu">
@@ -51,11 +51,17 @@
                     @else
 
                         @foreach($tables as $table)
-                            <li><a href="{{ route('table-manager', ['table_id' => $table->id]) }}">{{ $table->name }}</a></li>
+                            <li class="{{ Request::route()->getName() == 'table-manager' ? 'active' : '' }}">
+                                <a href="{{ route('table-manager', ['table_id' => $table->id]) }}">{{ $table->name }}</a>
+                            </li>
                         @endforeach
 
-                        <li><a href="{{ route('medias-manager') }}"><i class="fa fa-file-image-o"></i> Médias</a></li>
-                        <li><a href="{{ url('/') }}" target="_blank"><i class="fa fa-desktop"></i> Ouvrir le site</a></li>
+                        <li class="{{ Request::route()->getName() == 'medias-manager' ? 'active' : '' }}">
+                            <a href="{{ route('medias-manager') }}"><i class="fa fa-file-image-o"></i> Médias</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/') }}" target="_blank"><i class="fa fa-desktop"></i> Ouvrir le site</a>
+                        </li>
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

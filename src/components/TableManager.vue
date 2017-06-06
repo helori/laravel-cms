@@ -45,6 +45,20 @@
         font-size: 16px;
         font-weight: 500;
     }
+    table{
+        background: white;
+    }
+    table > thead > tr > th,
+    table > tbody > tr > td{
+        vertical-align: middle;
+    }
+    td.actions{
+        width: 150px;
+    }
+    .table-manager .modal-dialog{
+        width: 1000px;
+        max-width: 90%;
+    }
 </style>
 
 <template>
@@ -62,29 +76,39 @@
         </div>
 
         <div class="right">
-            <div class="row">
-                <div class="col-sm-6 col-md-4" v-for="item in items">
 
-                    <div class="item bg-grey">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th v-for="field in table.fields" v-if="field.list">
+                            {{ field.title }}
+                        </th>
+                        <th class="actions"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in items">
+                        <td v-for="field in table.fields" v-if="field.list">
+                            <div v-if="field.type == 'checkbox'" class="text-center">
+                                <i class="fa fa-check fa-2x text-success" v-if="item[field.name]"></i>
+                                <i class="fa fa-close fa-2x text-danger" v-else></i>
+                            </div>
+                            <div v-else>
+                                {{ item[field.name] }}
+                            </div>
+                        </td>
+                        <td class="actions">
+                            <button class="btn btn-success" @click="openUpdateDialog(item)">
+                                <i class="fa fa-edit"></i> Éditer
+                            </button>
+                            <button class="btn btn-danger" @click="openDeleteDialog(item)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-                        <h3>{{ item.id }}</h3>
-                        
-                        <button type="button"
-                            class="btn btn-success btn-block"
-                            @click="openUpdateDialog(item)">
-                            <i class="fa fa-edit"></i> Modifier
-                        </button>
-
-                        <button type="button"
-                            class="btn btn-danger btn-block"
-                            @click="openDeleteDialog(item)">
-                            <i class="fa fa-trash"></i> Supprimer
-                        </button>
-
-                    </div>
-
-                </div>
-            </div>
         </div>
 
         <!-- Create Dialog -->
@@ -101,7 +125,26 @@
                         
                         <form class="form-horizontal">
 
-                            
+                            <div class="form-group" v-for="field in table.fields" v-if="field.create">
+                                <label class="control-label col-sm-4" :for="field.name + '-' + id">{{ field.title }} :</label>
+                                <div class="col-sm-8">
+
+                                    <input type="text" 
+                                        v-if="field.type == 'text'"
+                                        :id="field.name + '-' + id"
+                                        :placeholder="field.placeholder"
+                                        class="form-control"
+                                        v-model="fields[field.name]">
+
+                                    <textarea
+                                        v-if="field.type == 'textarea'"
+                                        :id="field.name + '-' + id"
+                                        :placeholder="field.placeholder"
+                                        class="form-control"
+                                        v-model="fields[field.name]"></textarea>
+
+                                </div>
+                            </div>
 
                         </form>
 
@@ -134,8 +177,103 @@
             </div>
         </div>
 
+        <slide-panel ref="slidePanel">
+            <div slot="content">
+                <form class="form-horizontal">
+
+                    <div class="form-group" v-for="(field, idx) in table.fields">
+                        <label class="control-label col-sm-4" :for="field.name + '-' + id">{{ field.title }} :</label>
+                        <div class="col-sm-8">
+
+                            <input type="text" 
+                                v-if="field.type == 'text'"
+                                :id="field.name + '-' + id"
+                                :placeholder="field.placeholder"
+                                class="form-control"
+                                v-model="fields[field.name]">
+
+                            <textarea
+                                v-if="field.type == 'textarea'"
+                                :id="field.name + '-' + id"
+                                :placeholder="field.placeholder"
+                                class="form-control"
+                                v-model="fields[field.name]"></textarea>
+
+                            <input-date
+                                v-if="field.type == 'date'"
+                                v-model="fields[field.name]"
+                                :name="field.name + '-' + id">
+                            </input-date>
+
+                            <input-checkbox 
+                                v-if="field.type == 'checkbox'"
+                                v-model="fields[field.name]"
+                                :name="field.name + '-' + id">
+                            </input-checkbox>
+
+                            <input-editor 
+                                v-if="field.type == 'editor'"
+                                v-model="fields[field.name]"
+                                :css="editorCss"
+                                :name="field.name + '-' + id">
+                            </input-editor>
+
+                            <input-media
+                                v-if="field.type == 'media'"
+                                v-model="fields[field.name]"
+                                :name="field.name + '-' + id">
+                            </input-media>
+
+                            <input-medias
+                                v-if="field.type == 'medias'"
+                                v-model="fields[field.name]"
+                                :name="field.name + '-' + id">
+                            </input-medias>
+
+                        </div>
+                    </div>
+
+                </form>
+
+                <div v-if="update_error" class="alert alert-danger">
+                    {{ update_error.message }}
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <button type="button" 
+                                    class="btn btn-default btn-block" 
+                                    @click="closeUpdateDialog()" 
+                                    v-if="update_state == 'none'">
+                                    Fermer
+                                </button>
+                            </div>
+                            <div class="col-sm-8">
+                                <button type="button" 
+                                    class="btn btn-primary btn-block" 
+                                    @click="update()"
+                                    :disabled="update_state == 'pending'">
+
+                                    <span v-if="update_state == 'none'">
+                                        Enregistrer
+                                    </span>
+                                    <span v-if="update_state == 'pending'">
+                                        <i class="fa fa-spinner fa-spin"></i> Enregistrement en cours...
+                                    </span>
+
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </slide-panel>
+
         <!-- Update Dialog -->
-        <div class="modal fade update-dialog"tabindex="-1" role="dialog">
+        <!--div class="modal fade update-dialog"tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     
@@ -148,7 +286,39 @@
                         
                         <form class="form-horizontal">
 
-                            
+                            <div class="form-group" v-for="(field, idx) in table.fields">
+                                <label class="control-label col-sm-4" :for="field.name + '-' + id">{{ field.title }} :</label>
+                                <div class="col-sm-8">
+
+                                    <input type="text" 
+                                        v-if="field.type == 'text'"
+                                        :id="field.name + '-' + id"
+                                        :placeholder="field.placeholder"
+                                        class="form-control"
+                                        v-model="fields[field.name]">
+
+                                    <textarea
+                                        v-if="field.type == 'textarea'"
+                                        :id="field.name + '-' + id"
+                                        :placeholder="field.placeholder"
+                                        class="form-control"
+                                        v-model="fields[field.name]"></textarea>
+
+                                    <input-checkbox 
+                                        v-if="field.type == 'checkbox'"
+                                        v-model="fields[field.name]"
+                                        :name="field.name + '-' + id">
+                                    </input-checkbox>
+
+                                    <input-editor 
+                                        v-if="field.type == 'editor'"
+                                        v-model="fields[field.name]"
+                                        :css="editorCss"
+                                        :name="field.name + '-' + id">
+                                    </input-editor>
+
+                                </div>
+                            </div>
 
                         </form>
 
@@ -179,7 +349,7 @@
 
                 </div>
             </div>
-        </div>
+        </div-->
 
         <!-- Delete Dialog -->
         <div class="modal fade delete-dialog"tabindex="-1" role="dialog">
@@ -212,6 +382,7 @@
                             <span v-if="delete_state == 'none'">
                                 Oui, supprimer !
                             </span>
+
                             <span v-if="delete_state == 'pending'">
                                 <i class="fa fa-spinner fa-spin"></i> Suppression en cours...
                             </span>
@@ -233,6 +404,7 @@
                 id: 0,
                 table: null,
                 items: [],
+                item_id: 0,
 
                 create_state: 'none',
                 create_error: null,
@@ -241,7 +413,9 @@
                 update_error: null,
 
                 delete_state: 'none',
-                delete_error: null
+                delete_error: null,
+
+                fields: {}
             };
         },
 
@@ -250,6 +424,11 @@
             'queries-base-url': {
                 type: String,
                 required: true,
+                default: ''
+            },
+            'editor-css': {
+                type: String,
+                required: false,
                 default: ''
             }
         },
@@ -278,10 +457,7 @@
 
             openCreateDialog: function ()
             {
-                this.fields.name = '';
-                this.fields.alias = '';
-                this.fields.table = '';
-
+                //this.copyFields();
                 $(this.$el).find('.create-dialog').modal('show');
             },
 
@@ -295,9 +471,16 @@
                 this.create_state = 'pending';
                 this.create_error = null;
 
-                axios.post(this.queriesBaseUrl + 'tables', this.fields).then(response => {
+                var fields = {};
+                for(var i=0; i<this.fields.length; ++i){
+                    fields[this.fields[i].name] = this.fields[i].value;
+                }
+
+                console.log(fields);
+
+                axios.post(this.queriesBaseUrl + 'table/' + this.tableId, fields).then(response => {
                     console.log('create success', response);
-                    this.create_state = 'done';
+                    this.create_state = 'none';
                     this.items.push(response.data);
                     this.closeCreateDialog();
                 }).catch(response => {
@@ -307,24 +490,35 @@
                 });
             },
 
-            copyFields: function(item){
-                this.fields.id = item.id;
-                this.fields.name = item.name;
-                this.fields.alias = item.alias;
-                this.fields.table = item.table;
-                this.fields.in_admin = item.in_admin;
-                this.fields.fields = item.fields;
+            /*copyFields: function(item){
+                this.fields = this.table.fields;
+
+                if(item){
+                    for(var i=0; i< item.fields.length; ++i){
+                        var field = item.fields[i];
+                        this.fields[field.name] = field.name;
+                    }
+                }
+            },*/
+
+            closePanel(){
+                this.$refs.slidePanel.setOpen(false);
             },
 
             openUpdateDialog: function (item)
             {
-                this.copyFields(item);
-                $(this.$el).find('.update-dialog').modal('show');
+                this.item_id = item.id;
+                this.fields = item;
+                //this.copyFields(item);
+
+                this.$refs.slidePanel.setOpen(true);
+                //$(this.$el).find('.update-dialog').modal('show');
             },
 
             closeUpdateDialog: function ()
             {
-                $(this.$el).find('.update-dialog').modal('hide');
+                this.$refs.slidePanel.setOpen(false);
+                //$(this.$el).find('.update-dialog').modal('hide');
             },
 
             update: function()
@@ -332,7 +526,7 @@
                 this.update_state = 'pending';
                 this.update_error = null;
 
-                axios.put(this.queriesBaseUrl + 'tables/' + this.fields.id, this.fields).then(response => {
+                axios.put(this.queriesBaseUrl + 'table/' + this.tableId + '/' + this.item_id, this.fields).then(response => {
                     this.update_state = 'none';
                     this.refresh();
                     this.closeUpdateDialog();
@@ -344,7 +538,7 @@
 
             openDeleteDialog: function(item)
             {
-                this.copyFields(item);
+                this.item_id = item.id;
                 $(this.$el).find('.delete-dialog').modal('show');
             },
 
@@ -358,54 +552,13 @@
                 this.delete_state = 'pending';
                 this.delete_error = null;
 
-                axios.delete(this.queriesBaseUrl + 'tables/' + this.fields.id).then(response => {
+                axios.delete(this.queriesBaseUrl + 'table/' + this.tableId + '/' + this.item_id).then(response => {
                     this.delete_state = 'none';
                     this.refresh();
                     this.closeDeleteDialog();
                 }).catch(response => {
                     this.delete_state = 'none';
                     this.delete_error = response.response.data;
-                });
-            },
-
-            openFieldsDialog: function(item)
-            {
-                this.copyFields(item);
-                $(this.$el).find('.fields-dialog').modal('show');
-            },
-
-            closeFieldsDialog: function()
-            {
-                $(this.$el).find('.fields-dialog').modal('hide');
-            },
-
-            addField: function(){
-                this.fields.fields.push({
-                    type: 'text'
-                });
-            },
-
-            deleteField: function(idx){
-                this.fields.fields.splice(idx, 1);
-            },
-
-            resetDefault: function(field){
-                console.log(field);
-                field.default = null;
-            },
-
-            updateFields: function()
-            {
-                this.fields_state = 'pending';
-                this.fields_error = null;
-
-                axios.put(this.queriesBaseUrl + 'tables/' + this.fields.id, this.fields).then(response => {
-                    this.fields_state = 'none';
-                    this.refresh();
-                    this.closeFieldsDialog();
-                }).catch(response => {
-                    this.fields_state = 'none';
-                    this.fields_error = response.response.data;
                 });
             }
         }

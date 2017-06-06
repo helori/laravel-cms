@@ -16,7 +16,9 @@ class CreateTablesTable extends Migration
             $table->string('table')->nullable()->default(null);
             $table->string('title')->nullable()->default(null);
 
+            $table->integer('position')->unsigned()->nullable()->default(0);
             $table->boolean('in_admin')->default(true);
+            $table->boolean('multiple')->default(true);
         });
     }
 
