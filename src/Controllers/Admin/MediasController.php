@@ -5,20 +5,26 @@ namespace Helori\LaravelCms\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Helori\LaravelCms\Controllers\Controller;
+//use Illuminate\Routing\Controller;
 use Helori\LaravelCms\Models\Media;
 use Image;
 
 
 class MediasController extends Controller
 {
-    public function medias(Request $request)
-    {
-        return view('laravel-cms::admin.medias', $this->data);
+    public function __construct(){
+        parent::__construct();
     }
 
+    public function media(Request $request)
+    {
+        return view('laravel-cms::admin.media', $this->data);
+    }
+
+    
     public function read(Request $request)
     {
-        return Media::all();
+        return Media::orderBy('created_at', 'desc')->get();
     }
 
     public function delete(Request $request, $id)

@@ -16,47 +16,21 @@
 </template>
 
 <script>
+    import inputMixin from '../crud/InputMixin.js'
     export default {
+        mixins: [inputMixin],
         data(){
             return{
-                dataValue: this.formatDate(new Date(this.value))
+                dataValue: this.$options.filters.date(new Date(this.value), '-', 'Y-m-d')
             };
         },
-
-        props: {
-            // "value" is required to use v-model on the component
-            'value': { 
-              type: String,
-              default: ''
-            },
-            'name': {
-              type: String,
-              default: ''
-            }
-        },
-
         watch: {
             value: {
                 handler: function (val) {
-                    this.dataValue = this.formatDate(new Date(val));
+                    this.dataValue = this.$options.filters.date(new Date(val), '-', 'Y-m-d');
                 }
-            }
-        },
-
-        methods: {
-            updateValue: function () {
-                // required to use v-model on the component :
-                this.$emit('input', this.dataValue);
-            },
-            formatDate: function(date){
-                var mm = date.getMonth() + 1; // getMonth() is zero-based
-                var dd = date.getDate();
-                return [
-                    date.getFullYear(),
-                    (mm>9 ? '' : '0') + mm,
-                    (dd>9 ? '' : '0') + dd
-                 ].join('-');
             }
         }
     }
 </script>
+

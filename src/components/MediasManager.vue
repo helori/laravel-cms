@@ -1,106 +1,74 @@
 <style scoped>
-    .medias-manager{
-        position: absolute;
-        top: 50px; bottom: 0;
-        left: 0; right: 0;
-        width: 100%;
-    }
-    .medias-manager .left{
-        z-index: 1;
-        position: absolute;
-        top: 0; bottom: 0; left: 0;
-        width: 500px; height: 100%;
-        padding: 30px;
-        overflow-x: hidden;
-        overflow-y: scroll;
-        box-shadow: 1px 0 4px rgba(0, 0, 0, 0.5);
-    }
-    .medias-manager .right{
-        position: absolute;
-        top: 0; bottom: 0; 
-        left: 500px; right: 0;
-        height: 100%;
-        padding: 30px;
-        overflow-x: hidden;
-        overflow-y: scroll;
-        background: #666;
-    }
-
-    .medias-manager .table{
-        display: table;
-    }
-    .medias-manager .table > .cell{
-        display: table-cell;
-        width: 100%;
-        padding: 20px 30px;
-        vertical-align: middle;
-    }
     .medias-manager input.file-input{
         position: absolute;
         left: -9999px;
     }
-    .medias-manager input.file-input + label {
-        cursor: pointer;
-        background: rgba(0, 0, 0, 0.1);
-        border: 3px dashed rgba(0, 0, 0, 0.3);
-        text-align: center;
-        font-style: italic;
-        font-weight: 400;
-        border-radius: 6px;
-    }
-    .medias-manager input.file-input + label:hover {
-        background: rgba(0, 0, 0, 0.05);
-    }
-    .medias-manager h1{
-        margin: 0 0 15px 0;
-        font-size: 30px;
-        font-weight: 400;
-    }
-    .medias-manager h2{
-        margin: 0 0 15px 0;
-        font-size: 16px;
-        font-weight: 500;
-    }
-    .medias-manager .hint{
-        margin: 0 0 15px 0;
-        font-style: italic;
-        color: rgba(0, 0, 0, 0.5);
-    }
-    .medias-manager p:last-child{
+    .medias-manager label p{
         margin: 0;
     }
-    .medias-manager .item{
-        position: relative;
-        margin: 0 0 30px 0;
-        padding: 5px;
-        border-radius: 5px;
-        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-    }
-    .medias-manager .item .selector{
+    .medias-manager input.file-input + label {
+        padding: 30px;
         cursor: pointer;
-        z-index: 5;
-        position: absolute;
-        top: 5px; left: 5px;
-        width: 60px;
-        height: 60px;
-        line-height: 60px;
-        font-size: 30px;
+        background: rgba(0, 0, 0, 0.1);
+        color: white;
+        border: 3px dashed white;
         text-align: center;
-        border-bottom-right-radius: 5px;
-        box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+        font-style: italic;
+        font-weight: 400;
+        background: #f56857;
     }
-    .medias-manager .item .selector .inside{
+    .medias-manager input.file-input + label:hover,
+    .medias-manager input.file-input + label.disabled {
+        background: #ff9070;
+    }
+
+    .medias-manager .preview{
+        position: relative;
+        height: 0;
+        padding-bottom: 60%;
+        overflow: hidden;
+        background: repeating-linear-gradient(
+            -45deg,
+            #666666,
+            #666666 10px,
+            #444444 10px,
+            #444444 20px
+        );
+    }
+    .medias-manager .preview .image{
+        z-index: 1;
         position: absolute;
         top: 0; left: 0;
-        bottom: 5px; right: 5px;
-        width: 55px;
-        height: 55px;
-        border-radius: 5px;
-        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3) inset;
-        background: white;
+        width: 100%; height: 100%;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
     }
-    .medias-manager .bg-grey{
-        background: #DDD;
+    .medias-manager .preview video, 
+    .medias-manager .preview iframe{
+        z-index: 1;
+        position: absolute;
+        width: 100%; height: 100%;
+        top: 0; bottom: 0;
+        left: 0; right: 0;
+        background: black;
+        border: 0;
+        box-shadow: none;
+    }
+    .medias-manager .preview .text-wrapper{
+        display: table;
+        z-index: 2;
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: #666;
+    }
+    .medias-manager .preview .text-wrapper .text{
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        color: white;
+        font-size: 12px;
     }
 </style>
 
@@ -108,82 +76,140 @@
 
     <div class="medias-manager">
 
-        <div class="left">
-            
-            <h1>Vos fichiers médias <span v-if="items.length > 0">({{ items.length }})</span></h1>
-            <div class="hint">Vous gérez ici les fichiers sur votre serveur : images, vidéos, documents... Vous pourrez ensuite les modifier, les associer aux éléments de votre site et les utiliser pour créer des liens dans vos textes.</div>
+        <div class="row">
 
-            <div v-if="upload_state != 'uploading'">
+            <div class="col-sm-6">
                 <input type="file" multiple
-                    accept="image/jpeg,image/png,application/pdf,video/mp4"
+                    accept="image/jpeg,image/png,application/pdf,video/mp4,video/m4v"
                     :id="'file-input-' + id" 
+                    :disabled="upload_state == 'uploading'"
                     class="file-input">
-                <label :for="'file-input-' + id" class="table filedrop">
+                <label :for="'file-input-' + id" class="table filedrop" :class="{'disabled': upload_state == 'uploading'}">
                     <div class="cell">
-                        <h2>Charger de nouveaux fichiers</h2>
+                        <strong>Charger de nouveaux fichiers</strong>
                         <p>Vous pouvez glisser-déposer vos fichiers dans cette zone <br>(ou cliquer ici pour en sélectionner)</p>
                     </div>
                 </label>
             </div>
 
-            <div class="progress-wrapper" v-if="upload_state == 'uploading'">
-                <div class="progress-cell">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" :style="'width:' + (100 * upload_progress / upload_total) + '%'">
-                            <span class="sr-only">{{100 * upload_progress / upload_total}}%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="col-sm-6">
 
-            <button type="button" class="btn btn-warning btn-block" @click="cancel()" v-if="upload_state == 'uploading'">
-                <i class="fa fa-close"></i> Annuler le chargement
-            </button>
-
-            <div v-if="upload_error" class="alert alert-danger">
-                Erreur {{ upload_error.response.status }} : {{ upload_error.response.statusText }}
-            </div>
-
-            <div v-if="upload_state == 'done'" class="alert alert-success">
-                <strong>Vos fichiers sont chargés !</strong>
-            </div>
-
-            <div v-if="items.length > 0 && selected.length == 0" class="alert alert-info">
-                <strong>Cliquez sur les vignettes pour sélectionner des fichiers</strong>
-            </div>
-
-            <button type="button" class="btn btn-danger btn-block" @click="openDeleteDialog()" v-if="selected.length > 0">
-                <i class="fa fa-trash"></i> Supprimer les fichiers sélectionnés
-            </button>
-
-        </div>
-
-        <div class="right">
-            <div class="row">
-                <div class="col-sm-4 col-md-3" v-for="item in items">
-
-                    <div class="item"
-                        :class="{'bg-success': isSelected(item.id), 'bg-grey': !isSelected(item.id)}">
-
-                        <div class="selector" 
-                            @click="toggleSelect(item.id)"
-                            :class="{'bg-success': isSelected(item.id), 'bg-grey': !isSelected(item.id)}">
-                            <div class="inside">
-                                <i class="fa fa-check text-success" v-if="isSelected(item.id)"></i>
+                <div class="progress-wrapper" v-if="upload_state == 'uploading'">
+                    <div class="progress-cell">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" :style="'width:' + (100 * upload_progress / upload_total) + '%'">
+                                <span class="sr-only">{{100 * upload_progress / upload_total}}%</span>
                             </div>
                         </div>
-
-                        <media :media="item"
-                            :assets-base-url="assetsBaseUrl"
-                            :queries-base-url="queriesBaseUrl"
-                            @deleted="refresh()">
-                        </media>
-
                     </div>
-
                 </div>
+
+                <button type="button" class="btn btn-warning btn-block" @click="cancel()" v-if="upload_state == 'uploading'">
+                    <i class="fa fa-close"></i> Annuler le chargement
+                </button>
+
+                <div v-if="upload_error" class="alert alert-danger">
+                    Erreur {{ upload_error.response.status }} : {{ upload_error.response.statusText }}
+                </div>
+
+                <div v-if="upload_state == 'done'" class="alert alert-success">
+                    <strong>Vos fichiers sont chargés !</strong>
+                </div>
+
+                <button type="button" class="btn btn-danger btn-block" @click="deleteDialog.modal('show')" v-if="hasSelection()">
+                    <i class="fa fa-trash"></i> Supprimer les fichiers sélectionnés
+                </button>
+
             </div>
         </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <input-checkbox
+                            name="select-all"
+                            v-model="selectAll"
+                            label=""
+                            @input="toggleAll()">
+                        </input-checkbox>
+                    </th>
+                    <th>Aperçu</th>
+                    <th>Infos</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, idx) in items">
+                    <td>
+                        <input-checkbox
+                            :name="item.id + '-selected'"
+                            label=""
+                            v-model="item.selected"
+                            @input="toggle(item)">
+                        </input-checkbox>
+                    </td>
+                    <td>
+                        <div class="preview">
+                            <div class="image"
+                                v-if="item.mime.indexOf('image') !== -1"
+                                :style="'background-image:url(' + assetsBaseUrl + item.filepath + '?' + decache + ')'">
+                            </div>
+                            <video controls v-else-if="item.mime.indexOf('video') !== -1">
+                                <source :src="assetsBaseUrl + item.filepath + '?' + decache" :type="item.mime" />
+                            </video>
+                            <div class="text-wrapper" v-else>
+                                <div class="text">
+                                    <div>{{ item.mime }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>    
+                        <div>
+                            <span class="lab">Type :</span>
+                            <span class="text-info">{{ item.mime }}</span>
+                        </div>
+                        <div>
+                            <span class="lab">Poids :</span>
+                            <span class="text-info">
+                                <span v-if="item.size < 1000000">{{ item.size / 1000 | number(1) }} ko</span>
+                                <span v-else>{{ item.size / 1000000 | number(1) }} Mo</span>
+                            </span>
+                        </div>
+                        <div v-if="item.mime.indexOf('image') !== -1">
+                            <span class="lab">Taille :</span>
+                            <span class="text-info">{{ item.width }} x {{ item.height }} px</span>
+                        </div>
+                        <div>
+                            <span class="lab">Nom :</span>
+                            <span class="text-info">{{ item.filename }}</span>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <button 
+                            type="button"
+                            class="btn btn-default"
+                            @click="openEditor(item)">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                        <button 
+                            type="button"
+                            class="btn btn-danger"
+                            @click="destroy(item)">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <media-updater 
+            ref="mediaUpdater"
+            :queries-base-url="queriesBaseUrl"
+            :assets-base-url="assetsBaseUrl"
+            @updated="refresh()">
+        </media-updater>
 
         <!-- Delete Dialog -->
         <div class="modal fade delete-dialog"tabindex="-1" role="dialog">
@@ -196,7 +222,7 @@
                     </div>
                     
                     <div class="modal-body">
-                        Les fichiers sélectionnés (il y en a {{ selected.length }}) sont sur le point d'être supprimés.
+                        Les fichiers sélectionnés sont sur le point d'être supprimés.
                         Cette opération est irréversible. Êtes-vous bien certain(e) ?
 
                         <div v-if="delete_error" class="alert alert-danger">
@@ -235,10 +261,12 @@
     export default {
         data(){
             return{
-                id: 0,
+                id: Math.floor(Math.random()*(9999-1000+1)+1000),
                 files: null,
                 items: [],
+                selectAll: false,
                 selected: [],
+                decache: new Date().getTime(),
 
                 upload_source: null,
                 upload_state: 'none',
@@ -246,6 +274,7 @@
                 upload_total: 0,
                 upload_error: null,
 
+                deleteDialog: null,
                 delete_state: 'none',
                 delete_error: null
             };
@@ -266,14 +295,13 @@
 
         mounted() {
             var self = this;
-            this.id = Math.floor(Math.random()*(9999-1000+1)+1000);
+            this.deleteDialog = $(this.$el).find('.delete-dialog');
             
             // -------------------------------------------------------
             //  Init browse button
             // -------------------------------------------------------
             $(this.$el).on('change', '.file-input', function(e){
                 self.files = e.target.files;
-                self.openUploadDialog();
                 self.upload();
                 //self.value = null;
             }).on('click', '.file-input', function(e){
@@ -308,32 +336,29 @@
             $(this.$el).find('.filedrop').on('drop', function(e){
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('files dropped', e.originalEvent.dataTransfer.files);
-
+                //console.log('files dropped', e.originalEvent.dataTransfer.files);
                 self.files = e.originalEvent.dataTransfer.files;
-                self.openUploadDialog();
                 self.upload();
             });
         },
 
         methods: {
-            openUploadDialog: function ()
-            {
-                $(this.$el).find('#medias-upload-dialog').modal('show');
-            },
 
-            closeUploadDialog: function ()
-            {
-                $(this.$el).find('#medias-upload-dialog').modal('hide');
+            openEditor(item){
+                this.$refs.mediaUpdater.openUpdateDialog(item);
             },
 
             refresh: function()
             {
-                return axios.get(this.queriesBaseUrl + 'medias').then(response => {
+                this.decache = new Date().getTime();
+                
+                return axios.get(this.queriesBaseUrl + 'media').then(response => {
                     this.items = response.data;
-                    console.log('refreshed !', this.items);
+                    this.items = _.forEach(this.items, function(item) {
+                        item.selected = false;
+                    });
                 }).catch(response => {
-                    console.log('refresh error', response);
+                    
                 });
             },
 
@@ -362,16 +387,15 @@
                     //cancelToken: this.upload_source
                 };
 
-                axios.post(this.queriesBaseUrl + 'medias', formData, config).then(response => {
-                    console.log('upload success', response);
+                axios.post(this.queriesBaseUrl + 'media', formData, config).then(response => {
+                    //console.log('upload success', response);
                     self.upload_state = 'done';
                     self.upload_request = null;
                     for(var i=0; i<response.data.length; ++i){
                         this.items.push(response.data[i]);
                     }
-                    this.closeUploadDialog();
                 }).catch(response => {
-                    console.log('upload error', response);
+                    //console.log('upload error', response);
                     self.upload_state = 'none';
                     self.upload_request = null;
                     self.upload_error = response;
@@ -388,69 +412,66 @@
                 }
             },
 
-            toggleSelect: function(id){
-                if(this.isSelected(id)){
-                    this.unselect(id);
-                }else{
-                    this.select(id);
+            toggleAll(){
+                this.selected = [];
+                for(var i=0; i<this.items.length; ++i){
+                    this.items[i].selected = this.selectAll;
+                    if(this.selectAll){
+                        this.selected.push(this.items[i].id);
+                    }
                 }
             },
 
-            select: function(id)
-            {
-                function onlyUnique(value, index, self) { 
-                    return self.indexOf(value) === index;
-                }
-                this.selected.push(id);
-                this.selected = this.selected.filter(onlyUnique);
-            },
-
-            unselect: function(id)
-            {
-                var idx = this.selected.indexOf(id);
+            toggle(item){
+                var idx = this.selected.indexOf(item.id);
                 if(idx !== -1){
                     this.selected.splice(idx, 1);
-                    console.log('unselected', id, this.selected);
+                }else{
+                    this.selected.push(item.id);
                 }
+                //item.selected = !item.selected;
             },
 
-            isSelected: function(id)
-            {
-                return (this.selected.indexOf(id) !== -1);
+            hasSelection(){
+                return (this.selected.length > 0);
             },
 
-            openDeleteDialog: function()
+            destroy: function(item)
             {
-                $(this.$el).find('.delete-dialog').modal('show');
-            },
-
-            closeDeleteDialog: function()
-            {
-                $(this.$el).find('.delete-dialog').modal('hide');
+                this.items = _.forEach(this.items, function(item) {
+                    item.selected = false;
+                });
+                item.selected = true;
+                this.deleteDialog.modal('show');
             },
 
             deleteMedias: function()
             {
-                if(this.selected.length > 0){
-                    
+                var item = _.find(this.items, function(item) {
+                    return item.selected;
+                });
+
+                if(item){
+
                     var self = this;
                     this.delete_state = 'pending';
                     this.delete_error = null;
 
-                    axios.delete(this.queriesBaseUrl + 'medias/' + this.selected[0]).then(function(r){
-                        self.unselect(self.selected[0]);
-                        if(self.selected.length > 0){
-                            self.deleteMedias();
-                        }else{
-                            self.delete_state = 'none';
-                            self.closeDeleteDialog();
-                            self.refresh();
-                        }
+                    axios.delete(this.queriesBaseUrl + 'media/' + item.id).then(function(r){
+                        self.items = _.filter(self.items, function(it) {
+                            return it.id !== item.id;
+                        });
+                        self.deleteMedias();
                     }).catch(response => {
                         self.delete_state = 'none';
                         self.delete_error = response;
-                        console.log('delete error', response);
                     });
+                }
+                else{
+                    this.selected = [];
+                    this.delete_state = 'none';
+                    this.deleteDialog.modal('hide');
+                    this.refresh();
                 }
             }
         }

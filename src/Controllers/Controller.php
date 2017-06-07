@@ -20,7 +20,7 @@ class Controller extends BaseController
     public function __construct(){
     	$this->middleware(function ($request, $next) {
             if(Auth::guard('admin')->check()){
-	    		$this->data['tables'] = Table::where('in_admin', true)->get();	
+	    		$this->data['tables'] = Table::where('in_admin', true)->get();
 	    	}
             return $next($request);
         });

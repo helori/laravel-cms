@@ -16,6 +16,33 @@
             #444444 20px
         );
     }
+    .library h3{
+        text-align: center;
+        font-size: 20px;
+        font-weight: 300;
+        margin: 0 0 30px 0;
+    }
+    .library .preview-wrapper{
+        position: relative;
+        cursor: pointer;
+        margin-bottom: 30px;
+        background: #E0E0E0;
+    }
+    .library .preview-wrapper:hover{
+        background: #f56857;
+    }
+    .library .preview{
+        width: 100%;
+        height: 0;
+        padding-bottom: 60%;
+        float: none;
+    }
+    .library .bottom{
+        height: 80px;
+        padding: 10px;
+        line-height: 20px;
+        text-align: center;
+    }
     .input-medias .actions{
         margin-left: 180px;
     }
@@ -94,21 +121,32 @@
         <slide-panel ref="mediasPanel">
             <div slot="content">
                 
-                <div class="row">
-                    <div class="col-md-3" v-for="media in medias">
-                    <div class="preview" @click="addMedia(media)">
-                            <div v-if="media">
-                                <div class="image"
-                                    v-if="media && media.mime && media.mime.indexOf('image') !== -1"
-                                    :style="'background-image:url(/' + media.filepath + '?' + decache + ')'">
-                                </div>
-                                <video controls v-else-if="media && media.mime && media.mime.indexOf('video') !== -1">
-                                    <source :src="'/' + media.filepath + '?' + decache" :type="media.mime" />
-                                </video>
-                                <div class="text-wrapper" v-else>
-                                    <div class="text">
-                                        <div>{{ media.mime }}</div>
+                <div class="library">
+                    <h3>Choisissez dans votre bibliothèque de médias...</h3>
+                    <div class="row">
+                        <div class="col-md-3" v-for="media in medias">
+                            <div class="preview-wrapper" @click="addMedia(media)">
+                                <div class="preview">
+                                    <div v-if="media">
+                                        <div class="image"
+                                            v-if="media && media.mime && media.mime.indexOf('image') !== -1"
+                                            :style="'background-image:url(/' + media.filepath + '?' + decache + ')'">
+                                        </div>
+                                        <video controls v-else-if="media && media.mime && media.mime.indexOf('video') !== -1">
+                                            <source :src="'/' + media.filepath + '?' + decache" :type="media.mime" />
+                                        </video>
+                                        <div class="text-wrapper" v-else>
+                                            <div class="text">
+                                                <div>{{ media.mime }}</div>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                                <div class="bottom">
+                                    <div>{{ media.mime }}</div>
+                                    <div v-if="media.size < 1000000">{{ media.size / 1000 | number:2 }} ko</div>
+                                    <div v-else>{{ media.size / 1000000 | number:2 }} Mo</div>
+                                    <div v-if="media.mime.indexOf('image') !== -1">{{ media.width }} x {{ media.height }} px</div>
                                 </div>
                             </div>
                         </div>
@@ -137,7 +175,7 @@
                 type: Array
             },
             'queries-base-url': {
-                default: '/admin/'
+                default: '/admin/api'
             }
         },
 
@@ -148,7 +186,7 @@
         },
 
         mounted(){
-            return axios.get(this.queriesBaseUrl + 'medias').then(response => {
+            return axios.get(this.queriesBaseUrl + '/media').then(response => {
                 this.medias = response.data;
             }).catch(response => {
 

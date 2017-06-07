@@ -3,12 +3,13 @@
 </style>
 
 <template>
-    <select
+    <select multiple
         :id="name"
         class="form-control"
         v-model="dataValue"
+        @focus="hasFocus = true"
+        @blur="hasFocus = false"
         @change="updateValue">
-            <option disabled v-if="hasEmpty" :value="emptyValue">{{ emptyLabel }}</option>
             <option :value="o.value" v-for="o in options">{{ o.label }}</option>
     </select>
 </template>
@@ -19,20 +20,8 @@
         mixins: [inputMixin],
         props: {
             'options': { 
-              type: Array,
-              default: []
-            },
-            'hasEmpty': {
-              type: Boolean,
-              default: true
-            },
-            'emptyValue': {
-              type: String,
-              default: ''
-            },
-            'emptyLabel': {
-              type: String,
-              default: ''
+                type: Array,
+                default: []
             }
         },
     }

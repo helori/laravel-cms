@@ -3,15 +3,14 @@
 </style>
 
 <template>
-    
-    <input
-        type="text"
+    <input type="password"
         :id="name"
         class="form-control"
         :placeholder="placeholder"
         v-model="dataValue"
+        @focus="hasFocus = true"
+        @blur="hasFocus = false"
         @change="updateValue" />
-
 </template>
 
 <script>
@@ -20,3 +19,4 @@
         mixins: [inputMixin]
     }
 </script>
+

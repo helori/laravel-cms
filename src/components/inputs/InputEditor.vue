@@ -17,29 +17,22 @@
 </template>
 
 <script>
+    import inputMixin from '../crud/InputMixin.js'
     export default {
+        mixins: [inputMixin],
+
         data(){
             return{
                 dataValue: this.value ? this.value : '',
                 tinyMCE_options: {},
-                uniqId: Math.random().toString(36).substring(7) + '_',
                 editor: null
             };
         },
 
         props: {
-            // "value" is required to use v-model on the component
-            'value': { 
-              type: String,
-              default: ''
-            },
-            'name': {
-              type: String,
-              default: ''
-            },
             'css': {
-              type: String,
-              default: ''
+                type: String,
+                default: ''
             }
         },
         
@@ -118,13 +111,7 @@
                 angular.extend(scope.tinyMCE_options, $rootScope.editorOpts);
             }*/
             tinymce.init(this.tinyMCE_options);
-        },
-
-        methods: {
-            updateValue: function () {
-                // required to use v-model on the component :
-                this.$emit('input', this.dataValue);
-            }
         }
     }
 </script>
+

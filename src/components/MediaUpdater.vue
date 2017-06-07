@@ -186,7 +186,7 @@
 
     <div>
         
-        <div class="item" v-if="item">
+        <!--div class="item" v-if="item">
             <div class="preview">
                 <div class="image"
                     v-if="item && item.mime && item.mime.indexOf('image') !== -1"
@@ -233,7 +233,7 @@
                     <div v-if="item && item.mime && item.mime.indexOf('image') !== -1" class="dim text-success">{{item.width}} x {{item.height}} px</div>
                 </div>
             </div>
-        </div>
+        </div-->
 
         <!-- Update Dialog -->
         <div class="modal fade media-update-dialog"tabindex="-1" role="dialog">
@@ -463,9 +463,9 @@
     export default {
         data(){
             return{
-                id: 0,
                 item: null,
-                decache: '',
+                id: Math.floor(Math.random()*(9999-1000+1)+1000),
+                decache: new Date().getTime(),
 
                 size_viewport: {w: 0, h: 0},
                 size_original: {w: 0, h: 0},
@@ -494,7 +494,6 @@
         },
 
         props: {
-            'media': null,
             'queries-base-url': {
                 type: String,
                 required: true,
@@ -510,52 +509,24 @@
         mounted()
         {
             var self = this;
-
-            this.item = this.media;
-
-            this.id = Math.floor(Math.random()*(9999-1000+1)+1000);
-            this.decache = new Date().getTime();
-
             $(this.$el).find('.media-update-dialog').on('shown.bs.modal', function () {
-                console.log('prepare');
                 self.prepareEditor();
             });
-
-            // -------------------------------------------------------
-            //  Images cropper
-            // -------------------------------------------------------
             this.initCropperMouse();
-        },
-
-        watch: {
-            media: function(media){
-                this.item = media;
-            }
-        },
-
-        filters: {
-
         },
 
         methods: {
             openUpdateDialog: function (item)
             {
                 this.item = item;
+                this.update_state = 'none';
+                this.update_error = null;
                 $(this.$el).find('.media-update-dialog').modal('show');
             },
 
             closeUpdateDialog: function ()
             {
                 $(this.$el).find('.media-update-dialog').modal('hide');
-            },
-
-            deleteMedia: function(item)
-            {
-                axios.delete(this.queriesBaseUrl + 'medias/' + item.id).then(response => {
-                    this.$emit('deleted', item.id);
-                }).catch(response => {
-                    console.log('delete error', response);
-                });
             },
 
             prepareEditor: function()
@@ -621,14 +592,15 @@
                     quality: this.compression.quality
                 };
 
-                axios.put(this.queriesBaseUrl + 'medias/' + this.item.id, data).then(response => {
-                    console.log('update success', response);
+                axios.put(this.queriesBaseUrl + 'media/' + this.item.id, data).then(response => {
+                    //console.log('update success', response);
                     this.setState('done');
                     this.item = response.data;
                     this.decache = new Date().getTime();
                     this.prepareEditor();
+                    this.$emit('updated');
                 }).catch(response => {
-                    this.setState('modified');
+                    //this.setState('modified');
                     this.update_error = response.response.data;
                     if(response.response.data.media){
                         this.item = response.response.data.media;

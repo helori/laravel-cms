@@ -23,8 +23,8 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
     <!-- Menu  -->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <nav id="menu" class="navbar navbar-default navbar-static-top">
-        <div class="container-fluid">
+    <nav id="menu" class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-menu">
                     <span class="sr-only">Toggle navigation</span>
@@ -49,15 +49,17 @@
                     @if (Auth::guard('admin')->guest())
                         <li><a href="{{ route('admin-login') }}"><i class="fa fa-sign-in"></i> Connexion</a></li>
                     @else
+                    
+                        @if(isset($tables))
+                            @foreach($tables as $table)
+                                <li class="{{ Request::route()->getName() == 'element' && Request::route('tableId') == $table->id ? 'active' : '' }}">
+                                    <a href="{{ route('element', ['tableId' => $table->id]) }}">{{ $table->name }}</a>
+                                </li>
+                            @endforeach
+                        @endif
 
-                        @foreach($tables as $table)
-                            <li class="{{ Request::route()->getName() == 'table-manager' ? 'active' : '' }}">
-                                <a href="{{ route('table-manager', ['table_id' => $table->id]) }}">{{ $table->name }}</a>
-                            </li>
-                        @endforeach
-
-                        <li class="{{ Request::route()->getName() == 'medias-manager' ? 'active' : '' }}">
-                            <a href="{{ route('medias-manager') }}"><i class="fa fa-file-image-o"></i> Médias</a>
+                        <li class="{{ Request::route()->getName() == 'media' ? 'active' : '' }}">
+                            <a href="{{ route('media') }}"><i class="fa fa-file-image-o"></i> Médias</a>
                         </li>
                         <li>
                             <a href="{{ url('/') }}" target="_blank"><i class="fa fa-desktop"></i> Ouvrir le site</a>
@@ -68,7 +70,8 @@
                                 <i class="fa fa-user"></i> {{ Auth::guard('admin')->user()->name }} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ route('tables-manager') }}"><i class="fa fa-cubes"></i> Éléments personnalisés</a></li>
+                                <li><a href="{{ route('admin') }}"><i class="fa fa-user-secret"></i> Administrateurs</a></li>
+                                <li><a href="{{ route('table') }}"><i class="fa fa-database"></i> Base de données</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li>
                                     <a href="{{ url('/logout') }}" 
@@ -105,6 +108,5 @@
         ]); ?>
     </script>
     <script src="{{ mix('js/admin.js') }}"></script>
-    <!--script src="{{ url('tinymce/tinymce.min.js') }}"></script-->
 
 </body>
