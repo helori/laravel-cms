@@ -54,7 +54,8 @@ export default {
         value: {
             handler: function (val) {
                 this.dataValue = val;
-            }
+            }/*,
+            deep: true*/
         }
     },
 

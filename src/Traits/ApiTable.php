@@ -88,6 +88,9 @@ trait ApiTable
                 if(!isset($input_field['list'])){
                     $input_field['list'] = false;
                 }
+                if(!isset($input_field['options'])){
+                    $input_field['options'] = [];
+                }
 
                 // Create missing fields
                 if(!isset($input_field['id']))
@@ -102,6 +105,7 @@ trait ApiTable
                     $field->position = $input_field['position'];
                     $field->create = $input_field['create'];
                     $field->list = $input_field['list'];
+                    $field->options = $input_field['options'];
                     $field->save();
 
                     try{
@@ -150,6 +154,7 @@ trait ApiTable
                     $position = $input_field['position'];
                     $create = $input_field['create'];
                     $list = $input_field['list'];
+                    $options = $input_field['options'];
 
                     // Rename column if needed
                     if($field->name != $name)
@@ -205,6 +210,7 @@ trait ApiTable
                     $field->position = $position;
                     $field->create = $create;
                     $field->list = $list;
+                    $field->options = $options;
                     $field->save();
                 }
             }

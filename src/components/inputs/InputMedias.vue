@@ -1,13 +1,17 @@
 <style scoped>
-    .input-medias{
-        overflow: hidden;
+    .media{
+        margin-top: 5px;
+        padding: 5px;
+        background: white;
+        border-radius: 4px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        border: 1px solid #ccc;
     }
     .input-medias .preview{
         position: relative;
         float: left;
         width: 150px;
         height: 100px;
-        overflow: hidden;
         background: repeating-linear-gradient(
             -45deg,
             #666666,
@@ -87,8 +91,8 @@
     
     <div class="input-medias">
 
-        <button type="button" class="btn btn-primary" @click="browse()">    
-            Sélectionner...
+        <button type="button" class="btn btn-primary btn-block" @click="browse()">    
+            Ajouter des fichiers...
         </button>
         
         <div class="medias">
@@ -109,9 +113,19 @@
                         </div>
                     </div>
                     <div class="actions">
-                        <button type="button" class="btn btn-danger btn-block" @click="remove(i)">
-                            <i class="fa fa-trash"></i>
-                        </button>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-danger btn-block" @click="remove(i)">    
+                                    Supprimer
+                                </button>
+                            </div>
+                            <div class="col-sm-8">
+                                <div>Type : {{ media.mime }}</div>
+                                <div v-if="media.size < 1000000">Poids : {{ media.size / 1000 | number(2) }} ko</div>
+                                <div v-else>Poids : {{ media.size / 1000000 | number(2) }} Mo</div>
+                                <div v-if="media.mime.indexOf('image') !== -1">Taille : {{ media.width }} x {{ media.height }} px</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,8 +158,8 @@
                                 </div>
                                 <div class="bottom">
                                     <div>{{ media.mime }}</div>
-                                    <div v-if="media.size < 1000000">{{ media.size / 1000 | number:2 }} ko</div>
-                                    <div v-else>{{ media.size / 1000000 | number:2 }} Mo</div>
+                                    <div v-if="media.size < 1000000">{{ media.size / 1000 | number(2) }} ko</div>
+                                    <div v-else>{{ media.size / 1000000 | number(2) }} Mo</div>
                                     <div v-if="media.mime.indexOf('image') !== -1">{{ media.width }} x {{ media.height }} px</div>
                                 </div>
                             </div>

@@ -2,7 +2,7 @@
 @section('content')    
 <div id="table-fields">
 
-	<div class="container">
+	<div class="container-fluid">
 
 		<crud-form
             form-component="form-table-fields"

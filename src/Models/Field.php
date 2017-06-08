@@ -13,9 +13,11 @@ class Field extends Model
     protected $guarded = []; // Not mass assignable
 
     protected $casts = [
-        'create' => 'boolean'
+        'options' => 'array',
+        'create' => 'boolean',
+        'list' => 'boolean',
     ];
-
+    
     public function table(){
         return $this->belongsTo(Table::class);
     }

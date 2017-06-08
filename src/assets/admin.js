@@ -32,26 +32,21 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.Vue = require('vue');
 
-var components_path = '../../../vendor/helori/laravel-cms/src/components/';
-//var components_path = './components/laravel-cms/';
 
-/**
- * Filters
- */
-//require(components_path + 'filters/FilterDate.js');
-require(components_path + 'filters/FilterDate.js');
-require(components_path + 'filters/FilterNumber.js');
+
+require('../components/filters/FilterDate.js');
+require('../components/filters/FilterNumber.js');
 
 /**
  * CRUD
  */
 Vue.component(
     'crud-table',
-    require(components_path + 'crud/CrudTable.vue')   
+    require('../components/crud/CrudTable.vue')   
 );
 Vue.component(
     'crud-form',
-    require(components_path + 'crud/CrudForm.vue')
+    require('../components/crud/CrudForm.vue')
 );
 
 
@@ -61,22 +56,22 @@ Vue.component(
  */
 Vue.component(
     'medias-manager',
-    require(components_path + 'MediasManager.vue')
+    require('../components/MediasManager.vue')
 );
 
 Vue.component(
     'media-updater',
-    require(components_path + 'MediaUpdater.vue')
+    require('../components/MediaUpdater.vue')
 );
 
 Vue.component(
     'element-manager',
-    require(components_path + 'ElementManager.vue')
+    require('../components/ElementManager.vue')
 );
 
 Vue.component(
     'element-updater',
-    require(components_path + 'ElementUpdater.vue')
+    require('../components/ElementUpdater.vue')
 );
 
 
@@ -85,67 +80,72 @@ Vue.component(
  */
 Vue.component(
     'input-wrapper',
-    require(components_path + 'inputs/InputWrapper.vue')
-);
-
-Vue.component(
-    'input-date',
-    require(components_path + 'inputs/InputDate.vue')
-);
-
-Vue.component(
-    'input-editor',
-    require(components_path + 'inputs/InputEditor.vue')
-);
-
-Vue.component(
-    'input-email',
-    require(components_path + 'inputs/InputEmail.vue')
-);
-
-Vue.component(
-    'input-media',
-    require(components_path + 'inputs/InputMedia.vue')
-);
-
-Vue.component(
-    'input-medias',
-    require(components_path + 'inputs/InputMedias.vue')
-);
-
-Vue.component(
-    'input-multiselect',
-    require(components_path + 'inputs/InputMultiselect.vue')
-);
-
-Vue.component(
-    'input-number',
-    require(components_path + 'inputs/InputNumber.vue')
-);
-
-Vue.component(
-    'input-password',
-    require(components_path + 'inputs/InputPassword.vue')
-);
-
-Vue.component(
-    'input-phone',
-    require(components_path + 'inputs/InputPhone.vue')
-);
-
-Vue.component(
-    'input-select',
-    require(components_path + 'inputs/InputSelect.vue')
-);
-
-Vue.component(
-    'input-text',
-    require(components_path + 'inputs/InputText.vue')
+    require('../components/inputs/InputWrapper.vue')
 );
 
 Vue.component(
     'input-checkbox',
-    require(components_path + 'inputs/InputCheckbox.vue')
+    require('../components/inputs/InputCheckbox.vue')
+);
+
+Vue.component(
+    'input-date',
+    require('../components/inputs/InputDate.vue')
+);
+
+Vue.component(
+    'input-editor',
+    require('../components/inputs/InputEditor.vue')
+);
+
+Vue.component(
+    'input-email',
+    require('../components/inputs/InputEmail.vue')
+);
+
+Vue.component(
+    'input-media',
+    require('../components/inputs/InputMedia.vue')
+);
+
+Vue.component(
+    'input-medias',
+    require('../components/inputs/InputMedias.vue')
+);
+
+Vue.component(
+    'input-multiselect',
+    require('../components/inputs/InputMultiselect.vue')
+);
+
+Vue.component(
+    'input-number',
+    require('../components/inputs/InputNumber.vue')
+);
+
+Vue.component(
+    'input-password',
+    require('../components/inputs/InputPassword.vue')
+);
+
+Vue.component(
+    'input-phone',
+    require('../components/inputs/InputPhone.vue')
+);
+
+Vue.component(
+    'input-select',
+    require('../components/inputs/InputSelect.vue')
+);
+
+Vue.component(
+    'input-text',
+    require('../components/inputs/InputText.vue')
+);
+
+Vue.component(
+    'input-textarea',
+    require('../components/inputs/InputTextarea.vue')
 );
 
 
@@ -157,23 +157,23 @@ Vue.component(
  */
 Vue.component(
     'form-admin',
-    require(components_path + 'forms/FormAdmin.vue')
+    require('../components/forms/FormAdmin.vue')
 );
 Vue.component(
     'form-table',
-    require(components_path + 'forms/FormTable.vue')
+    require('../components/forms/FormTable.vue')
 );
 Vue.component(
     'form-table-fields',
-    require(components_path + 'forms/FormTableFields.vue')
+    require('../components/forms/FormTableFields.vue')
 );
 Vue.component(
     'form-element-create',
-    require(components_path + 'forms/FormElementCreate.vue')
+    require('../components/forms/FormElementCreate.vue')
 );
 Vue.component(
     'form-element-update',
-    require(components_path + 'forms/FormElementUpdate.vue')
+    require('../components/forms/FormElementUpdate.vue')
 );
 
 /**
@@ -181,15 +181,15 @@ Vue.component(
  */
 Vue.component(
     'row-admin',
-    require(components_path + 'table-rows/RowAdmin.vue')
+    require('../components/table-rows/RowAdmin.vue')
 );
 Vue.component(
     'row-table',
-    require(components_path + 'table-rows/RowTable.vue')
+    require('../components/table-rows/RowTable.vue')
 );
 Vue.component(
     'row-element',
-    require(components_path + 'table-rows/RowElement.vue')
+    require('../components/table-rows/RowElement.vue')
 );
 
 
@@ -198,14 +198,13 @@ Vue.component(
  */
 Vue.component(
     'panel',
-    require(components_path + 'widgets/Panel.vue')
+    require('../components/widgets/Panel.vue')
 );
 
 Vue.component(
     'slide-panel',
-    require(components_path + 'widgets/SlidePanel.vue')
+    require('../components/widgets/SlidePanel.vue')
 );
-
 
 /**
  * Application

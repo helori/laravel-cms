@@ -1,13 +1,17 @@
 <style scoped>
-    .input-media{
-        overflow: hidden;
+    .media{
+        margin-top: 5px;
+        padding: 5px;
+        background: white;
+        border-radius: 4px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        border: 1px solid #ccc;
     }
     .input-media .preview{
         position: relative;
         float: left;
         width: 150px;
         height: 100px;
-        overflow: hidden;
         background: repeating-linear-gradient(
             -45deg,
             #666666,
@@ -87,31 +91,41 @@
     
     <div class="input-media">
         
-        <div class="preview">
-            <div v-if="dataValue">
-                <div class="image"
-                    v-if="dataValue && dataValue.mime && dataValue.mime.indexOf('image') !== -1"
-                    :style="'background-image:url(/' + dataValue.filepath + '?' + decache + ')'">
-                </div>
-                <video controls v-else-if="dataValue && dataValue.mime && dataValue.mime.indexOf('video') !== -1">
-                    <source :src="'/' + dataValue.filepath + '?' + decache" :type="dataValue.mime" />
-                </video>
-                <div class="text-wrapper" v-else>
-                    <div class="text">
-                        <div>{{ dataValue.mime }}</div>
+        <div class="media">
+            <div class="preview">
+                <div v-if="dataValue">
+                    <div class="image"
+                        v-if="dataValue && dataValue.mime && dataValue.mime.indexOf('image') !== -1"
+                        :style="'background-image:url(/' + dataValue.filepath + '?' + decache + ')'">
+                    </div>
+                    <video controls v-else-if="dataValue && dataValue.mime && dataValue.mime.indexOf('video') !== -1">
+                        <source :src="'/' + dataValue.filepath + '?' + decache" :type="dataValue.mime" />
+                    </video>
+                    <div class="text-wrapper" v-else>
+                        <div class="text">
+                            <div>{{ dataValue.mime }}</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="actions">
-
-            <button type="button" class="btn btn-primary" @click="browse()">    
-                Sélection...
-            </button>
-            <button type="button" class="btn btn-danger" @click="remove()" v-if="dataValue">    
-                Supprimer
-            </button>
+            <div class="actions">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-primary btn-block" @click="browse()">    
+                            Choisir...
+                        </button>
+                        <button type="button" class="btn btn-danger btn-block" @click="remove()" v-if="dataValue">    
+                            Supprimer
+                        </button>
+                    </div>
+                    <div class="col-sm-8" v-if="dataValue">
+                        <div>Type : {{ dataValue.mime }}</div>
+                        <div v-if="dataValue.size < 1000000">Poids : {{ dataValue.size / 1000 | number(2) }} ko</div>
+                        <div v-else>Poids : {{ dataValue.size / 1000000 | number(2) }} Mo</div>
+                        <div v-if="dataValue.mime.indexOf('image') !== -1">Taille : {{ dataValue.width }} x {{ dataValue.height }} px</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Browse -->
@@ -141,8 +155,8 @@
                                 </div>
                                 <div class="bottom">
                                     <div>{{ media.mime }}</div>
-                                    <div v-if="media.size < 1000000">{{ media.size / 1000 | number:2 }} ko</div>
-                                    <div v-else>{{ media.size / 1000000 | number:2 }} Mo</div>
+                                    <div v-if="media.size < 1000000">{{ media.size / 1000 | number(2) }} ko</div>
+                                    <div v-else>{{ media.size / 1000000 | number(2) }} Mo</div>
                                     <div v-if="media.mime.indexOf('image') !== -1">{{ media.width }} x {{ media.height }} px</div>
                                 </div>
                             </div>

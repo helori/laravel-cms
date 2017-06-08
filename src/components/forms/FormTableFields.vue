@@ -34,7 +34,7 @@
                                 <input-select 
                                     v-model="field.type" 
                                     :options="field_types"
-                                    @change="resetDefault(field)">
+                                    @input="resetDefault(field)">
                                 </input-select>
                             </td>
                             <td>
@@ -67,9 +67,30 @@
                                 <input-select
                                     v-if="field.type == 'alias'"
                                     v-model="field.default"
+                                    :has-empty="false"
                                     :name="'default-' + idx"
                                     :options="aliasOpts()">
                                 </input-select>
+                                
+                                <div v-if="field.type == 'relation'" class="row narrow">
+                                    <div class="col col-sm-6">
+                                        <input-select
+                                            v-model="field.options.table"
+                                            :has-empty="false"
+                                            :name="'options-table-' + idx"
+                                            :options="relationTablesOpts()">
+                                        </input-select>
+                                    </div>
+                                    <div class="col col-sm-6">
+                                        <input-select
+                                            v-if="field.options.table"
+                                            v-model="field.options.field"
+                                            :has-empty="false"
+                                            :name="'options-field-' + idx"
+                                            :options="relationFieldsOpts(field.options.table)">
+                                        </input-select>
+                                    </div>
+                                </div>
                             </td>
 
                             <td>
@@ -132,9 +153,19 @@
                     {value: 'editor', label: 'Éditeur de texte'},
                     {value: 'textarea', label: 'Zone de texte (multi-lignes)'},
                     {value: 'media', label: 'Fichier média'},
-                    {value: 'medias', label: 'Fichiers média'}
-                ]
+                    {value: 'medias', label: 'Fichiers média'},
+                    {value: 'relation', label: 'Relation à une autre table'},
+                ],
+                tables: []
             };
+        },
+
+        mounted(){
+            axios.get('/admin/api/table').then(response => {
+                this.tables = response.data;
+            }).catch(response => {
+
+            });
         },
 
         methods: {
@@ -150,7 +181,29 @@
 
             resetDefault: function(field){
                 field.default = null;
+                console.log('resettings', field);
+                if(field.type == 'relation'){
+                    field.options = {
+                        table: '',
+                        field: ''
+                    };
+                    console.log(field.options);
+                }
             },
+
+            /*afterRead(){
+                for(var i=0; i<this.item.fields.length; ++i){
+                    var field = this.item.fields[i];
+                    if(field.type == 'relation'){
+                        if(!this.item.fields[i].options.table){
+                            this.item.fields[i].options.table = '';    
+                        }
+                        if(!this.item.fields[i].options.field){
+                            this.item.fields[i].options.field = '';    
+                        }
+                    }
+                }
+            },*/
 
             aliasOpts(){
                 var opts = [];
@@ -161,6 +214,37 @@
                             value: field.name,
                             label: field.title
                         });
+                    }
+                }
+                return opts;
+            },
+
+            relationTablesOpts(){
+                var opts = [];
+                for(var i=0; i<this.tables.length; ++i){
+                    var table = this.tables[i];
+                    opts.push({
+                        value: table.id,
+                        label: table.name
+                    });
+                }
+                return opts;
+            },
+
+            relationFieldsOpts(tableId){
+                var opts = [];
+                if(tableId){
+                    for(var i=0; i<this.tables.length; ++i){
+                        var table = this.tables[i];
+                        if(table.id == tableId){
+                            for(var i=0; i<table.fields.length; ++i){
+                                var field = table.fields[i];
+                                opts.push({
+                                    value: field.name,
+                                    label: field.name
+                                });
+                            }
+                        }
                     }
                 }
                 return opts;

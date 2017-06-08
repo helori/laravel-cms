@@ -20,7 +20,9 @@
         props: {
             'options': { 
               type: Array,
-              default: []
+              default: function(){
+                return [];
+              }
             },
             'hasEmpty': {
               type: Boolean,

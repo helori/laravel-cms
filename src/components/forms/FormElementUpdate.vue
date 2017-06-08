@@ -17,6 +17,14 @@
                         @input="updated">
                     </input-text>
 
+                    <input-textarea
+                        v-if="field.type == 'textarea'"
+                        v-model="item[field.name]"
+                        :name="uniqId + field.name"
+                        :error="errors[field.name]"
+                        @input="updated">
+                    </input-textarea>
+
                     <input-email
                         v-if="field.type == 'email'"
                         v-model="item[field.name]"
@@ -89,6 +97,15 @@
                         :error="errors[field.name]"
                         @input="updated">
                     </input-medias>
+
+                    <input-select
+                        v-if="field.type == 'relation'"
+                        v-model="item[field.name]"
+                        :name="uniqId + field.name"
+                        :error="errors[field.name]"
+                        :options="options[field.name]"
+                        @input="updated">
+                    </input-select>
 
                     <div v-if="field.type == 'alias'" style="padding-top: 7px; font-size: 16px;">
                         {{ item[field.name] }}
