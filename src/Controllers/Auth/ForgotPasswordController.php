@@ -1,6 +1,6 @@
 <?php
 
-namespace Helori\LaravelCms\Controllers\Admin;
+namespace Helori\LaravelCms\Controllers\Auth;
 
 use Helori\LaravelCms\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;

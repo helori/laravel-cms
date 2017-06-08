@@ -1,12 +1,14 @@
 <?php
 
-namespace Helori\LaravelCms\Controllers\Admin;
+namespace Helori\LaravelCms\Controllers\Auth;
 
-use Helori\LaravelCms\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Http\Request;
 use Auth;
+
+use Helori\LaravelCms\Controllers\Controller;
+use Helori\LaravelCms\Models\Admin;
 
 
 class ResetPasswordController extends Controller
