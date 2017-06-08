@@ -103,13 +103,13 @@ php artisan vendor:publish --tag=laravel-cms-assets
 At the time of this writing, Laravel 5.4 ships with the following dependencies pre-configured in your package.json:
 ```json
 "devDependencies": {
-	"axios": "^0.15.3",
-	"bootstrap-sass": "^3.3.7",
-	"cross-env": "^3.2.3",
-	"jquery": "^3.1.1",
-	"laravel-mix": "0.*",
-	"lodash": "^4.17.4",
-	"vue": "^2.1.10"
+    "axios": "^0.15.3",
+    "bootstrap-sass": "^3.3.7",
+    "cross-env": "^3.2.3",
+    "jquery": "^3.1.1",
+    "laravel-mix": "0.*",
+    "lodash": "^4.17.4",
+    "vue": "^2.1.10"
 }
 ```
 
@@ -121,6 +121,7 @@ npm install
 Install additionnal dependencies required by this package:
 ```bash
 npm install font-awesome --save-dev
+npm install tinymce --save-dev
 ```
 
 Edit your laravel mix config file :
