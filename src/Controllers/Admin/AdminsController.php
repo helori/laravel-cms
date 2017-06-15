@@ -16,8 +16,6 @@ class AdminsController extends Controller
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->modelClass = Admin::class;
         $this->read_with = [];
         $this->update_except = [];

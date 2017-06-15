@@ -12,7 +12,8 @@ class CreateFieldsTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->integer('table_id')->unsigned()->nullable()->default(null);
+            $table->integer('fieldset_id')->unsigned()->nullable()->default(null);
+            
             $table->string('type')->nullable()->default(null);
             $table->string('name')->nullable()->default(null);
             $table->string('title')->nullable()->default(null);

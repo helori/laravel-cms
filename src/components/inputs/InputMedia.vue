@@ -90,7 +90,7 @@
 <template>
     
     <div class="input-media">
-        
+
         <div class="media">
             <div class="preview">
                 <div v-if="dataValue">
@@ -228,7 +228,10 @@
 
         props: {
             'value': { 
-                type: Array
+                type: Array,
+                default: function(){
+                    return [];
+                }
             },
             'queries-base-url': {
                 type: String,

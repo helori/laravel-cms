@@ -50,7 +50,7 @@
                         <li><a href="{{ route('admin-login') }}"><i class="fa fa-sign-in"></i> Connexion</a></li>
                     @else
                     
-                        @if(isset($tables))
+                        @if(false && isset($tables))
                             @foreach($tables as $table)
                                 <li class="{{ Request::route()->getName() == 'element' && Request::route('tableId') == $table->id ? 'active' : '' }}">
                                     <a href="{{ route('element', ['tableId' => $table->id]) }}">{{ $table->name }}</a>
@@ -58,11 +58,20 @@
                             @endforeach
                         @endif
 
-                        <li class="{{ Request::route()->getName() == 'media' ? 'active' : '' }}">
-                            <a href="{{ route('media') }}"><i class="fa fa-file-image-o"></i> Médias</a>
+                        <li class="{{ Request::route()->getName() == 'admin-page' ? 'active' : '' }}">
+                            <a href="{{ route('admin-page') }}"><i class="fa fa-sitemap"></i> Pages</a>
                         </li>
+
+                        <li class="{{ Request::route()->getName() == 'admin-collection' ? 'active' : '' }}">
+                            <a href="{{ route('admin-collection') }}"><i class="fa fa-cubes"></i> Collections</a>
+                        </li>
+
+                        <li class="{{ Request::route()->getName() == 'admin-media' ? 'active' : '' }}">
+                            <a href="{{ route('admin-media') }}"><i class="fa fa-file-image-o"></i> Médias</a>
+                        </li>
+
                         <li>
-                            <a href="{{ url('/') }}" target="_blank"><i class="fa fa-desktop"></i> Ouvrir le site</a>
+                            <a href="{{ url('/') }}" target="_blank"><i class="fa fa-eye"></i> Voir le site</a>
                         </li>
 
                         <li class="dropdown">
@@ -70,8 +79,9 @@
                                 <i class="fa fa-user"></i> {{ Auth::guard('admin')->user()->name }} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ route('admin') }}"><i class="fa fa-user-secret"></i> Administrateurs</a></li>
-                                <li><a href="{{ route('table') }}"><i class="fa fa-database"></i> Base de données</a></li>
+                                <li><a href="{{ route('admin-admin') }}"><i class="fa fa-user-secret"></i> Administrateurs</a></li>
+                                <li><a href="{{ route('admin-fieldset') }}"><i class="fa fa-table"></i> Groupes de champs</a></li>
+                                <li><a href="{{ route('admin-table') }}"><i class="fa fa-database"></i> Base de données</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li>
                                     <a href="{{ url('/logout') }}" 

@@ -12,7 +12,7 @@ trait HasMedia
     // Polymorphic relation
     public function medias()
     {
-        $name = 'mediable';
+        /*$name = 'mediable';
 
         $caller = $this->guessBelongsToManyRelation();
 
@@ -37,7 +37,9 @@ trait HasMedia
 
         //$morphToMany->setMorphClass('articles');
 
-        return $morphToMany->withPivot('collection', 'position');
+        return $morphToMany->withPivot('collection', 'position');*/
+
+        return $this->morphToMany(Media::class, 'mediable')->withPivot('collection', 'position');
     }
 
     // --------------------------------------------------------------
@@ -85,7 +87,7 @@ trait HasMedia
     // --------------------------------------------------------------
     public function getMedias($collection)
     {
-        return $this->medias()->wherePivot('collection', $collection)->orderBy('pivot.position', 'asc')->get();
+        return $this->medias()->wherePivot('collection', $collection)->get(); //->orderBy('pivot.position', 'asc')->get();
     }
 
     public function mediasExists($collection, $idx)

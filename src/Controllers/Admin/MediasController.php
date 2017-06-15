@@ -12,10 +12,6 @@ use Image;
 
 class MediasController extends Controller
 {
-    public function __construct(){
-        parent::__construct();
-    }
-
     public function media(Request $request)
     {
         return view('laravel-cms::admin.media', $this->data);

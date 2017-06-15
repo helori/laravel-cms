@@ -10,7 +10,7 @@
         @focus="hasFocus = true"
         @blur="hasFocus = false"
         @change="updateValue">
-            <option :value="o.value" v-for="o in options">{{ o.label }}</option>
+            <option v-for="option in options" :value="option[optionValueKey]">{{ option[optionLabelKey] }}</option>
     </select>
 </template>
 
@@ -19,9 +19,24 @@
     export default {
         mixins: [inputMixin],
         props: {
-            'options': { 
+            value: { 
+                default: function(){
+                    return [];
+                }
+            },
+            options: { 
                 type: Array,
-                default: []
+                default: function(){
+                    return [];
+                }
+            },
+            optionLabelKey: {
+                type: String,
+                default: 'name'
+            },
+            optionValueKey: {
+                type: String,
+                default: 'id'
             }
         },
     }

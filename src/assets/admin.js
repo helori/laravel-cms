@@ -1,5 +1,6 @@
 window._ = require('lodash');
 window.$ = window.jQuery = require('jquery');
+require('jquery-ui-sortable-npm');
 require('bootstrap-sass');
 
 require('tinymce');
@@ -41,12 +42,24 @@ require('../components/filters/FilterNumber.js');
  * CRUD
  */
 Vue.component(
+    'crud-wrapper',
+    require('../components/crud/CrudWrapper.vue')   
+);
+Vue.component(
     'crud-table',
     require('../components/crud/CrudTable.vue')   
 );
 Vue.component(
     'crud-form',
     require('../components/crud/CrudForm.vue')
+);
+Vue.component(
+    'tree-sortable',
+    require('../components/crud/TreeSortable.vue')
+);
+Vue.component(
+    'tree-sortable-row',
+    require('../components/crud/TreeSortableRow.vue')
 );
 
 
@@ -175,6 +188,34 @@ Vue.component(
     'form-element-update',
     require('../components/forms/FormElementUpdate.vue')
 );
+Vue.component(
+    'form-fieldset',
+    require('../components/forms/FormFieldset.vue')
+);
+Vue.component(
+    'form-field',
+    require('../components/forms/FormField.vue')
+);
+Vue.component(
+    'form-collection',
+    require('../components/forms/FormCollection.vue')
+);
+Vue.component(
+    'form-post-create',
+    require('../components/forms/FormPostCreate.vue')
+);
+Vue.component(
+    'form-post-update',
+    require('../components/forms/FormPostUpdate.vue')
+);
+Vue.component(
+    'form-page-create',
+    require('../components/forms/FormPageCreate.vue')
+);
+Vue.component(
+    'form-page-update',
+    require('../components/forms/FormPageUpdate.vue')
+);
 
 /**
  * Table Rows
@@ -190,6 +231,36 @@ Vue.component(
 Vue.component(
     'row-element',
     require('../components/table-rows/RowElement.vue')
+);
+Vue.component(
+    'row-fieldset',
+    require('../components/table-rows/RowFieldset.vue')
+);
+Vue.component(
+    'row-field',
+    require('../components/table-rows/RowField.vue')
+);
+Vue.component(
+    'row-collection',
+    require('../components/table-rows/RowCollection.vue')
+);
+Vue.component(
+    'row-post',
+    require('../components/table-rows/RowPost.vue')
+);
+Vue.component(
+    'row-page',
+    require('../components/table-rows/RowPage.vue')
+);
+
+
+Vue.component(
+    'tree-page',
+    require('../components/table-rows/TreePage.vue')
+);
+Vue.component(
+    'tree-post',
+    require('../components/table-rows/TreePost.vue')
 );
 
 

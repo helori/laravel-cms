@@ -18,7 +18,7 @@ class Field extends Model
         'list' => 'boolean',
     ];
     
-    public function table(){
+    public function fieldset(){
         return $this->belongsTo(Table::class);
     }
 }

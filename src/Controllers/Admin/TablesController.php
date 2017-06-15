@@ -15,7 +15,6 @@ class TablesController extends Controller
 
     public function __construct()
     {
-        parent::__construct();
         $this->modelClass = Table::class;
         $this->read_with = ['fields' => function ($query) {
 		    $query->orderBy('position', 'asc');

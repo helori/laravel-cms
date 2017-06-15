@@ -6,7 +6,7 @@
 
 <template>
     <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading" v-if="hasSlot('title')">
             <h4 class="panel-title">
                 <slot name="title"></slot>
             </h4>

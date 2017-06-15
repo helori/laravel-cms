@@ -2,7 +2,7 @@ export default {
     data(){
         return {
             uniqId: Math.random().toString(36).substring(7) + '_',
-            item: this.itemOrg,
+            item: {},
             errors: this.errorsOrg
         };
     },
@@ -25,11 +25,14 @@ export default {
         }
     },
 
+    mounted(){
+        this.setItem(this.itemOrg);
+    },
+
     watch: {
         itemOrg: {
-            handler: function () {
-                this.item = _.clone(this.itemOrg);
-                this.afterRead();
+            handler: function (item) {
+                this.setItem(item);
             }
             //deep: true,
             //immediate: true
@@ -44,6 +47,11 @@ export default {
     },
 
     methods: {
+        setItem(item){
+            this.item = _.clone(this.itemOrg);
+            this.afterRead();
+        },
+
         updated() {
             this.$emit('change', this.item);
         },

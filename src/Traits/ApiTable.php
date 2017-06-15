@@ -221,7 +221,8 @@ trait ApiTable
 
     public function delete(Request $request, $id)
     {
-        $table = Table::findOrFail($id);
+        $table = Table::with('fields')->findOrFail($id);
+        Field::destroy($table->fields->pluck('id')->all());
         Schema::dropIfExists($table->table);
 
         return $this->apiDelete($request, $id);

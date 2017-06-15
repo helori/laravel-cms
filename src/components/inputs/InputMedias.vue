@@ -186,7 +186,10 @@
 
         props: {
             'value': { 
-                type: Array
+                type: Array,
+                default: function(){
+                    return [];
+                }
             },
             'queries-base-url': {
                 default: '/admin/api'

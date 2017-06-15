@@ -33,17 +33,8 @@
 </template>
 
 <script>
+    import rowMixin from '../crud/RowMixin.js'
     export default {
-        props: [
-            'item'
-        ],
-        methods: {
-            update: function (item) {
-                this.$emit('update')
-            },
-            destroy: function (item) {
-                this.$emit('destroy')
-            }
-        },
+        mixins: [rowMixin]
     }
 </script>

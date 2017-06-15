@@ -1,7 +1,14 @@
+<style scoped>
+    
+</style>
+
 <template>
     <tr>
         <td>
-            <div>{{ item.name }}</div>
+            <div>
+                <span class="indicator" :class="{'active': item.activated}"></span>
+                {{ item.name }}
+            </div>
         </td>
         <td>
             <div>{{ item.email }}</div>
@@ -19,17 +26,8 @@
 </template>
 
 <script>
+    import rowMixin from '../crud/RowMixin.js'
     export default {
-        props: [
-            'item'
-        ],
-        methods: {
-            update: function (item) {
-                this.$emit('update')
-            },
-            destroy: function (item) {
-                this.$emit('destroy')
-            }
-        },
+        mixins: [rowMixin]
     }
 </script>

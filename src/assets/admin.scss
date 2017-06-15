@@ -35,8 +35,9 @@ $pink: #f56857;
 
 
 html,body{
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;
   font-size: 14px;
+  font-weight: 500;
   letter-spacing: 0.025em;
   color: black;
   background-color: $back-grey;
@@ -94,7 +95,7 @@ body{
   height: 40px;
   padding: 8px;
   line-height: 24px;
-  font-size: 16px;
+  //font-size: 16px;
   font-weight: 400;
   border-radius: 2px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
@@ -147,8 +148,8 @@ select:-webkit-autofill:hover {
   cursor: pointer;
   padding: 8px 14px;
   line-height: 24px;
-  font-size: 16px;
-  font-weight: 400;
+  //font-size: 16px;
+  font-weight: 500;
   border-radius: 2px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   vertical-align: middle;
@@ -188,7 +189,7 @@ select:-webkit-autofill:hover {
 .table > thead > tr > td, 
 .table > tbody > tr > td, 
 .table > tfoot > tr > td{
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;;
   padding: 10px 15px;
   vertical-align: middle;
   line-height: 20px;
@@ -241,4 +242,37 @@ select:-webkit-autofill:hover {
     font-size: 20px;
     font-weight: 300;
   }
+}
+
+// ------------------------------------------------------------------
+//  All Pages
+// ------------------------------------------------------------------
+h1{
+  margin: 30px 0;
+  font-size: 30px;
+  font-weight: 300;
+}
+
+.list{
+  h1{
+    
+  }
+}
+.edit{
+  h1{
+    text-align: center;
+  }
+}
+
+.indicator{
+    display: inline-block;
+    position: relative;
+    width: 7px; 
+    height: 7px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background: red;
+}
+.indicator.active{
+    background: green;
 }

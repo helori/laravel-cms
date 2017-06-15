@@ -4,10 +4,7 @@
 
 	<div class="container">
 
-		<crud-table
-			:headers="[
-				'Nom', 'Email'
-			]"
+		<crud-wrapper
 			:attributes="[
 				{name: 'name', default: ''},
 				{name: 'email', default: ''},
@@ -24,10 +21,15 @@
 			uri="/admin"
 			create-form-component="form-admin"
 			update-form-component="form-admin"
-			table-row-component="row-admin"
-			:options="{}">
+			list-component="crud-table"
+			row-component="row-admin"
+			:options="{
+				'headers': [
+					'Nom', 'Email'
+				]
+			}">
 
-		</crud-table>
+		</crud-wrapper>
 
     </div>
 

@@ -45,7 +45,21 @@
                     @input="updated">
                 </input-password>
             </div>
-        </input-wrapper>     
+        </input-wrapper>
+
+        <input-wrapper 
+            :name="uniqId + 'activated'"
+            :error="errors.activated"
+            label="Activé">
+            <div slot="input">
+                <input-checkbox
+                    v-model="item.activated"
+                    :name="uniqId + 'activated'"
+                    :error="errors.activated"
+                    @input="updated">
+                </input-checkbox>
+            </div>
+        </input-wrapper>
 
     </div>
 </template>
