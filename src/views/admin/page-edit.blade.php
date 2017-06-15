@@ -4,7 +4,19 @@
 
 	<div class="container">
 
-		<h1>Modifier la page</h1>
+		<header>
+			<div class="row">
+				<div class="col-sm-8">
+					<h1>Modifier la page</h1>
+				</div>
+				<div class="col-sm-4 text-right">
+					<a href="{{ route('admin-page') }}" class="btn btn-default">
+						Revenir aux pages
+						<i class="fa fa-arrow-right"></i> 
+					</a>
+				</div>
+			</div>
+		</header>
 
 		<crud-form
             form-component="form-page-update"

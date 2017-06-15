@@ -4,7 +4,19 @@
 
 	<div class="container">
 
-		<h1>Éléments de "{{ $collection->title }}"</h1>
+		<header>
+			<div class="row">
+				<div class="col-sm-8">
+					<h1>Éléments de "{{ $collection->title }}"</h1>
+				</div>
+				<div class="col-sm-4 text-right">
+					<a href="{{ route('admin-collection') }}" class="btn btn-default">
+						Revenir aux collections
+						<i class="fa fa-arrow-right"></i> 
+					</a>
+				</div>
+			</div>
+		</header>
 
 		<crud-wrapper
 			:attributes="[
@@ -20,8 +32,8 @@
 			:can-create="true"
 			base-uri="/admin/api"
 			uri="/collection/{{ $collection_id }}/post"
-			create-form-component="form-post"
-			update-form-component="form-post"
+			create-form-component="form-post-create"
+			update-form-component="form-post-create"
 			list-component="tree-sortable"
 			row-component="tree-post"
 			:options="{
