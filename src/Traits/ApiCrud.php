@@ -32,7 +32,9 @@ trait ApiCrud
         if($this->sortable_nested){
             $item->parent_id = 0;
         }
-        $item->position = 0;
+        if($this->sortable){
+            $item->position = 0;
+        }
         $item->save();
         $item->update($request->all());
 
