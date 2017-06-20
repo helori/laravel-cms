@@ -5,12 +5,12 @@ namespace Helori\LaravelCms\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Helori\LaravelCms\Notifications\AdminResetPassword as ResetPasswordNotification;
-use Laravel\Scout\Searchable;
+//use Laravel\Scout\Searchable;
 
 
 class Admin extends Authenticatable
 {
-    use Notifiable, Searchable;
+    use Notifiable; //, Searchable;
     
     protected $table = 'admins';
     protected $dates = ['created_at', 'updated_at'];
