@@ -16,6 +16,7 @@ Configure your application:
     ...
     Helori\LaravelCms\CmsServiceProvider::class,
     Intervention\Image\ImageServiceProvider::class,
+    Laravel\Scout\ScoutServiceProvider::class,
 ];
 
 'aliases' => [
