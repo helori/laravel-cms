@@ -2,11 +2,22 @@
     #modal-update{
         max-width: 90%;
     }
-    .loading{
-        margin: 60px 0;
+    .head .form-control{
+        display: inline-block;
+        width: auto;
+    }
+    .loading, .no-results{
+        margin: 15px 0;
         text-align: center;
         font-size: 20px;
         font-weight: 300;
+        line-height: 50px;
+    }
+    .list-wrapper{
+        margin: 15px 0;
+    }
+    .pagination{
+        margin: 0;
     }
 </style>
 
@@ -21,20 +32,42 @@
             </div>
             <div slot="body">
 
+                <div class="head">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div v-if="searchEnable">
+                                <input-text
+                                    v-model="search"
+                                    name="search"
+                                    placeholder="Rechercher..."
+                                    @input="getItems">
+                                </input-text>
+                                <a class="btn btn-primary" @click="searchable">
+                                    <i class="fa fa-refresh"></i> Ré-indexer
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <a class="btn btn-primary" @click="showCreateModal" v-if="canCreate">
+                                <i class="fa fa-plus"></i> Ajouter...
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <div v-if="state == 'loading'" class="loading">
                     <i class="fa fa-spinner fa-spin"></i> Chargement en cours...
                 </div>
 
+                <div class="no-results" v-if="state == 'done' && items.length === 0">
+                    {{ noResults }}
+                </div>
+
                 <div v-if="state == 'error'" class="alert alert-danger">
                     Une erreur est survenue lors du chargement de la liste !
-                </div>  
+                </div>
 
-                <div v-show="state == 'done'">
-                    <div class="text-right">
-                        <a class="btn btn-primary" @click="showCreateModal" v-if="canCreate">
-                            <i class="fa fa-plus"></i> Ajouter...
-                        </a>
-                    </div>
+                <div class="list-wrapper" v-show="state == 'done'">
 
                     <component
                         ref="listComponent"
@@ -49,10 +82,36 @@
                         @updated="getItems">
                     </component>
 
-                    <p class="no-results" v-if="items.length === 0">
-                        {{ noResults }}
-                    </p>
                 </div>
+
+                <nav aria-label="Page navigation" v-show="pagination.total > pagination.per_page">
+                    <ul class="pagination">
+                        <li v-if="pagination.current_page == 1" class="disabled">
+                            <span>
+                                <span aria-hidden="true">&laquo;</span>
+                            </span>
+                        </li>
+                        <li v-else>
+                            <a @click="loadPage(page - 1)" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li v-for="p in pagination.last_page" :class="{'active': p === pagination.current_page}">
+                            <a @click="loadPage(p)" v-if="p !== pagination.current_page">{{ p }}</a>
+                            <span v-else>{{ p }}</span>
+                        </li>
+                        <li v-if="pagination.current_page == pagination.last_page" class="disabled">
+                            <span>
+                                <span aria-hidden="true">&raquo;</span>
+                            </span>
+                        </li>
+                        <li v-else>
+                            <a @click="loadPage(page + 1)" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
 
             </div>
         </panel>
@@ -185,13 +244,14 @@
 
 <script>
     export default {
-        /*
-         * The component's data.
-         */
+
         data() {
             return {
                 items: [],
+                pagination: {},
+                page: 1,
                 state: 'pending',
+                search: '',
                 createForm: {},
                 updateForm: {},
                 createErrors: [],
@@ -201,9 +261,6 @@
             };
         },
 
-        /*
-         * The component's props.
-         */
         props: {
             attributes: {
                 type: Array,
@@ -252,6 +309,11 @@
             uri: {
                 type: String,
                 required: true
+            },
+            searchEnable: {
+                type: Boolean,
+                required: false,
+                default: false,
             },
             createFormComponent: {
                 required: true
@@ -308,12 +370,30 @@
 
             getItems() {
                 this.state = 'loading';
-                axios.get(this.baseUri + this.uri).then(response => {
+                var url = this.baseUri + this.uri + '?page=' + this.page;
+                if(this.search){
+                    url += '&search=' + this.search;
+                }
+                axios.get(url).then(response => {
                     this.state = 'done';
-                    this.items = response.data;
+                    this.items = response.data.data;
+                    this.pagination = response.data;
                 }).catch(response => {
                     this.state = 'error';
                 });
+            },
+
+            searchable() {
+                axios.post(this.baseUri + this.uri + '-searchable').then(response => {
+                    
+                }).catch(response => {
+                    
+                });
+            },
+
+            loadPage(p){
+                this.page = p;
+                this.getItems();
             },
 
             showCreateModal() {
@@ -342,15 +422,10 @@
             },
 
             showUpdateModal(item) {
-                //this.updateForm.id = item.id;
-                //this.initFormValues(item);
                 this.updateForm = item;
                 $('#modal-update').modal('show');
             },
 
-            /**
-             * Update the item being edited.
-             */
             update() {
                 this.updateErrors = {};
                 var item = this.$refs.updateFormComp.item;
@@ -385,10 +460,6 @@
                         errors = {message: "Une erreur s'est produite"};
                     }
                 });
-            },
-
-            hasErrors(errors) {
-                return ! _.isEmpty(errors);
             }
         }
     }

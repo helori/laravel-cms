@@ -4,10 +4,12 @@ namespace Helori\LaravelCms\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Helori\LaravelCms\Traits\HasMedia;
+use Laravel\Scout\Searchable;
+
 
 class Page extends Model
 {
-    use HasMedia;
+    use HasMedia, Searchable;
 
     protected $table = 'pages';
     protected $dates = ['created_at', 'updated_at'];
@@ -15,7 +17,7 @@ class Page extends Model
     protected $guarded = []; // Not mass assignable
 
     protected $casts = [
-
+        
     ];
 
     protected $appends = [

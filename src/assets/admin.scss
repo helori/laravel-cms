@@ -1,15 +1,6 @@
-// Font Awesome
-$fa-font-path: "/fonts";
-@import "node_modules/font-awesome/scss/font-awesome";
-
-// Bootstrap
-$grid-float-breakpoint: 768px;
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-
-// TinyMCE
-@import "node_modules/tinymce/skins/lightgray/content.min";
-@import "node_modules/tinymce/skins/lightgray/skin.min";
-
+// -------------------------------------------------------------
+//  Variables
+// -------------------------------------------------------------
 $back-grey: #E5E6EA;
 $dark: #43474B;
 $color1: #24445C; // blue
@@ -33,13 +24,76 @@ $green: #169E5B; //#60B398;
 $back-grey: #f3f3f4;
 $pink: #f56857;
 
+// -------------------------------------------------------------
+//  TinyMCE
+// -------------------------------------------------------------
+@import "node_modules/tinymce/skins/lightgray/content.min";
+@import "node_modules/tinymce/skins/lightgray/skin.min";  
+
+// -------------------------------------------------------------
+//  Bootstrap variables
+// -------------------------------------------------------------
+// Body
+//$body-bg: #f5f8fa;
+
+// Borders
+//$laravel-border-color: darken($body-bg, 10%);
+//$list-group-border: $laravel-border-color;
+//$navbar-default-border: $laravel-border-color;
+//$panel-default-border: $laravel-border-color;
+//$panel-inner-border: $laravel-border-color;
+
+// Brands
+$brand-primary: $pink;
+//$brand-info: #8eb4cb;
+//$brand-success: $green;
+//$brand-warning: #cbb956;
+//$brand-danger: #bf5329;
+
+// Typography
+$font-family-base: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;
+$font-family-sans-serif: $font-family-base;
+$font-family-serif: $font-family-base;
+$font-family-monospace: $font-family-base;
+$font-size-base: 14px;
+$line-height-base: 1.6;
+$text-color: black;
+
+// Components
+$border-radius-base: 2px;
+
+// Navbar
+$navbar-default-bg: #fff;
+
+// Buttons
+$btn-default-color: $text-color;
+$btn-font-weight: 500;
+
+// Inputs
+$input-border: lighten($text-color, 40%);
+$input-border-focus: lighten($brand-primary, 25%);
+$input-color-placeholder: lighten($text-color, 30%);
+
+// Panels
+$panel-default-heading-bg: #fff;
+
+$grid-float-breakpoint: 768px;
+
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+
+// -------------------------------------------------------------
+//  Font Awesome
+// -------------------------------------------------------------
+$fa-font-path: "/fonts";
+@import "node_modules/font-awesome/scss/font-awesome";
+
+
 
 html,body{
-  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.025em;
-  color: black;
   background-color: $back-grey;
   padding: 0;
   text-rendering: optimizeLegibility;
@@ -148,9 +202,6 @@ select:-webkit-autofill:hover {
   cursor: pointer;
   padding: 8px 14px;
   line-height: 24px;
-  //font-size: 16px;
-  font-weight: 500;
-  border-radius: 2px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   vertical-align: middle;
   transition: all 0.1s ease;

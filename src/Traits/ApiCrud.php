@@ -4,6 +4,7 @@ namespace Helori\LaravelCms\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Helori\LaravelCms\Models\Page;
 
 
 trait ApiCrud
@@ -46,13 +47,23 @@ trait ApiCrud
         if($id){
             return $this->modelClass::with($this->read_with)->where($this->where)->findOrFail($id);
         }else{
+            
+            // All eloquent methods are not available !
+            // Check Scout docs (only where, paginate and some few others are ok)
+            // => We have a problem loading relations using "with", and sorting with "orderBy"
+
+            if(false && $request->has('search') && $request->input('search') !== ''){
+                $query = $this->modelClass::search($request->input('search'))->with($this->read_with);
+            }else{
+                $query = $this->modelClass::with($this->read_with);
+            }
             if($this->sortable){
                 if($this->sortable_nested){
                     $this->where['parent_id'] = 0;
                 }
-                return $this->modelClass::with($this->read_with)->where($this->where)->orderBy('position')->get();
+                $query->orderBy('position');
             }
-            return $this->modelClass::with($this->read_with)->where($this->where)->get();
+            return $query->where($this->where)->paginate(100);
         }
     }
 
@@ -130,6 +141,11 @@ trait ApiCrud
         }
     }
 
+    protected function apiSearchable(Request $request)
+    {
+        $this->modelClass::all()->searchable();
+    }
+
     // -------------------------------------------------------------
     //  API
     // -------------------------------------------------------------
@@ -156,5 +172,10 @@ trait ApiCrud
     public function position(Request $request)
     {
         return $this->apiPosition($request);
+    }
+
+    public function searchable(Request $request)
+    {
+        return $this->apiSearchable($request);
     }
 }

@@ -4,11 +4,12 @@ namespace Helori\LaravelCms\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Helori\LaravelCms\Traits\HasMedia;
+use Laravel\Scout\Searchable;
 
 
 class Post extends Model
 {
-	use hasMedia;
+	use hasMedia, Searchable;
 
     protected $table = 'posts';
     protected $dates = ['created_at', 'updated_at', 'date'];

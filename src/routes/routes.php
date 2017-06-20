@@ -8,6 +8,7 @@ function defineCrudRoutes($uri, $controller)
     Route::delete('/'.$uri.'/{id}', ['uses' => $controller.'@delete']);
 
     Route::put('/'.$uri.'-position', ['uses' => $controller.'@position']);
+    Route::post('/'.$uri.'-searchable', ['uses' => $controller.'@searchable']);
 }
 
 

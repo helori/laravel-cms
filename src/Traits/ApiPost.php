@@ -24,7 +24,7 @@ trait ApiPost
 
     public function delete(Request $request, $collection_id, $id)
     {
-        return $this->apiUpdate($request, $id);
+        return $this->apiDelete($request, $id);
     }
 
     public function read(Request $request, $collection_id, $id = 0)
