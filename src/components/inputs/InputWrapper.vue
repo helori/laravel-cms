@@ -8,6 +8,7 @@
         <label :for="name" class="control-label col col-sm-4">{{ label }} :</label>
         <div class="col col-sm-8">
             <slot name="input"></slot>
+            <p class="help-block" v-if="help">{{ help }}</p>
             <p class="help-block" v-if="error">{{ error }}</p>
         </div>
     </div>
@@ -17,15 +18,19 @@
 <script>
     export default {
         props: {
-            'label': {
+            label: {
                 type: String,
                 default: ''
             },
-            'name': {
+            name: {
                 type: String,
                 default: ''
             },
-            'error': {
+            error: {
+                default: null
+            },
+            help: {
+                type: String,
                 default: null
             }
         },

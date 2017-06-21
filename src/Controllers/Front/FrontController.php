@@ -27,7 +27,9 @@ class FrontController extends Controller
 
     public function page(Request $request, $slug)
     {
-        $page = $this->data['page'] = Page::where([
+        $page = $this->data['page'] = Page::with(['pages' => function($query){
+            $query->where('published', true)->orderBy('position');
+        }])->where([
             'published' => true,
             'slug' => $slug,
         ])->first();

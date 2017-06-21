@@ -2,14 +2,44 @@
     <div class="form-page form-horizontal">
 
         <input-wrapper 
-            :name="uniqId + 'title'"
-            :error="getError('title')"
-            label="Titre">
+            :name="uniqId + 'published'"
+            :error="getError('published')"
+            label="Page publiée">
+            <div slot="input">
+                <input-checkbox 
+                    v-model="item.published"
+                    :name="uniqId + 'published'"
+                    :error="getError('published')"
+                    @input="updated">
+                </input-checkbox>
+            </div>
+        </input-wrapper>
+
+        <input-wrapper 
+            :name="uniqId + 'menu'"
+            :error="getError('menu')"
+            label="Nom du menu"
+            help="Affiché dans les menus du site. Faible incidence sur le référencement : faire court !">
             <div slot="input">
                 <input-text 
-                    v-model="item.title"
-                    :name="uniqId + 'title'"
-                    :error="getError('title')"
+                    v-model="item.menu"
+                    :name="uniqId + 'menu'"
+                    :error="getError('menu')"
+                    @input="updated">
+                </input-text>
+            </div>
+        </input-wrapper>
+
+        <input-wrapper 
+            :name="uniqId + 'seo_title'"
+            :error="getError('seo_title')"
+            label="Titre de l'onglet"
+            help="C'est aussi le titre affiché en bleu dans les résultats Google (environ 60 caractères).">
+            <div slot="input">
+                <input-text 
+                    v-model="item.seo_title"
+                    :name="uniqId + 'seo_title'"
+                    :error="getError('seo_title')"
                     @input="updated">
                 </input-text>
             </div>
@@ -18,7 +48,8 @@
         <input-wrapper 
             :name="uniqId + 'slug'"
             :error="getError('slug')"
-            label="Alias">
+            label="Alias"
+            help="Utilisé dans l'URL de la page. Utiliser des mots-clés en lien avec le titre de l'onglet.">
             <div slot="input">
                 <input-text 
                     v-model="item.slug"
@@ -30,16 +61,47 @@
         </input-wrapper>
 
         <input-wrapper 
-            :name="uniqId + 'published'"
-            :error="getError('titpublishedle')"
-            label="Publié">
+            :name="uniqId + 'title'"
+            :error="getError('title')"
+            label="Titre affiché sur la page"
+            help="Titre principal de la page.">
             <div slot="input">
-                <input-checkbox 
-                    v-model="item.published"
-                    :name="uniqId + 'published'"
-                    :error="getError('published')"
+                <input-text 
+                    v-model="item.title"
+                    :name="uniqId + 'title'"
+                    :error="getError('title')"
                     @input="updated">
-                </input-checkbox>
+                </input-text>
+            </div>
+        </input-wrapper>
+
+        <input-wrapper 
+            :name="uniqId + 'subtitle'"
+            :error="getError('subtitle')"
+            label="Sous-titre"
+            help="Affiché selon le design de la page.">
+            <div slot="input">
+                <input-text 
+                    v-model="item.subtitle"
+                    :name="uniqId + 'subtitle'"
+                    :error="getError('subtitle')"
+                    @input="updated">
+                </input-text>
+            </div>
+        </input-wrapper>
+
+        <input-wrapper 
+            :name="uniqId + 'seo_description'"
+            :error="getError('seo_description')"
+            label="Description courte"
+            help="Pas affiché sur la page, mais affiché dans le résultats Google (environ 160 caractères)">
+            <div slot="input">
+                <input-text 
+                    v-model="item.seo_description"
+                    :name="uniqId + 'seo_description'"
+                    :error="getError('seo_description')"
+                    @input="updated">
+                </input-text>
             </div>
         </input-wrapper>
         
@@ -47,7 +109,8 @@
             <input-wrapper 
                 :name="uniqId + 'collections'"
                 :error="getError('collections')"
-                label="Collections">
+                label="Collections"
+                help="Listes d'éléments associés à la page. Il peut s'agir d'une liste d'articles, d'un défilant, ...">
                 <div slot="input">
                     <input-multiselect 
                         v-model="item.collections"
@@ -65,7 +128,8 @@
         <input-wrapper 
             :name="uniqId + 'image'"
             :error="getError('image')"
-            label="Image principale">
+            label="Image principale"
+            help="Image ou vidéo utilisée lors du partage de la page sur les réseaux sociaux.">
             <div slot="input">
                 <input-media 
                     v-model="item.image"
@@ -79,7 +143,8 @@
         <input-wrapper 
             :name="uniqId + 'images'"
             :error="getError('images')"
-            label="Images">
+            label="Images"
+            help="Utilisées comme une gallerie photos dans la page.">
             <div slot="input">
                 <input-medias 
                     v-model="item.images"
@@ -120,7 +185,7 @@
 
         mounted(){
             axios.get('/admin/api/collection').then(response => {
-                this.collections = response.data;
+                this.collections = response.data.data;
             });
         },
 
