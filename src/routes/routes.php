@@ -41,6 +41,7 @@ Route::group(['middleware' => ['web']], function ()
 			Route::get('/fieldset/{fieldsetId}/field', ['uses' => $admin_controllers.'FieldsController@field', 'as' => 'admin-field']);
 			Route::get('/page', ['uses' => $admin_controllers.'PagesController@page', 'as' => 'admin-page']);
 			Route::get('/page/{id}', ['uses' => $admin_controllers.'PagesController@edit', 'as' => 'page-edit']);
+			Route::get('/tag', ['uses' => $admin_controllers.'TagsController@tag', 'as' => 'admin-tag']);
 			Route::get('/collection', ['uses' => $admin_controllers.'CollectionsController@collection', 'as' => 'admin-collection']);
 			Route::get('/collection/{collectionId}/post', ['uses' => $admin_controllers.'PostsController@post', 'as' => 'admin-post']);
 			Route::get('/collection/{collectionId}/post/{id}', ['uses' => $admin_controllers.'PostsController@edit', 'as' => 'admin-post-edit']);
@@ -53,6 +54,7 @@ Route::group(['middleware' => ['web']], function ()
 			defineCrudRoutes('/api/admin', $admin_controllers.'AdminsController');
 			defineCrudRoutes('/api/media', $admin_controllers.'MediasController');
 			defineCrudRoutes('/api/page', $admin_controllers.'PagesController');
+			defineCrudRoutes('/api/tag', $admin_controllers.'TagsController');
 			defineCrudRoutes('/api/fieldset', $admin_controllers.'FieldsetsController');
 			defineCrudRoutes('/api/fieldset/{fieldsetId}/field', $admin_controllers.'FieldsController');
 			defineCrudRoutes('/api/collection', $admin_controllers.'CollectionsController');
@@ -68,14 +70,4 @@ Route::group(['middleware' => ['web']], function ()
 		    Route::get('/media/{id}/download', ['uses' => $admin_controllers.'MediasController@download']);*/
 		});
 	});
-
-	// Public routes
-
-	//$public_controllers = '\Helori\LaravelCms\Controllers\Front\\';
-	$public_controllers = '\App\Http\Controllers\\';
-
-	Route::get('/', ['uses' => $public_controllers.'FrontController@home', 'as' => 'home']);
-	Route::get('/{slug}', ['uses' => $public_controllers.'FrontController@page', 'as' => 'page']);
-	Route::get('/{pageSlug}/{slug}', ['uses' => $public_controllers.'FrontController@post', 'as' => 'post']);
-
 });

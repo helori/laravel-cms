@@ -7,13 +7,13 @@
 		<header>
 			<div class="row">
 				<div class="col-sm-8">
-					<h1>Éléments de "{{ $collection->title }}"</h1>
+					<h1>{{ $collection->title }}</h1>
 				</div>
 				<div class="col-sm-4 text-right">
-					<a href="{{ route('admin-collection') }}" class="btn btn-default">
+					<!--a href="{{ route('admin-collection') }}" class="btn btn-default">
 						Revenir aux collections
 						<i class="fa fa-arrow-right"></i> 
-					</a>
+					</a-->
 				</div>
 			</div>
 		</header>

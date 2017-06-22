@@ -94,36 +94,16 @@
             :name="uniqId + 'seo_description'"
             :error="getError('seo_description')"
             label="Description courte"
-            help="Pas affiché sur la page, mais affiché dans le résultats Google (environ 160 caractères)">
+            help="Affichée dans le résultats Google (environ 160 caractères)">
             <div slot="input">
-                <input-text 
+                <input-textarea
                     v-model="item.seo_description"
                     :name="uniqId + 'seo_description'"
                     :error="getError('seo_description')"
                     @input="updated">
-                </input-text>
+                </input-textarea>
             </div>
         </input-wrapper>
-        
-        <div v-if="collections">
-            <input-wrapper 
-                :name="uniqId + 'collections'"
-                :error="getError('collections')"
-                label="Collections"
-                help="Listes d'éléments associés à la page. Il peut s'agir d'une liste d'articles, d'un défilant, ...">
-                <div slot="input">
-                    <input-multiselect 
-                        v-model="item.collections"
-                        :name="uniqId + 'collections'"
-                        :options="collections"
-                        option-label-key="title"
-                        option-value-key="id"
-                        :error="getError('collections')"
-                        @input="updated">
-                    </input-multiselect>
-                </div>
-            </input-wrapper>
-        </div>
 
         <input-wrapper 
             :name="uniqId + 'image'"
@@ -169,6 +149,46 @@
             </div>
         </input-wrapper>
 
+        <div v-if="collections">
+            <input-wrapper 
+                :name="uniqId + 'collections'"
+                :error="getError('collections')"
+                label="Collections"
+                help="Listes d'éléments associés à la page. Il peut s'agir d'une liste d'articles, d'un défilant, ...">
+                <div slot="input">
+                    <input-multiselect 
+                        v-model="item.collections"
+                        :name="uniqId + 'collections'"
+                        :options="collections"
+                        option-label-key="title"
+                        option-value-key="id"
+                        :error="getError('collections')"
+                        @input="updated">
+                    </input-multiselect>
+                </div>
+            </input-wrapper>
+        </div>
+
+        <div v-if="tags">
+            <input-wrapper 
+                :name="uniqId + 'tags'"
+                :error="getError('tags')"
+                label="Tags"
+                help="">
+                <div slot="input">
+                    <input-multiselect 
+                        v-model="item.tags"
+                        :name="uniqId + 'tags'"
+                        :options="tags"
+                        option-label-key="title"
+                        option-value-key="id"
+                        :error="getError('tags')"
+                        @input="updated">
+                    </input-multiselect>
+                </div>
+            </input-wrapper>
+        </div>
+
     </div>
 </template>
 
@@ -179,7 +199,8 @@
 
         data(){
             return {
-                collections: null
+                collections: null,
+                tags: null
             };
         },
 
@@ -187,12 +208,16 @@
             axios.get('/admin/api/collection').then(response => {
                 this.collections = response.data.data;
             });
+            axios.get('/admin/api/tag').then(response => {
+                this.tags = response.data.data;
+            });
         },
 
         methods: {
             setItem(itemOrg){
                 var item = _.clone(this.itemOrg);
                 item.collections = _.map(this.itemOrg.collections, 'id');
+                item.tags = _.map(this.itemOrg.tags, 'id');
                 this.item = item;
                 this.afterRead();
             }

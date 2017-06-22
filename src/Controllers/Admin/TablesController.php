@@ -27,11 +27,13 @@ class TablesController extends Controller
     // -------------------------------------------------------------
     public function table(Request $request)
     {
+        $this->init();
         return view('laravel-cms::admin.table', $this->data);
     }
 
     public function fields(Request $request, $id)
     {
+        $this->init();
         $this->data['tableId'] = $id;
         return view('laravel-cms::admin.table-fields', $this->data);
     }

@@ -23,6 +23,7 @@ class Page extends Model
     protected $appends = [
         'pages',
         'collections',
+        'tags',
         'image',
         'images'
     ];
@@ -39,12 +40,29 @@ class Page extends Model
         return $this->belongsTo(Page::class, 'id', 'parent_id');
     }
 
+    public function tags(){
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
+    public function hasTag(string $tagTitle){
+        foreach($this->tags as $tag){
+            if($tag->title == $tagTitle){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getPagesAttribute(){
         return $this->pages()->get();
     }
 
     public function getCollectionsAttribute(){
         return $this->collections()->get();
+    }
+
+    public function getTagsAttribute(){
+        return $this->tags()->get();
     }
 
     public function getImageAttribute(){

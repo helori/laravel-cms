@@ -27,6 +27,7 @@ class FieldsetsController extends Controller
     // -------------------------------------------------------------
     public function fieldset(Request $request)
     {
+        $this->init();
         return view('laravel-cms::admin.fieldset', $this->data);
     }
 }

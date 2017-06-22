@@ -30,8 +30,12 @@ trait ApiPage
 
         if($request->has('collections')){
             $ids = $request->input('collections');
-            //$ids = array_pluck($collections, 'id');
             $item->collections()->sync($ids);
+        }
+
+        if($request->has('tags')){
+            $ids = $request->input('tags');
+            $item->tags()->sync($ids);
         }
 
         if($request->has('image')){

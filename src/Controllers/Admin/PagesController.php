@@ -18,7 +18,7 @@ class PagesController extends Controller
         $this->modelClass = Page::class;
         $this->where = [];
         $this->read_with = [];
-        $this->update_except = ['collections', 'pages', 'open', 'image', 'images'];
+        $this->update_except = ['collections', 'tags', 'pages', 'open', 'image', 'images'];
         $this->sortable = true;
         $this->sortable_nested = true;
     }
@@ -28,11 +28,13 @@ class PagesController extends Controller
     // -------------------------------------------------------------
     public function page(Request $request)
     {
+        $this->init();
         return view('laravel-cms::admin.page', $this->data);
     }
 
     public function edit(Request $request, $id)
     {
+        $this->init();
         $this->data['id'] = $id;
         return view('laravel-cms::admin.page-edit', $this->data);
     }

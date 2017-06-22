@@ -26,6 +26,7 @@ class AdminsController extends Controller
     // -------------------------------------------------------------
     public function admin(Request $request)
     {
+        $this->init();
         return view('laravel-cms::admin.admin', $this->data);
     }
 

@@ -28,6 +28,10 @@ class Post extends Model
     public function collection(){
         return $this->belongsTo(Table::class);
     }
+    
+    public function tags(){
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
 
     public function getImageAttribute(){
         return $this->getMedias('image');

@@ -216,6 +216,10 @@ Vue.component(
     'form-page-update',
     require('../components/forms/FormPageUpdate.vue')
 );
+Vue.component(
+    'form-tag',
+    require('../components/forms/FormTag.vue')
+);
 
 /**
  * Table Rows
@@ -251,6 +255,10 @@ Vue.component(
 Vue.component(
     'row-page',
     require('../components/table-rows/RowPage.vue')
+);
+Vue.component(
+    'row-tag',
+    require('../components/table-rows/RowTag.vue')
 );
 
 

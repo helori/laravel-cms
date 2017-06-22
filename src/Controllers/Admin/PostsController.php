@@ -31,6 +31,7 @@ class PostsController extends Controller
     // -------------------------------------------------------------
     public function post(Request $request, $collection_id)
     {
+        $this->init();
         $this->data['collection_id'] = $collection_id;
         $this->data['collection'] = Collection::findOrFail($collection_id);
         return view('laravel-cms::admin.post', $this->data);
@@ -38,6 +39,7 @@ class PostsController extends Controller
 
     public function edit(Request $request, $collection_id, $id)
     {
+        $this->init();
         $this->data['collection_id'] = $collection_id;
         $this->data['collection'] = Collection::findOrFail($collection_id);
         $this->data['id'] = $id;

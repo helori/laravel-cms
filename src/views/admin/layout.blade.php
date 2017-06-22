@@ -62,13 +62,19 @@
                             <a href="{{ route('admin-page') }}"><i class="fa fa-sitemap"></i> Pages</a>
                         </li>
 
-                        <li class="{{ Request::route()->getName() == 'admin-collection' ? 'active' : '' }}">
-                            <a href="{{ route('admin-collection') }}"><i class="fa fa-cubes"></i> Collections</a>
-                        </li>
+                        
 
                         <li class="{{ Request::route()->getName() == 'admin-media' ? 'active' : '' }}">
                             <a href="{{ route('admin-media') }}"><i class="fa fa-file-image-o"></i> Médias</a>
                         </li>
+
+                        @if(isset($collections))
+                            @foreach($collections as $collection)
+                                <li class="{{ Request::route()->getName() == 'post' && Request::route('collectionId') == $collection->id ? 'active' : '' }}">
+                                    <a href="{{ route('admin-post', ['collectionId' => $collection->id]) }}">{{ $collection->title }}</a>
+                                </li>
+                            @endforeach
+                        @endif
 
                         <li>
                             <a href="{{ url('/') }}" target="_blank"><i class="fa fa-eye"></i> Voir le site</a>
@@ -80,8 +86,16 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ route('admin-admin') }}"><i class="fa fa-user-secret"></i> Administrateurs</a></li>
+                                <li role="separator" class="divider"></li>
                                 <li><a href="{{ route('admin-fieldset') }}"><i class="fa fa-table"></i> Groupes de champs</a></li>
                                 <li><a href="{{ route('admin-table') }}"><i class="fa fa-database"></i> Base de données</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li class="{{ Request::route()->getName() == 'admin-collection' ? 'active' : '' }}">
+                                    <a href="{{ route('admin-collection') }}"><i class="fa fa-cubes"></i> Collections</a>
+                                </li>
+                                <li class="{{ Request::route()->getName() == 'admin-tag' ? 'active' : '' }}">
+                                    <a href="{{ route('admin-tag') }}"><i class="fa fa-tags"></i> Tags</a>
+                                </li>
                                 <li role="separator" class="divider"></li>
                                 <li>
                                     <a href="{{ url('/logout') }}" 

@@ -27,6 +27,7 @@ class CollectionsController extends Controller
     // -------------------------------------------------------------
     public function collection(Request $request)
     {
+        $this->init();
         return view('laravel-cms::admin.collection', $this->data);
     }
 }

@@ -14,6 +14,7 @@ class MediasController extends Controller
 {
     public function media(Request $request)
     {
+        $this->init();
         return view('laravel-cms::admin.media', $this->data);
     }
 

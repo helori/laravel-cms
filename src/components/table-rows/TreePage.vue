@@ -2,24 +2,28 @@
     .line{
         line-height: 40px;
     }
+    .label{
+        margin-left: 3px;
+    }
 </style>
 
 <template>
     <div class="row">
-        <div class="col-sm-5">
+        <div class="col-sm-10">
             <div class="line">
                 <span class="indicator" :class="{'active': item.published}"></span>
                 {{ item.title }}
-            </div>
-        </div>
-        <div class="col-sm-5">
-            <div class="line">
-                <strong>Collection : </strong>
-                <span v-for="collection in item.collections">
+
+                <span v-for="collection in item.collections" class="label label-primary">
                     {{ collection.title  }}
                 </span>
-            </div>
+
+                <span v-for="tag in item.tags" class="label label-info">
+                    {{ tag.title  }}
+                </span>
+            </div>            
         </div>
+        
         <div class="col-sm-2 text-right">
             <a class="btn btn-default" :href="'/admin/page/' + item.id">
                 <i class="fa fa-edit"></i>

@@ -22,12 +22,14 @@ class ElementsController extends Controller
     // -------------------------------------------------------------
     public function element(Request $request, $table_id)
     {
+        $this->init();
     	$this->data['table_id'] = $table_id;
         return view('laravel-cms::admin.element', $this->data);
     }
 
     public function edit(Request $request, $table_id, $id)
     {
+        $this->init();
         $this->data['table_id'] = $table_id;
         $this->data['id'] = $id;
         return view('laravel-cms::admin.element-edit', $this->data);

@@ -7,8 +7,9 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-//use Auth;
-//use Helori\LaravelCms\Models\Table;
+use Auth;
+use Helori\LaravelCms\Models\Table;
+use Helori\LaravelCms\Models\Collection;
 
 
 class Controller extends BaseController
@@ -17,12 +18,10 @@ class Controller extends BaseController
 
     protected $data = [];
 
-    /*public function __construct(){
-    	$this->middleware(function ($request, $next) {
-            if(Auth::guard('admin')->check()){
-	    		$this->data['tables'] = Table::where('in_admin', true)->get();
-	    	}
-            return $next($request);
-        });
-    }*/
+    public function init(){
+    	if(Auth::guard('admin')->check()){
+            $this->data['tables'] = Table::where('in_admin', true)->get();
+            $this->data['collections'] = Collection::all();
+        }
+    }
 }
