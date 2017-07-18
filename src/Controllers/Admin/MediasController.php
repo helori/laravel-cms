@@ -17,7 +17,6 @@ class MediasController extends Controller
         $this->init();
         return view('laravel-cms::admin.media', $this->data);
     }
-
     
     public function read(Request $request)
     {
@@ -115,6 +114,11 @@ class MediasController extends Controller
 
                 $media->save();
 
+                if($media->width > 1200){
+                    $this->scaleImage($media, 1200);
+                }
+                $this->optimizeImage($media);
+
                 $medias[] = $media;
             }
             else{
@@ -183,6 +187,9 @@ class MediasController extends Controller
 
     protected function cropImage(&$media, $x, $y, $w, $h)
     {
+        ini_set('memory_limit', '4096M');
+        clearstatcache();
+
         $abs_path = public_path().'/'.$media->filepath;
 
         $img = Image::make($abs_path);
@@ -200,6 +207,9 @@ class MediasController extends Controller
 
     protected function scaleImage(&$media, $width = null, $height = null)
     {
+        ini_set('memory_limit', '4096M');
+        clearstatcache();
+
         $abs_path = public_path().'/'.$media->filepath;
 
         Image::configure(); // ['driver' => 'imagick']
@@ -224,6 +234,8 @@ class MediasController extends Controller
 
     protected function optimizeImage(&$media, $quality = 100)
     {
+        clearstatcache();
+        
         $mimes = [
             'image/gif' => 'gif',
             'image/jpeg' => 'jpg',
