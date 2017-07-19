@@ -32,36 +32,10 @@ window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.Vue = require('vue');
+window.Vuex = require('vuex');
+Vue.use(Vuex);
 
-
-
-require('../components/filters/FilterDate.js');
-require('../components/filters/FilterNumber.js');
-
-/**
- * CRUD
- */
-Vue.component(
-    'crud-wrapper',
-    require('../components/crud/CrudWrapper.vue')   
-);
-Vue.component(
-    'crud-table',
-    require('../components/crud/CrudTable.vue')   
-);
-Vue.component(
-    'crud-form',
-    require('../components/crud/CrudForm.vue')
-);
-Vue.component(
-    'tree-sortable',
-    require('../components/crud/TreeSortable.vue')
-);
-Vue.component(
-    'tree-sortable-row',
-    require('../components/crud/TreeSortableRow.vue')
-);
-
+require('vue-crud');
 
 
 /**
@@ -87,35 +61,9 @@ Vue.component(
     require('../components/ElementUpdater.vue')
 );
 
-
 /**
  * Inputs
  */
-Vue.component(
-    'input-wrapper',
-    require('../components/inputs/InputWrapper.vue')
-);
-
-Vue.component(
-    'input-checkbox',
-    require('../components/inputs/InputCheckbox.vue')
-);
-
-Vue.component(
-    'input-date',
-    require('../components/inputs/InputDate.vue')
-);
-
-Vue.component(
-    'input-editor',
-    require('../components/inputs/InputEditor.vue')
-);
-
-Vue.component(
-    'input-email',
-    require('../components/inputs/InputEmail.vue')
-);
-
 Vue.component(
     'input-media',
     require('../components/inputs/InputMedia.vue')
@@ -125,44 +73,6 @@ Vue.component(
     'input-medias',
     require('../components/inputs/InputMedias.vue')
 );
-
-Vue.component(
-    'input-multiselect',
-    require('../components/inputs/InputMultiselect.vue')
-);
-
-Vue.component(
-    'input-number',
-    require('../components/inputs/InputNumber.vue')
-);
-
-Vue.component(
-    'input-password',
-    require('../components/inputs/InputPassword.vue')
-);
-
-Vue.component(
-    'input-phone',
-    require('../components/inputs/InputPhone.vue')
-);
-
-Vue.component(
-    'input-select',
-    require('../components/inputs/InputSelect.vue')
-);
-
-Vue.component(
-    'input-text',
-    require('../components/inputs/InputText.vue')
-);
-
-Vue.component(
-    'input-textarea',
-    require('../components/inputs/InputTextarea.vue')
-);
-
-
-
 
 
 /**
@@ -275,11 +185,6 @@ Vue.component(
 /**
  * Widgets
  */
-Vue.component(
-    'panel',
-    require('../components/widgets/Panel.vue')
-);
-
 Vue.component(
     'slide-panel',
     require('../components/widgets/SlidePanel.vue')

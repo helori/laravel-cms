@@ -96,10 +96,10 @@
                 <div v-if="dataValue">
                     <div class="image"
                         v-if="dataValue && dataValue.mime && dataValue.mime.indexOf('image') !== -1"
-                        :style="'background-image:url(/' + dataValue.filepath + '?' + decache + ')'">
+                        :style="'background-image:url(/' + dataValue.filepath + '?' + dataValue.decache + ')'">
                     </div>
                     <video controls v-else-if="dataValue && dataValue.mime && dataValue.mime.indexOf('video') !== -1">
-                        <source :src="'/' + dataValue.filepath + '?' + decache" :type="dataValue.mime" />
+                        <source :src="'/' + dataValue.filepath + '?' + dataValue.decache" :type="dataValue.mime" />
                     </video>
                     <div class="text-wrapper" v-else>
                         <div class="text">
@@ -122,7 +122,7 @@
                         <div>Type : {{ dataValue.mime }}</div>
                         <div v-if="dataValue.size < 1000000">Poids : {{ dataValue.size / 1000 | number(2) }} ko</div>
                         <div v-else>Poids : {{ dataValue.size / 1000000 | number(2) }} Mo</div>
-                        <div v-if="dataValue.mime.indexOf('image') !== -1">Taille : {{ dataValue.width }} x {{ dataValue.height }} px</div>
+                        <div v-if="dataValue.mime && dataValue.mime.indexOf('image') !== -1">Taille : {{ dataValue.width }} x {{ dataValue.height }} px</div>
                     </div>
                 </div>
             </div>
@@ -141,10 +141,10 @@
                                     <div v-if="media">
                                         <div class="image"
                                             v-if="media && media.mime && media.mime.indexOf('image') !== -1"
-                                            :style="'background-image:url(/' + media.filepath + '?' + decache + ')'">
+                                            :style="'background-image:url(/' + media.filepath + '?' + media.decache + ')'">
                                         </div>
                                         <video controls v-else-if="media && media.mime && media.mime.indexOf('video') !== -1">
-                                            <source :src="'/' + media.filepath + '?' + decache" :type="media.mime" />
+                                            <source :src="'/' + media.filepath + '?' + media.decache" :type="media.mime" />
                                         </video>
                                         <div class="text-wrapper" v-else>
                                             <div class="text">
@@ -157,7 +157,7 @@
                                     <div>{{ media.mime }}</div>
                                     <div v-if="media.size < 1000000">{{ media.size / 1000 | number(2) }} ko</div>
                                     <div v-else>{{ media.size / 1000000 | number(2) }} Mo</div>
-                                    <div v-if="media.mime.indexOf('image') !== -1">{{ media.width }} x {{ media.height }} px</div>
+                                    <div v-if="media.mime && media.mime.indexOf('image') !== -1">{{ media.width }} x {{ media.height }} px</div>
                                 </div>
                             </div>
                         </div>
@@ -220,20 +220,19 @@
     export default {
         data(){
             return{
-                dataValue: null,
-                decache: new Date().getTime(),
+                dataValue: [],
                 medias: []
             };
         },
 
         props: {
-            'value': { 
+            value: { 
                 type: Array,
                 default: function(){
                     return [];
                 }
             },
-            'queries-base-url': {
+            queriesBaseUrl: {
                 type: String,
                 default: '/admin/api'
             }
@@ -252,7 +251,7 @@
                 this.dataValue = this.value[0];
             }
 
-            return axios.get(this.queriesBaseUrl + '/media').then(response => {
+            return axios.get(this.queriesBaseUrl + '/media?limit=all').then(response => {
                 this.medias = response.data;
             }).catch(response => {
 

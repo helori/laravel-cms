@@ -20,7 +20,11 @@ class MediasController extends Controller
     
     public function read(Request $request)
     {
-        return Media::orderBy('created_at', 'desc')->paginate(5);
+        if($request->has('limit') && $request->input('limit') == 'all'){
+            return Media::orderBy('created_at', 'desc')->get();
+        }else{
+            return Media::orderBy('created_at', 'desc')->paginate(5);
+        }
     }
 
     public function delete(Request $request, $id)

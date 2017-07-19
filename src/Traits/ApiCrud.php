@@ -4,7 +4,6 @@ namespace Helori\LaravelCms\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Helori\LaravelCms\Models\Page;
 
 
 trait ApiCrud
@@ -39,6 +38,8 @@ trait ApiCrud
         $item->save();
         $item->update($request->all());
 
+        $this->afterCreate($item);
+
         return $item;
     }
 
@@ -63,21 +64,35 @@ trait ApiCrud
                 }
                 $query->orderBy('position');
             }
-            return $query->where($this->where)->paginate(100);
+
+            if($request->has('limit')){
+                $limit = intval($request->input('limit'));
+                if($limit > 0){
+                    return $query->where($this->where)->paginate($limit);
+                }else{
+                    return $query->where($this->where)->get();
+                }
+            }else{
+                return $query->where($this->where)->orderBy('created_at', 'desc')->paginate(10); 
+            }
         }
     }
 
     protected function apiUpdate(Request $request, $id)
     {
         $item = $this->apiRead($request, $id);
+        $this->beforeUpdate($item);
         $item->update($request->except($this->update_except));
+        $this->afterUpdate($item);
         return $item;
     }
 
     protected function apiDelete(Request $request, $id)
     {
+        $item = $this->modelClass::findOrFail($id);
+        $this->beforeDelete($item);
+
         if($this->sortable){
-            $item = $this->modelClass::findOrFail($id);    
             if($this->sortable_nested){
                 $this->modelClass::where('parent_id', $item->parent_id)->where('position', '>', $item->position)->decrement('position');
             }else{
@@ -178,4 +193,13 @@ trait ApiCrud
     {
         return $this->apiSearchable($request);
     }
+
+    // -------------------------------------------------------------
+    //  Hooks
+    // -------------------------------------------------------------
+    public function afterCreate(&$item){}
+    public function beforeUpdate(&$item){}
+    public function afterUpdate(&$item){}
+    public function beforeDelete(&$item){}
+
 }

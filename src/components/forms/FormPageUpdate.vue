@@ -1,7 +1,7 @@
 <template>
     <div class="form-page form-horizontal">
 
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'published'"
             :error="getError('published')"
             label="Page publiée">
@@ -13,9 +13,9 @@
                     @input="updated">
                 </input-checkbox>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'menu'"
             :error="getError('menu')"
             label="Nom du menu"
@@ -28,9 +28,9 @@
                     @input="updated">
                 </input-text>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'seo_title'"
             :error="getError('seo_title')"
             label="Titre de l'onglet"
@@ -43,9 +43,9 @@
                     @input="updated">
                 </input-text>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'slug'"
             :error="getError('slug')"
             label="Alias"
@@ -58,9 +58,9 @@
                     @input="updated">
                 </input-text>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'title'"
             :error="getError('title')"
             label="Titre affiché sur la page"
@@ -73,9 +73,9 @@
                     @input="updated">
                 </input-text>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'subtitle'"
             :error="getError('subtitle')"
             label="Sous-titre"
@@ -88,9 +88,9 @@
                     @input="updated">
                 </input-text>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'seo_description'"
             :error="getError('seo_description')"
             label="Description courte"
@@ -103,9 +103,9 @@
                     @input="updated">
                 </input-textarea>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'image'"
             :error="getError('image')"
             label="Image principale"
@@ -118,9 +118,9 @@
                     @input="updated">
                 </input-media>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'images'"
             :error="getError('images')"
             label="Images"
@@ -133,9 +133,9 @@
                     @input="updated">
                 </input-medias>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'content'"
             :error="getError('content')"
             label="Contenu">
@@ -147,10 +147,10 @@
                     @input="updated">
                 </input-editor>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
         <div v-if="collections">
-            <input-wrapper 
+            <input-wrapper-horizontal 
                 :name="uniqId + 'collections'"
                 :error="getError('collections')"
                 label="Collections"
@@ -166,11 +166,11 @@
                         @input="updated">
                     </input-multiselect>
                 </div>
-            </input-wrapper>
+            </input-wrapper-horizontal>
         </div>
 
         <div v-if="tags">
-            <input-wrapper 
+            <input-wrapper-horizontal 
                 :name="uniqId + 'tags'"
                 :error="getError('tags')"
                 label="Tags"
@@ -186,14 +186,14 @@
                         @input="updated">
                     </input-multiselect>
                 </div>
-            </input-wrapper>
+            </input-wrapper-horizontal>
         </div>
 
     </div>
 </template>
 
 <script>
-    import crudFormMixin from '../crud/CrudFormMixin.js'
+    import crudFormMixin from 'vue-crud/src/crud/CrudFormMixin.js'
     export default {
         mixins: [crudFormMixin],
 

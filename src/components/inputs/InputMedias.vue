@@ -203,7 +203,7 @@
         },
 
         mounted(){
-            return axios.get(this.queriesBaseUrl + '/media').then(response => {
+            return axios.get(this.queriesBaseUrl + '/media?limit=all').then(response => {
                 this.medias = response.data;
             }).catch(response => {
 

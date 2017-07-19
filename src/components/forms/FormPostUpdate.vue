@@ -131,7 +131,7 @@
 </template>
 
 <script>
-    import crudFormMixin from '../crud/CrudFormMixin.js'
+    import crudFormMixin from 'vue-crud/src/crud/CrudFormMixin.js'
     export default {
         mixins: [crudFormMixin]
     }

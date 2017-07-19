@@ -1,7 +1,7 @@
 <template>
     <div class="form-admin form-horizontal">
         
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'name'"
             :error="errors.name"
             label="Nom">
@@ -14,9 +14,9 @@
                     @input="updated">
                 </input-text>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'email'"
             :error="errors.email"
             label="Email">
@@ -29,9 +29,9 @@
                     @input="updated">
                 </input-email>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'password'"
             :error="errors.password"
             label="Mot de passe">
@@ -45,9 +45,9 @@
                     @input="updated">
                 </input-password>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
-        <input-wrapper 
+        <input-wrapper-horizontal 
             :name="uniqId + 'activated'"
             :error="errors.activated"
             label="Activé">
@@ -59,13 +59,13 @@
                     @input="updated">
                 </input-checkbox>
             </div>
-        </input-wrapper>
+        </input-wrapper-horizontal>
 
     </div>
 </template>
 
 <script>
-    import crudFormMixin from '../crud/CrudFormMixin.js'
+    import crudFormMixin from 'vue-crud/src/crud/CrudFormMixin.js'
     export default {
         mixins: [crudFormMixin]
     }

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import rowMixin from '../crud/RowMixin.js'
+    import rowMixin from 'vue-crud/src/crud/RowMixin.js'
     export default {
         mixins: [rowMixin]
     }
