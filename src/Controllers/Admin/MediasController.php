@@ -20,7 +20,7 @@ class MediasController extends Controller
     
     public function read(Request $request)
     {
-        return Media::orderBy('created_at', 'desc')->get();
+        return Media::orderBy('created_at', 'desc')->paginate(5);
     }
 
     public function delete(Request $request, $id)
@@ -90,6 +90,7 @@ class MediasController extends Controller
                 $file->move(public_path().'/'.$file_path, $media->filename);
 
                 $media->size = filesize($abs_path);
+                $media->decache = filemtime($abs_path);
 
                 $is_image = (strpos($media->mime, 'image') !== false);
                 $is_pdf = (strpos($media->mime, 'pdf') !== false);
@@ -151,6 +152,11 @@ class MediasController extends Controller
             $media->save();
         }
 
+        // Copyright
+        $copyright = $request->input('copyright', null);
+        $media->copyright = $copyright;
+        $media->save();
+
         if($media->type == 'image')
         {
             $rect = $request->input('rect', null);
@@ -199,6 +205,7 @@ class MediasController extends Controller
         $media->width = $w;
         $media->height = $h;
         $media->size = $img->filesize();
+        $media->decache = filemtime($abs_path);
 
         $media->save();
 
@@ -226,6 +233,7 @@ class MediasController extends Controller
         $media->width = $img->width();
         $media->height = $img->height();
         $media->size = $img->filesize();
+        $media->decache = filemtime($abs_path);
 
         $media->save();
 
@@ -288,6 +296,7 @@ class MediasController extends Controller
                         ], 500);
                     }
                     $media->size = filesize($abs_path);
+                    $media->decache = filemtime($abs_path);
                     $media->save();
                 }
                 else{

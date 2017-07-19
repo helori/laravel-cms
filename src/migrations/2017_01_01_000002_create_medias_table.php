@@ -21,6 +21,8 @@ class CreateMediasTable extends Migration
             $table->string('size')->default(0);
             $table->string('width')->default(0);
             $table->string('height')->default(0);
+            $table->string('decache')->nullable()->default(null);
+            $table->string('copyright')->nullable()->default(null);
         });
     }
 

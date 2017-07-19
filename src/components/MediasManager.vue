@@ -22,6 +22,10 @@
         background: #ff9070;
     }
 
+    .cell-preview{
+        min-width: 150px;
+    }
+
     .medias-manager .preview{
         position: relative;
         height: 0;
@@ -123,6 +127,37 @@
             </div>
         </div>
 
+        <div class="text-right">
+            <nav aria-label="Page navigation" v-show="pagination.total > pagination.per_page">
+                <ul class="pagination">
+                    <li v-if="pagination.current_page == 1" class="disabled">
+                        <span>
+                            <span aria-hidden="true">&laquo;</span>
+                        </span>
+                    </li>
+                    <li v-else>
+                        <a @click="loadPage(page - 1)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li v-for="p in pagination.last_page" :class="{'active': p === pagination.current_page}">
+                        <a @click="loadPage(p)" v-if="p !== pagination.current_page">{{ p }}</a>
+                        <span v-else>{{ p }}</span>
+                    </li>
+                    <li v-if="pagination.current_page == pagination.last_page" class="disabled">
+                        <span>
+                            <span aria-hidden="true">&raquo;</span>
+                        </span>
+                    </li>
+                    <li v-else>
+                        <a @click="loadPage(page + 1)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -149,14 +184,14 @@
                             @input="toggle(item)">
                         </input-checkbox>
                     </td>
-                    <td>
+                    <td class="cell-preview">
                         <div class="preview">
                             <div class="image"
                                 v-if="item.mime.indexOf('image') !== -1"
-                                :style="'background-image:url(' + assetsBaseUrl + item.filepath + '?' + decache + ')'">
+                                :style="'background-image:url(' + assetsBaseUrl + item.filepath + '?' + item.decache + ')'">
                             </div>
                             <video controls v-else-if="item.mime.indexOf('video') !== -1">
-                                <source :src="assetsBaseUrl + item.filepath + '?' + decache" :type="item.mime" />
+                                <source :src="assetsBaseUrl + item.filepath + '?' + item.decache" :type="item.mime" />
                             </video>
                             <div class="text-wrapper" v-else>
                                 <div class="text">
@@ -166,6 +201,14 @@
                         </div>
                     </td>
                     <td>    
+                        <div>
+                            <span class="lab">Titre :</span>
+                            <span class="text-info">{{ item.title }}</span>
+                        </div>
+                        <div>
+                            <span class="lab">Fichier :</span>
+                            <span class="text-info">{{ item.filename }}</span>
+                        </div>
                         <div>
                             <span class="lab">Type :</span>
                             <span class="text-info">{{ item.mime }}</span>
@@ -181,28 +224,61 @@
                             <span class="lab">Taille :</span>
                             <span class="text-info">{{ item.width }} x {{ item.height }} px</span>
                         </div>
-                        <div>
-                            <span class="lab">Nom :</span>
-                            <span class="text-info">{{ item.filename }}</span>
-                        </div>
                     </td>
                     <td class="text-right">
                         <button 
                             type="button"
                             class="btn btn-default"
+                            @click="download(item)">
+                            <i class="fa fa-download"></i> Récupérer
+                        </button>
+                        <button 
+                            type="button"
+                            class="btn btn-default"
                             @click="openEditor(item)">
-                            <i class="fa fa-edit"></i>
+                            <i class="fa fa-edit"></i> Modifier
                         </button>
                         <button 
                             type="button"
                             class="btn btn-danger"
                             @click="destroy(item)">
-                            <i class="fa fa-trash"></i>
+                            <i class="fa fa-trash"></i> Supprimer
                         </button>
                     </td>
                 </tr>
             </tbody>
         </table>
+
+        <div class="text-center">
+            <nav aria-label="Page navigation" v-show="pagination.total > pagination.per_page">
+                <ul class="pagination">
+                    <li v-if="pagination.current_page == 1" class="disabled">
+                        <span>
+                            <span aria-hidden="true">&laquo;</span>
+                        </span>
+                    </li>
+                    <li v-else>
+                        <a @click="loadPage(page - 1)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li v-for="p in pagination.last_page" :class="{'active': p === pagination.current_page}">
+                        <a @click="loadPage(p)" v-if="p !== pagination.current_page">{{ p }}</a>
+                        <span v-else>{{ p }}</span>
+                    </li>
+                    <li v-if="pagination.current_page == pagination.last_page" class="disabled">
+                        <span>
+                            <span aria-hidden="true">&raquo;</span>
+                        </span>
+                    </li>
+                    <li v-else>
+                        <a @click="loadPage(page + 1)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
         <media-updater 
             ref="mediaUpdater"
@@ -263,10 +339,13 @@
             return{
                 id: Math.floor(Math.random()*(9999-1000+1)+1000),
                 files: null,
+                
                 items: [],
+                pagination: {},
+                page: 1,
+
                 selectAll: false,
                 selected: [],
-                decache: new Date().getTime(),
 
                 upload_source: null,
                 upload_state: 'none',
@@ -281,12 +360,12 @@
         },
 
         props: {
-            'queries-base-url': {
+            queriesBaseUrl: {
                 type: String,
                 required: true,
                 default: ''
             },
-            'assets-base-url': { 
+            assetsBaseUrl: { 
                 type: String,
                 required: true,
                 default: ''
@@ -344,16 +423,21 @@
 
         methods: {
 
+            loadPage(p){
+                this.page = p;
+                this.refresh();
+            },
+
             openEditor(item){
                 this.$refs.mediaUpdater.openUpdateDialog(item);
             },
 
             refresh: function()
             {
-                this.decache = new Date().getTime();
-                
-                return axios.get(this.queriesBaseUrl + 'media').then(response => {
-                    this.items = response.data;
+                var url = this.queriesBaseUrl + 'media?page=' + this.page;
+                return axios.get(url).then(response => {
+                    this.items = response.data.data;
+                    this.pagination = response.data;
                     this.items = _.forEach(this.items, function(item) {
                         item.selected = false;
                     });
@@ -473,6 +557,10 @@
                     this.deleteDialog.modal('hide');
                     this.refresh();
                 }
+            },
+
+            download(item){
+                window.location.href = this.queriesBaseUrl + 'media/' + item.id + '/download';
             }
         }
     }

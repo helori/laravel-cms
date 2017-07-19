@@ -262,14 +262,27 @@
                                     <hr>
 
                                     <form class="form-horizontal">
+                                        
                                         <div class="form-group">
-                                            <label :for="'title-' + id" class="col-sm-4 control-label">Nom du fichier :</label>
+                                            <label :for="'title-' + id" class="col-sm-4 control-label">Titre :</label>
                                             <div class="col-sm-8">
                                                 <input type="text" 
                                                     class="form-control" 
                                                     :id="'title-' + id" 
                                                     placeholder="" 
                                                     v-model="item.title"
+                                                    @change="setState('modified')">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label :for="'copyright-' + id" class="col-sm-4 control-label">Copyright :</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" 
+                                                    class="form-control" 
+                                                    :id="'copyright-' + id" 
+                                                    placeholder="" 
+                                                    v-model="item.copyright"
                                                     @change="setState('modified')">
                                             </div>
                                         </div>
@@ -320,11 +333,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="alert alert-warning" v-if="force_size.type == 'width' && force_size.value > size_final.w">
-                                                Vous risquez de pixeliser votre image en forçant une largeur supérieure à {{ size_final.w }}px
+                                            <div class="alert alert-warning text-center" v-if="force_size.type == 'width' && force_size.value > size_final.w">
+                                                <i class="fa fa-warning"></i> Vous risquez de pixeliser votre image en forçant une largeur supérieure à {{ size_final.w }}px !
                                             </div>
-                                            <div class="alert alert-warning" v-if="force_size.type == 'height' && force_size.value > size_final.h">
-                                                Vous risquez de pixeliser votre image en forçant une hauteur supérieure à {{ size_final.h }}px
+                                            <div class="alert alert-warning text-center" v-if="force_size.type == 'height' && force_size.value > size_final.h">
+                                                <i class="fa fa-warning"></i> Vous risquez de pixeliser votre image en forçant une hauteur supérieure à {{ size_final.h }}px !
                                             </div>
 
                                             <div class="form-group">
@@ -364,10 +377,8 @@
                                             </div>
                                         </div>
 
-                                        <div v-if="update_state == 'done'" class="alert alert-success">
-                                            <div class="text-center">
-                                                <p><strong>C'est tout bon !</strong></p>
-                                            </div>
+                                        <div v-if="update_state == 'done'" class="alert alert-success text-center">
+                                            <i class="fa fa-smile-o"></i> C'est tout bon !
                                         </div>
 
                                     </form>
@@ -379,7 +390,7 @@
                                     <div v-if="item.type === 'image'">
 
                                         <div id="crop-wrapper" class="preview">
-                                            <div class="image" :style="'background-image:url(' + assetsBaseUrl + item.filepath + '?' + decache + ')'"></div>
+                                            <div class="image" :style="'background-image:url(' + assetsBaseUrl + item.filepath + '?' + item.decache + ')'"></div>
                                             <div class="display" :style="'left:' + size_display.x + 'px;top:' + size_display.y + 'px;width:' + size_display.w + 'px;height:' + size_display.h + 'px;'">
                                                 <div class="cropper" 
                                                     :style="'left:' + size_cropper.x + 'px;top:' + size_cropper.y + 'px;width:' + size_cropper.w + 'px;height:' + size_cropper.h + 'px;'">
@@ -408,14 +419,14 @@
 
                                     <div v-else-if="item.type === 'pdf'">
                                         <div class="preview">
-                                            <iframe :src="assetsBaseUrl + item.filepath + '?' + decache"></iframe>
+                                            <iframe :src="assetsBaseUrl + item.filepath + '?' + item.decache"></iframe>
                                         </div>
                                     </div>
 
                                     <div v-else-if="item.type === 'video'">
                                         <div class="preview">
                                             <video controls>
-                                                <source :src="assetsBaseUrl + item.filepath + '?' + decache" :type="item.mime" />
+                                                <source :src="assetsBaseUrl + item.filepath + '?' + item.decache" :type="item.mime" />
                                             </video>
                                         </div>
                                     </div>
@@ -465,7 +476,6 @@
             return{
                 item: null,
                 id: Math.floor(Math.random()*(9999-1000+1)+1000),
-                decache: new Date().getTime(),
 
                 size_viewport: {w: 0, h: 0},
                 size_original: {w: 0, h: 0},
@@ -519,9 +529,17 @@
             openUpdateDialog: function (item)
             {
                 this.item = item;
+                this.resetDialog();
+                $(this.$el).find('.media-update-dialog').modal('show');
+            },
+
+            resetDialog(){
+                this.force_size.type = 'none';
+                this.force_size.value = 0;
+                this.compression.active = false;
+                this.compression.quality = 100;
                 this.update_state = 'none';
                 this.update_error = null;
-                $(this.$el).find('.media-update-dialog').modal('show');
             },
 
             closeUpdateDialog: function ()
@@ -571,7 +589,7 @@
                     console.log('cropper', self.size_cropper.x, self.size_cropper.y, self.size_cropper.w, self.size_cropper.h);
                     console.log('final', self.size_final.x, self.size_final.y, self.size_final.w, self.size_final.h);
                 };
-                image.src = this.assetsBaseUrl + this.item.filepath + '?' + this.decache;
+                image.src = this.assetsBaseUrl + this.item.filepath + '?' + this.item.decache;
             },
 
             setState: function(state){
@@ -585,6 +603,7 @@
 
                 var data = {
                     title: this.item.title,
+                    copyright: this.item.copyright,
                     rect: this.size_final,
                     force: this.force_size.type,
                     force_value: this.force_size.value,
@@ -596,7 +615,6 @@
                     //console.log('update success', response);
                     this.setState('done');
                     this.item = response.data;
-                    this.decache = new Date().getTime();
                     this.prepareEditor();
                     this.$emit('updated');
                 }).catch(response => {
@@ -604,7 +622,6 @@
                     this.update_error = response.response.data;
                     if(response.response.data.media){
                         this.item = response.response.data.media;
-                        this.decache = new Date().getTime();
                         this.prepareEditor();
                     }
                 });

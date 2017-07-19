@@ -63,11 +63,13 @@ Route::group(['middleware' => ['web']], function ()
 			defineCrudRoutes('/api/table', $admin_controllers.'TablesController');
 			defineCrudRoutes('/api/element/{tableId}', $admin_controllers.'ElementsController');
 			
+			// Other API routes
+			Route::get('/api/media/{id}/download', ['uses' => $admin_controllers.'MediasController@download']);
+
 			/*Route::get('/medias', ['uses' => $admin_controllers.'MediasController@read']);
 		    Route::post('/medias', ['uses' => $admin_controllers.'MediasController@create']);
 		    Route::put('/medias/{id}', ['uses' => $admin_controllers.'MediasController@update']);
-		    Route::delete('/medias/{id}', ['uses' => $admin_controllers.'MediasController@delete']);
-		    Route::get('/media/{id}/download', ['uses' => $admin_controllers.'MediasController@download']);*/
+		    Route::delete('/medias/{id}', ['uses' => $admin_controllers.'MediasController@delete']);*/
 		});
 	});
 });
