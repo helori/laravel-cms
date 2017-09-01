@@ -54,6 +54,10 @@
                             <a href="{{ route('admin-medias') }}"><i class="fa fa-sitemap"></i> Medias</a>
                         </li>
 
+                        <li class="{{ Request::route()->getName() == 'admin-pages' ? 'active' : '' }}">
+                            <a href="{{ route('admin-pages') }}"><i class="fa fa-sitemap"></i> Pages</a>
+                        </li>
+
                         <li class="{{ Request::route()->getName() == 'admin-blog' ? 'active' : '' }}">
                             <a href="{{ route('admin-blog') }}"><i class="fa fa-sitemap"></i> Blog</a>
                         </li>

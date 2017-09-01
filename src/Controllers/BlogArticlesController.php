@@ -3,7 +3,6 @@
 namespace Helori\LaravelCms\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 use Helori\LaravelCms\Models\BlogArticle as Article;
 use Helori\LaravelCms\Requests\BlogArticleCreate as ArticleCreateRequest;

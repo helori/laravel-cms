@@ -41,6 +41,11 @@ Vue.component(
 );
 
 Vue.component(
+    'page-manager',
+    require('./components/laravel-cms/pages/PageManager.vue')
+);
+
+Vue.component(
     'blog-manager',
     require('./components/laravel-cms/blog/BlogManager.vue')
 );

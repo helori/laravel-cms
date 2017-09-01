@@ -3,7 +3,7 @@
 namespace Helori\LaravelCms\Traits;
 
 use Illuminate\Support\Str;
-use Helori\LaravelMedias\Models\Media;
+use Helori\LaravelCms\Models\Media;
 
 
 trait HasMedia

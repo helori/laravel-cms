@@ -58,11 +58,26 @@ Route::middleware('web')->group(function () {
                 'as' => 'admin-blog'
             ]);
 
+            Route::get('/pages', [
+                'uses' => $controllers.'FrontController@pages', 
+                'as' => 'admin-pages'
+            ]);
+
             Route::post('/api/media', ['uses' => $controllers.'MediasController@create']);
             Route::get('/api/media/{id?}', ['uses' => $controllers.'MediasController@read']);
             Route::put('/api/media/{id}', ['uses' => $controllers.'MediasController@update']);
             Route::delete('/api/media/{id}', ['uses' => $controllers.'MediasController@delete']);
             Route::get('/api/media/{id}/download', ['uses' => $controllers.'MediasController@download']);
+
+            Route::post('/api/menu', ['uses' => $controllers.'MenusController@create']);
+            Route::get('/api/menu/{id?}', ['uses' => $controllers.'MenusController@read']);
+            Route::put('/api/menu/{id}', ['uses' => $controllers.'MenusController@update']);
+            Route::delete('/api/menu/{id}', ['uses' => $controllers.'MenusController@delete']);
+
+            Route::post('/api/page', ['uses' => $controllers.'PagesController@create']);
+            Route::get('/api/page/{id?}', ['uses' => $controllers.'PagesController@read']);
+            Route::put('/api/page/{id}', ['uses' => $controllers.'PagesController@update']);
+            Route::delete('/api/page/{id}', ['uses' => $controllers.'PagesController@delete']);
 
             Route::post('/api/blog-article', ['uses' => $controllers.'BlogArticlesController@create']);
             Route::get('/api/blog-article/{id?}', ['uses' => $controllers.'BlogArticlesController@read']);

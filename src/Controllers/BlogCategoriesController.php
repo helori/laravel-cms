@@ -3,7 +3,6 @@
 namespace Helori\LaravelCms\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
 use Helori\LaravelCms\Models\BlogCategory as Category;
 use Helori\LaravelCms\Requests\BlogCategoryCreate as CategoryCreateRequest;

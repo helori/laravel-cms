@@ -18,6 +18,11 @@ class FrontController extends Controller
         return view('laravel-cms::medias', []);
     }
 
+    public function pages(Request $request)
+    {
+        return view('laravel-cms::pages', []);
+    }
+
     public function blog(Request $request)
     {
         return view('laravel-cms::blog', []);
