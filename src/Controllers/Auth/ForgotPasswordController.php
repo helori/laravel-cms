@@ -2,9 +2,9 @@
 
 namespace Helori\LaravelCms\Controllers\Auth;
 
-use Helori\LaravelCms\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
+use Helori\LaravelCms\Controllers\Controller;
 
 class ForgotPasswordController extends Controller
 {
@@ -23,7 +23,7 @@ class ForgotPasswordController extends Controller
 
     public function showLinkRequestForm()
     {
-        return view('laravel-cms::admin.passwords.email');
+        return view('laravel-cms::passwords.email');
     }
 
     /**

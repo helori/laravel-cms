@@ -1,75 +1,79 @@
 <?php
 
-function defineCrudRoutes($uri, $controller)
-{
-    Route::post('/'.$uri, ['uses' => $controller.'@create']);
-    Route::get('/'.$uri.'/{id?}', ['uses' => $controller.'@read']);
-    Route::put('/'.$uri.'/{id}', ['uses' => $controller.'@update']);
-    Route::delete('/'.$uri.'/{id}', ['uses' => $controller.'@delete']);
+Route::middleware('web')->group(function () {
 
-    Route::put('/'.$uri.'-position', ['uses' => $controller.'@position']);
-    Route::post('/'.$uri.'-searchable', ['uses' => $controller.'@searchable']);
-}
+    Route::group(['prefix' => 'admin'], function ($router) {
+                    
+        $controllers = '\Helori\LaravelCms\Controllers\\';
 
+        Route::get('login', [
+            'uses' => $controllers.'Auth\LoginController@showLoginForm', 
+            'as' => 'admin-login'
+        ]);
 
-Route::group(['middleware' => ['web']], function ()
-{
-	// Admin routes
+        Route::post('login', [
+            'uses' => $controllers.'Auth\LoginController@login', 
+            'as' => 'admin-post-login'
+        ]);
 
-	Route::group(['prefix' => 'admin'], function ()
-	{
-		$auth_controllers = '\Helori\LaravelCms\Controllers\Auth\\';
+        Route::post('logout', [
+            'uses' => $controllers.'Auth\LoginController@logout', 
+            'as' => 'admin-logout'
+        ]);
 
-		Route::get('login', ['uses' => $auth_controllers.'LoginController@showLoginForm', 'as' => 'admin-login']);
-		Route::post('login', ['uses' => $auth_controllers.'LoginController@login', 'as' => 'admin-post-login']);
-		Route::post('logout', ['uses' => $auth_controllers.'LoginController@logout', 'as' => 'admin-logout']);
+        Route::get('password-forgot', [
+            'uses' => $controllers.'Auth\ForgotPasswordController@showLinkRequestForm', 
+            'as' => 'admin-password-forgot'
+        ]);
 
-		Route::get('password-forgot', ['uses' => $auth_controllers.'ForgotPasswordController@showLinkRequestForm', 'as' => 'admin-password-forgot']);
-		Route::post('password-email', ['uses' => $auth_controllers.'ForgotPasswordController@sendResetLinkEmail', 'as' => 'admin-password-email']);
-		Route::get('password-reset/{token}', ['uses' => $auth_controllers.'ResetPasswordController@showResetForm', 'as' => 'admin-password-reset']);
-		Route::post('password-reset', ['uses' => $auth_controllers.'ResetPasswordController@reset', 'as' => 'admin-post-password-reset']);
+        Route::post('password-email', [
+            'uses' => $controllers.'Auth\ForgotPasswordController@sendResetLinkEmail', 
+            'as' => 'admin-password-email'
+        ]);
 
-		Route::group(['middleware' => 'auth:admin'], function ()
-		{
-			$admin_controllers = '\Helori\LaravelCms\Controllers\Admin\\';
+        Route::get('password-reset/{token}', [
+            'uses' => $controllers.'Auth\ResetPasswordController@showResetForm', 
+            'as' => 'admin-password-reset'
+        ]);
 
-			Route::get('/', ['uses' => $admin_controllers.'FrontController@home', 'as' => 'admin-home']);
+        Route::post('password-reset', [
+            'uses' => $controllers.'Auth\ResetPasswordController@reset', 
+            'as' => 'admin-post-password-reset'
+        ]);
 
-			Route::get('/admin', ['uses' => $admin_controllers.'AdminsController@admin', 'as' => 'admin-admin']);
-			Route::get('/media', ['uses' => $admin_controllers.'MediasController@media', 'as' => 'admin-media']);
-			Route::get('/fieldset', ['uses' => $admin_controllers.'FieldsetsController@fieldset', 'as' => 'admin-fieldset']);
-			Route::get('/fieldset/{fieldsetId}/field', ['uses' => $admin_controllers.'FieldsController@field', 'as' => 'admin-field']);
-			Route::get('/page', ['uses' => $admin_controllers.'PagesController@page', 'as' => 'admin-page']);
-			Route::get('/page/{id}', ['uses' => $admin_controllers.'PagesController@edit', 'as' => 'page-edit']);
-			Route::get('/tag', ['uses' => $admin_controllers.'TagsController@tag', 'as' => 'admin-tag']);
-			Route::get('/collection', ['uses' => $admin_controllers.'CollectionsController@collection', 'as' => 'admin-collection']);
-			Route::get('/collection/{collectionId}/post', ['uses' => $admin_controllers.'PostsController@post', 'as' => 'admin-post']);
-			Route::get('/collection/{collectionId}/post/{id}', ['uses' => $admin_controllers.'PostsController@edit', 'as' => 'admin-post-edit']);
+        Route::group(['middleware' => 'auth:admin'], function () use($controllers)
+        {
+            Route::get('/', [
+                'uses' => $controllers.'FrontController@home', 
+                'as' => 'admin-home'
+            ]);
 
-			Route::get('/table', ['uses' => $admin_controllers.'TablesController@table', 'as' => 'admin-table']);
-			Route::get('/table/{id}/fields', ['uses' => $admin_controllers.'TablesController@fields', 'as' => 'admin-table-fields']);
-			Route::get('/element/{tableId}', ['uses' => $admin_controllers.'ElementsController@element', 'as' => 'admin-element']);
-			Route::get('/element/{tableId}/{id}', ['uses' => $admin_controllers.'ElementsController@edit', 'as' => 'admin-element-edit']);
+            Route::get('/medias', [
+                'uses' => $controllers.'FrontController@medias', 
+                'as' => 'admin-medias'
+            ]);
 
-			defineCrudRoutes('/api/admin', $admin_controllers.'AdminsController');
-			defineCrudRoutes('/api/media', $admin_controllers.'MediasController');
-			defineCrudRoutes('/api/page', $admin_controllers.'PagesController');
-			defineCrudRoutes('/api/tag', $admin_controllers.'TagsController');
-			defineCrudRoutes('/api/fieldset', $admin_controllers.'FieldsetsController');
-			defineCrudRoutes('/api/fieldset/{fieldsetId}/field', $admin_controllers.'FieldsController');
-			defineCrudRoutes('/api/collection', $admin_controllers.'CollectionsController');
-			defineCrudRoutes('/api/collection/{collectionId}/post', $admin_controllers.'PostsController');
+            Route::get('/blog', [
+                'uses' => $controllers.'FrontController@blog', 
+                'as' => 'admin-blog'
+            ]);
 
-			defineCrudRoutes('/api/table', $admin_controllers.'TablesController');
-			defineCrudRoutes('/api/element/{tableId}', $admin_controllers.'ElementsController');
-			
-			// Other API routes
-			Route::get('/api/media/{id}/download', ['uses' => $admin_controllers.'MediasController@download']);
+            Route::post('/api/media', ['uses' => $controllers.'MediasController@create']);
+            Route::get('/api/media/{id?}', ['uses' => $controllers.'MediasController@read']);
+            Route::put('/api/media/{id}', ['uses' => $controllers.'MediasController@update']);
+            Route::delete('/api/media/{id}', ['uses' => $controllers.'MediasController@delete']);
+            Route::get('/api/media/{id}/download', ['uses' => $controllers.'MediasController@download']);
 
-			/*Route::get('/medias', ['uses' => $admin_controllers.'MediasController@read']);
-		    Route::post('/medias', ['uses' => $admin_controllers.'MediasController@create']);
-		    Route::put('/medias/{id}', ['uses' => $admin_controllers.'MediasController@update']);
-		    Route::delete('/medias/{id}', ['uses' => $admin_controllers.'MediasController@delete']);*/
-		});
-	});
+            Route::post('/api/blog-article', ['uses' => $controllers.'BlogArticlesController@create']);
+            Route::get('/api/blog-article/{id?}', ['uses' => $controllers.'BlogArticlesController@read']);
+            Route::put('/api/blog-article/{id}', ['uses' => $controllers.'BlogArticlesController@update']);
+            Route::delete('/api/blog-article/{id}', ['uses' => $controllers.'BlogArticlesController@delete']);
+
+            Route::post('/api/blog-category', ['uses' => $controllers.'BlogCategoriesController@create']);
+            Route::get('/api/blog-category/{id?}', ['uses' => $controllers.'BlogCategoriesController@read']);
+            Route::put('/api/blog-category/{id}', ['uses' => $controllers.'BlogCategoriesController@update']);
+            Route::delete('/api/blog-category/{id}', ['uses' => $controllers.'BlogCategoriesController@delete']);
+        });
+    });
+
 });

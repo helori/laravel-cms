@@ -2,10 +2,10 @@
 
 namespace Helori\LaravelCms\Controllers\Auth;
 
-use Helori\LaravelCms\Controllers\Controller;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Helori\LaravelCms\Controllers\Controller;
+
 
 class RegisterController extends Controller
 {

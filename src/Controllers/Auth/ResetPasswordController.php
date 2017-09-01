@@ -55,7 +55,7 @@ class ResetPasswordController extends Controller
 
     public function showResetForm(Request $request, $token = null)
     {
-        return view('laravel-cms::admin.passwords.reset')->with(
+        return view('laravel-cms::passwords.reset')->with(
             ['token' => $token, 'email' => $request->email]
         );
     }

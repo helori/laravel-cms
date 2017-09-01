@@ -2,10 +2,10 @@
 
 namespace Helori\LaravelCms\Controllers\Auth;
 
-use Helori\LaravelCms\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
+use Helori\LaravelCms\Controllers\Controller;
 
 class LoginController extends Controller
 {
@@ -41,7 +41,7 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        return view('laravel-cms::admin.login');
+        return view('laravel-cms::login');
     }
 
     protected function guard()
