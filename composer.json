@@ -30,5 +30,12 @@
     },
     "require-dev": {
         
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Helori\\LaravelCms\\CmsServiceProvider"
+            ]
+        }
     }
 }
