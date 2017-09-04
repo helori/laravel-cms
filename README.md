@@ -1,6 +1,5 @@
 # laravel-cms
-Work still in progress...
-This package provides many things you usually need when creating a website for your clients : a secured admin panel with users management, an advanced media manager to upload and optimize files (images, videos, documents...), and a powerful tool to define your website's specific elements : blog articles, home page elements, partners, portfolio... This package also provides a way to include structured data in your website. The only thing you will have to do is using these components in your front controller, and build your design. And if you need, a pre-configured AMP compatible layout is also available.
+This package provides an admin panel with a built-in media library, a blog manager and a page manager. You can also create custom collections for your content. Each collection is a table in your database : you can define its fields directly from the admin panel, and then create elements for your collection. Typically, a collection can be a gallery, a list of partners, a list of clients...
 
 ## Installation and setup
 
@@ -9,7 +8,7 @@ On a fresh Laravel (>= v5.4) installation, install the package by running:
 composer require helori/laravel-cms
 ```
 
-Configure your application:
+Configure your application (Laravel version < 5.5):
 ```php
 // config/app.php
 'providers' => [
@@ -138,28 +137,12 @@ mix.copy(
 ).js(
     "./resources/assets/js/admin.js",
     "./public/js/admin.js", "."
-).sass(
-    "./resources/assets/sass/website.scss",
-    "./public/css/website.css"
-).js(
-    "./resources/assets/js/website.js",
-    "./public/js/website.js", "."
-).version();
+);
 ```
 
 Compile your assets :
 ```bash
 npm run dev
-```
-
-If you want to modify the default views, publish them to your application's resources directory:
-```bash
-php artisan vendor:publish --tag=laravel-cms-views
-```
-
-You can also publish the translations to overwrite de defaults:
-```bash
-php artisan vendor:publish --tag=laravel-cms-translations
 ```
 
 ## Usage
