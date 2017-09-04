@@ -2,13 +2,13 @@
     <div>
         
         <input-wrapper-horizontal 
-            :title="uniqId + 'title'"
+            :name="uniqId + 'title'"
             :error="getError('title')"
             label="Title">
             <div slot="input">
                 <input-text
                     v-model="item.title"
-                    :title="uniqId + 'title'"
+                    :name="uniqId + 'title'"
                     :error="getError('title')"
                     @input="updated">
                 </input-text>

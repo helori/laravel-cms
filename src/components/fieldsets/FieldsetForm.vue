@@ -15,12 +15,17 @@
             </div>
         </input-wrapper-horizontal>
 
+        <div class="alert alert-danger" v-if="getGlobalError()">
+            {{ getGlobalError() }}
+        </div>
+
     </div>
 </template>
 
 <script>
-
+    
     import formMixin from 'vue-crud/src/mixins/FormMixin.js'
+    
     import inputWrapperHorizontal from 'vue-crud/src/inputs-wrappers/InputWrapperHorizontal.vue'
     import inputText from 'vue-crud/src/inputs/InputText.vue'
 

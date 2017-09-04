@@ -62,6 +62,21 @@
                             <a href="{{ route('admin-blog') }}"><i class="fa fa-sitemap"></i> Blog</a>
                         </li>
 
+                        @if(count($fieldsets) > 0)
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <i class="fa fa-cubes"></i> Elements <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                @foreach($fieldsets as $fieldset)
+                                <li>
+                                    <a href="{{ route('admin-elements', ['slug' => $fieldset->slug]) }}">{{ $fieldset->title }}</a>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                        @endif
+
                         <li>
                             <a href="{{ url('/') }}" target="_blank"><i class="fa fa-eye"></i> Voir le site</a>
                         </li>
@@ -71,6 +86,9 @@
                                 <i class="fa fa-user"></i> {{ Auth::guard('admin')->user()->name }} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
+                                <li class="{{ Request::route()->getName() == 'admin-fieldsets' ? 'active' : '' }}">
+                                    <a href="{{ route('admin-fieldsets') }}"><i class="fa fa-list"></i> Fieldsets</a>
+                                </li>
                                 <li>
                                     <a href="{{ url('/logout') }}" 
                                         onclick="event.preventDefault();document.getElementById('logout-form').submit();">

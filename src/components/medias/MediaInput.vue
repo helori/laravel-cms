@@ -25,7 +25,7 @@
 <template>
 
     <div>
-
+        
         <div class="media" v-if="!multiple && dataValue">
 
             <div class="thumb">

@@ -63,6 +63,16 @@ Route::middleware('web')->group(function () {
                 'as' => 'admin-pages'
             ]);
 
+            Route::get('/fieldsets', [
+                'uses' => $controllers.'FrontController@fieldsets', 
+                'as' => 'admin-fieldsets'
+            ]);
+
+            Route::get('/elements/{slug}', [
+                'uses' => $controllers.'FrontController@elements', 
+                'as' => 'admin-elements'
+            ]);
+
             Route::post('/api/media', ['uses' => $controllers.'MediasController@create']);
             Route::get('/api/media/{id?}', ['uses' => $controllers.'MediasController@read']);
             Route::put('/api/media/{id}', ['uses' => $controllers.'MediasController@update']);
@@ -88,6 +98,21 @@ Route::middleware('web')->group(function () {
             Route::get('/api/blog-category/{id?}', ['uses' => $controllers.'BlogCategoriesController@read']);
             Route::put('/api/blog-category/{id}', ['uses' => $controllers.'BlogCategoriesController@update']);
             Route::delete('/api/blog-category/{id}', ['uses' => $controllers.'BlogCategoriesController@delete']);
+
+            Route::post('/api/fieldset', ['uses' => $controllers.'FieldsetsController@create']);
+            Route::get('/api/fieldset/{id?}', ['uses' => $controllers.'FieldsetsController@read']);
+            Route::put('/api/fieldset/{id}', ['uses' => $controllers.'FieldsetsController@update']);
+            Route::delete('/api/fieldset/{id}', ['uses' => $controllers.'FieldsetsController@delete']);
+
+            Route::post('/api/fieldset/{fieldsetId}/field', ['uses' => $controllers.'FieldsController@create']);
+            Route::get('/api/fieldset/{fieldsetId}/field/{id?}', ['uses' => $controllers.'FieldsController@read']);
+            Route::put('/api/fieldset/{fieldsetId}/field/{id}', ['uses' => $controllers.'FieldsController@update']);
+            Route::delete('/api/fieldset/{fieldsetId}/field/{id}', ['uses' => $controllers.'FieldsController@delete']);
+
+            Route::post('/api/fieldset/{fieldsetId}/element', ['uses' => $controllers.'ElementsController@create']);
+            Route::get('/api/fieldset/{fieldsetId}/element/{id?}', ['uses' => $controllers.'ElementsController@read']);
+            Route::put('/api/fieldset/{fieldsetId}/element/{id}', ['uses' => $controllers.'ElementsController@update']);
+            Route::delete('/api/fieldset/{fieldsetId}/element/{id}', ['uses' => $controllers.'ElementsController@delete']);
         });
     });
 

@@ -270,7 +270,8 @@ td .badge{
                 <menu-form
                     ref="createMenuForm"
                     :item-org="createMenuItem"
-                    :errors-org="createMenuErrors">
+                    :errors-org="createMenuErrors"
+                    :uri-prefix="uriPrefix">
                 </menu-form>
             </div>
 
@@ -286,7 +287,8 @@ td .badge{
                 <menu-form
                     ref="updateMenuForm"
                     :item-org="updateMenuItem"
-                    :errors-org="updateMenuErrors">
+                    :errors-org="updateMenuErrors"
+                    :uri-prefix="uriPrefix">
                 </menu-form>
             </div>
 

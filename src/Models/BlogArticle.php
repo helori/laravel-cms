@@ -17,6 +17,10 @@ class BlogArticle extends Model
     protected $hidden = [];
     protected $guarded = [];
 
+    protected $casts = [
+        'published' => 'boolean',
+    ];
+
     public function categories(){
     	return $this->belongsToMany(BlogCategory::class, 'blog_article_category');
     }

@@ -30,13 +30,13 @@
         </input-wrapper-horizontal>
 
         <input-wrapper-horizontal 
-            :title="uniqId + 'position'"
+            :name="uniqId + 'position'"
             :error="getError('position')"
             label="Position">
             <div slot="input">
                 <input-number
                     v-model="item.position"
-                    :title="uniqId + 'position'"
+                    :name="uniqId + 'position'"
                     :error="getError('position')"
                     @input="updated">
                 </input-number>

@@ -53,6 +53,6 @@ class PagesController extends Controller
         $medias = $request->input('images');
         $item->syncMedias($medias, 'images');
 
-        return Page::with(['images', 'image'])->findOrFail($item->id);
+        return Page::with(['menu', 'images', 'image'])->findOrFail($item->id);
     }
 }

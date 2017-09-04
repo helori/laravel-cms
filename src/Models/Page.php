@@ -3,7 +3,6 @@
 namespace Helori\LaravelCms\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Helori\LaravelCms\Models\Media;
 use Helori\LaravelCms\Traits\HasMedia;
 
 
@@ -16,6 +15,10 @@ class Page extends Model
     public $timestamps = true;
     protected $hidden = [];
     protected $guarded = [];
+
+    protected $casts = [
+        'published' => 'boolean',
+    ];
 
     public function menu(){
         return $this->belongsTo(Menu::class);

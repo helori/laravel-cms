@@ -8,11 +8,13 @@ class CreateAdminsPasswordResetTable extends Migration
 {
     public function up()
     {
-        Schema::create('admins_resets', function (Blueprint $table) {
-            $table->string('email')->index();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
-        });
+        if (!Schema::hasTable('admins_resets')) {
+            Schema::create('admins_resets', function (Blueprint $table) {
+                $table->string('email')->index();
+                $table->string('token');
+                $table->timestamp('created_at')->nullable();
+            });
+        }
     }
 
     public function down()
