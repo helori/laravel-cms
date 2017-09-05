@@ -16,6 +16,20 @@
         </input-wrapper-horizontal>
 
         <input-wrapper-horizontal 
+            :name="uniqId + 'seo_title'"
+            :error="getError('seo_title')"
+            label="Page title">
+            <div slot="input">
+                <input-text 
+                    v-model="item.seo_title"
+                    :name="uniqId + 'seo_title'"
+                    :error="getError('seo_title')"
+                    @input="updated">
+                </input-text>
+            </div>
+        </input-wrapper-horizontal>
+
+        <input-wrapper-horizontal 
             :name="uniqId + 'published'"
             :error="getError('published')"
             label="Published">
@@ -100,6 +114,20 @@
                     :error="getError('content')"
                     @input="updated">
                 </input-editor>
+            </div>
+        </input-wrapper-basic>
+
+        <input-wrapper-basic 
+            :name="uniqId + 'seo_description'"
+            :error="getError('seo_description')"
+            label="SEO Description">
+            <div slot="input">
+                <input-textarea 
+                    v-model="item.seo_description"
+                    :name="uniqId + 'seo_description'"
+                    :error="getError('seo_description')"
+                    @input="updated">
+                </input-textarea>
             </div>
         </input-wrapper-basic>
 
