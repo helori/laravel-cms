@@ -160,7 +160,7 @@
             {
                 this.readStatus = 'loading';
 
-                var url = this.uriPrefix + '/api/media?page=' + this.page;
+                var url = this.uriPrefix + '/api/media?limit=12&page=' + this.page;
                 url += '&text=' + this.search.text;
 
                 axios.get(url).then(response => {

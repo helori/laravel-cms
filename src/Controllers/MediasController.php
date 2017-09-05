@@ -19,6 +19,7 @@ class MediasController extends Controller
 
         }else{
 
+            $limit = intVal($request->input('limit', 5));
             $search = $request->input('text', '');
             $order = 'created_at';
             $reverse = true;
@@ -35,7 +36,7 @@ class MediasController extends Controller
                 });
             }
 
-            return $query->paginate(5);
+            return $query->paginate($limit);
         }
     }
 
