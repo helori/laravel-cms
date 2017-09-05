@@ -222,7 +222,8 @@ td .badge{
                             ref="updatePageForm"
                             :uri-prefix="uriPrefix"
                             :item-org="updateItem"
-                            :errors-org="updateErrors">
+                            :errors-org="updateErrors"
+                            @change="updateFormUpdated">
                         </page-form-update>
 
                     </div>
@@ -243,7 +244,8 @@ td .badge{
                 <page-form-create
                     ref="createPageForm"
                     :item-org="createItem"
-                    :errors-org="createErrors">
+                    :errors-org="createErrors"
+                    @change="createFormUpdated">
                 </page-form-create>
             </div>
 
@@ -271,7 +273,8 @@ td .badge{
                     ref="createMenuForm"
                     :item-org="createMenuItem"
                     :errors-org="createMenuErrors"
-                    :uri-prefix="uriPrefix">
+                    :uri-prefix="uriPrefix"
+                    @change="createMenuFormUpdated">
                 </menu-form>
             </div>
 
@@ -288,7 +291,8 @@ td .badge{
                     ref="updateMenuForm"
                     :item-org="updateMenuItem"
                     :errors-org="updateMenuErrors"
-                    :uri-prefix="uriPrefix">
+                    :uri-prefix="uriPrefix"
+                    @change="updateMenuFormUpdated">
                 </menu-form>
             </div>
 
@@ -445,6 +449,11 @@ td .badge{
                 });
             },
 
+            createFormUpdated(){
+                this.createItem = this.$refs.createForm.item;
+                this.createErrors = this.$refs.createForm.errors;
+            },
+
             openUpdate(item){
                 this.updateItem = item;
                 this.updateErrors = null;
@@ -467,6 +476,11 @@ td .badge{
                     this.updateErrors = response.data;
 
                 });
+            },
+
+            updateFormUpdated(){
+                this.updateItem = this.$refs.updateForm.item;
+                this.updateErrors = this.$refs.updateForm.errors;
             },
 
             openDestroy(item){
@@ -548,6 +562,11 @@ td .badge{
 
             },
 
+            createMenuFormUpdated(){
+                this.createMenuItem = this.$refs.createMenuForm.item;
+                this.createMenuErrors = this.$refs.createMenuForm.errors;
+            },
+
             openMenuDestroy(item){
                 
                 this.destroyMenuItem = item;
@@ -603,6 +622,11 @@ td .badge{
 
                 });
 
+            },
+
+            updateMenuFormUpdated(){
+                this.updateMenuItem = this.$refs.updateMenuForm.item;
+                this.updateMenuErrors = this.$refs.updateMenuForm.errors;
             },
 
             setPageMenu(id){

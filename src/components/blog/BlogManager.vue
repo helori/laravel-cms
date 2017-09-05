@@ -236,7 +236,8 @@ td .badge{
                             ref="updateForm"
                             :uri-prefix="uriPrefix"
                             :item-org="updateItem"
-                            :errors-org="updateErrors">
+                            :errors-org="updateErrors"
+                            @change="updateFormUpdated">
                         </article-form-update>
 
                     </div>
@@ -257,7 +258,8 @@ td .badge{
                 <category-form
                     ref="createCategoryForm"
                     :item-org="createCategoryItem"
-                    :errors-org="createCategoryErrors">
+                    :errors-org="createCategoryErrors"
+                    @change="createCategoryFormUpdated">
                 </category-form>
             </div>
 
@@ -273,7 +275,8 @@ td .badge{
                 <category-form
                     ref="updateCategoryForm"
                     :item-org="updateCategoryItem"
-                    :errors-org="updateCategoryErrors">
+                    :errors-org="updateCategoryErrors"
+                    @change="updateCategoryFormUpdated">
                 </category-form>
             </div>
 
@@ -299,7 +302,8 @@ td .badge{
                 <article-form-create
                     ref="createArticleForm"
                     :item-org="createItem"
-                    :errors-org="createErrors">
+                    :errors-org="createErrors"
+                    @change="createFormUpdated">
                 </article-form-create>
             </div>
 
@@ -490,6 +494,11 @@ td .badge{
 
             },
 
+            createCategoryFormUpdated(){
+                this.createCategoryItem = this.$refs.createCategoryForm.item;
+                this.createCategoryErrors = this.$refs.createCategoryForm.errors;
+            },
+
             openCategoryDestroy(item){
                 
                 this.destroyCategoryItem = item;
@@ -552,6 +561,11 @@ td .badge{
 
             },
 
+            updateCategoryFormUpdated(){
+                this.updateCategoryItem = this.$refs.updateCategoryForm.item;
+                this.updateCategoryErrors = this.$refs.updateCategoryForm.errors;
+            },
+
             read() {
                 
                 this.readStatus = 'loading';
@@ -599,6 +613,11 @@ td .badge{
                 });
             },
 
+            createFormUpdated(){
+                this.createItem = this.$refs.createForm.item;
+                this.createErrors = this.$refs.createForm.errors;
+            },
+
             openUpdate(item){
                 this.updateItem = item;
                 this.updateErrors = null;
@@ -621,6 +640,11 @@ td .badge{
                     this.updateErrors = response.data;
 
                 });
+            },
+
+            updateFormUpdated(){
+                this.updateItem = this.$refs.updateForm.item;
+                this.updateErrors = this.$refs.updateForm.errors;
             },
 
             openDestroy(item){
