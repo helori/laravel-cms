@@ -50,6 +50,16 @@ Vue.component(
     require('./components/laravel-cms/blog/BlogManager.vue')
 );
 
+Vue.component(
+    'fieldsets-manager',
+    require('./components/laravel-cms/fieldsets/FieldsetsManager.vue')
+);
+
+Vue.component(
+    'elements-manager',
+    require('./components/laravel-cms/fieldsets/ElementsManager.vue')
+);
+
 const app = new Vue({
     el: '#admin-content'
 });

@@ -121,6 +121,10 @@ td .badge{
                             
                             <i class="fa" :class="{'fa-check-square-o': hasCategory(category.id), 'fa-square-o': !hasCategory(category.id)}"></i> {{ category.title }}
                         </li>
+                        <li class="list-group-item noselect" 
+                            @click="toggleCategory(0)">
+                            <i class="fa" :class="{'fa-check-square-o': hasCategory(0), 'fa-square-o': !hasCategory(0)}"></i> Autres
+                        </li>
                     </ul>
 
                     <button type="button" class="btn btn-primary btn-block" @click="openCategoryCreate">
@@ -416,6 +420,7 @@ td .badge{
         mounted() {
             this.readCategories().then(response => {
 
+                this.search.categories.push(0);
                 for(var i=0; i<response.data.length; ++i){
                     this.search.categories.push(response.data[i].id);
                 }

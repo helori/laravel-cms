@@ -38,6 +38,9 @@ class BlogArticlesController extends Controller
                 $query->whereHas('categories', function($q) use($categories) {
                     $q->whereIn('id', $categories);
                 });
+                if(in_array(0, $categories)){
+                    $query->orWhereDoesntHave('categories');
+                }
             }
 
             //$articles = BlogCategory::whereIn('id', $categories)
