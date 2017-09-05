@@ -43,22 +43,6 @@
             </div>
         </input-wrapper-horizontal>
 
-        <input-wrapper-horizontal 
-            :title="uniqId + 'image'"
-            :error="getError('image')"
-            label="Image">
-            <div slot="input">
-                <media-input 
-                    v-model="item.image"
-                    :multiple="false"
-                    :name="uniqId + 'image'"
-                    :error="getError('image')"
-                    :uri-prefix="uriPrefix"
-                    @input="updated">
-                </media-input>
-            </div>
-        </input-wrapper-horizontal>
-
     </div>
 </template>
 
@@ -68,15 +52,13 @@
     import inputWrapperHorizontal from 'vue-crud/src/inputs-wrappers/InputWrapperHorizontal.vue'
     import inputText from 'vue-crud/src/inputs/InputText.vue'
     import inputNumber from 'vue-crud/src/inputs/InputNumber.vue'
-    import mediaInput from '../medias/MediaInput.vue'
 
     export default {
         mixins: [formMixin],
         components: {
             inputWrapperHorizontal: inputWrapperHorizontal,
             inputText: inputText,
-            inputNumber: inputNumber,
-            mediaInput: mediaInput
+            inputNumber: inputNumber
         },
 
         props: {

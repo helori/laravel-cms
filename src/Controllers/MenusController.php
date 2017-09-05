@@ -13,7 +13,7 @@ class MenusController extends Controller
 {
     public function read(Request $request, $id = null)
     {
-        $query = Menu::with(['image'])->withCount('pages');
+        $query = Menu::withCount('pages');
 
         if(!is_null($id)){
             return $query->findOrFail($id);
@@ -43,12 +43,9 @@ class MenusController extends Controller
         $request->modifyInput();
         
         $item = Menu::findOrFail($id);
-        $item->update($request->except(['image', 'pages_count']));
+        $item->update($request->except(['pages_count']));
         $item->save();
 
-        $medias = $request->input('image');
-        $item->syncMedias($medias, 'image');
-
-        return Menu::with(['image'])->findOrFail($item->id);
+        return $item;
     }
 }
