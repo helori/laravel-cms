@@ -112,6 +112,7 @@
                     v-model="item.content"
                     :name="uniqId + 'content'"
                     :error="getError('content')"
+                    :css="editorCss"
                     @input="updated">
                 </input-editor>
             </div>
@@ -162,6 +163,11 @@
 
         props: {
             uriPrefix: {
+                type: String,
+                required: false,
+                default: ''
+            },
+            editorCss: {
                 type: String,
                 required: false,
                 default: ''

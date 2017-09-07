@@ -17,7 +17,14 @@ class ElementsController extends Controller
         $element = new Element;
         $element->setTable($fieldset->table);
 
-        if(!is_null($id)){
+        if($fieldset->single){
+
+            if($element->count() === 0){
+                $element->save();
+            }
+            return $element->firstOrFail();
+            
+        }else if(!is_null($id)){
 
             return $element->findOrFail($id);
 

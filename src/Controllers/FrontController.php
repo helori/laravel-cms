@@ -44,7 +44,7 @@ class FrontController extends Controller
     public function elements(Request $request, $slug)
     {
         $fieldset = Fieldset::where('slug', $slug)->firstOrFail();
-        $this->data['fieldset_id'] = $fieldset->id;
+        $this->data['fieldset'] = $fieldset;
         return view('laravel-cms::elements', $this->data);
     }
 }

@@ -1,9 +1,22 @@
 @extends('laravel-cms::layout')
 @section('content')
 
-<elements-manager
-	uri-prefix="/admin"
-	fieldset-id="{{ $fieldset_id }}">
-</elements-manager>
+@if($fieldset->single)
+
+	<element-manager
+		uri-prefix="/admin"
+		fieldset-id="{{ $fieldset->id }}"
+		editor-css="{{ mix('css/tinymce.css') }}">
+	</element-manager>
+
+@else
+
+	<elements-manager
+		uri-prefix="/admin"
+		fieldset-id="{{ $fieldset->id }}"
+		editor-css="{{ mix('css/tinymce.css') }}">
+	</elements-manager>
+
+@endif
 
 @endsection

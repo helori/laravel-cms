@@ -13,6 +13,10 @@ class Fieldset extends Model
     protected $hidden = [];
     protected $guarded = [];
 
+    protected $casts = [
+    	'single' => 'boolean',
+    ];
+
     public function fields(){
         return $this->hasMany(Field::class);
     }

@@ -25,6 +25,7 @@
                         v-model="item[field.name]"
                         :name="uniqId + field.name"
                         :error="getError(field.name)"
+                        :css="editorCss"
                         @input="updated">
                     </component>
 
@@ -76,6 +77,11 @@
                 required: true
             },
             uriPrefix: {
+                type: String,
+                required: false,
+                default: ''
+            },
+            editorCss: {
                 type: String,
                 required: false,
                 default: ''

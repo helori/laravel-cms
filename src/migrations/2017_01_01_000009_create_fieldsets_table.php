@@ -16,6 +16,8 @@ class CreateFieldsetsTable extends Migration
                 $table->string('title')->nullable()->default(null);
                 $table->string('slug')->nullable()->default(null);
                 $table->string('table')->nullable()->default(null);
+
+                $table->boolean('single')->default(false);
             });
         }
     }

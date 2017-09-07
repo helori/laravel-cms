@@ -75,6 +75,7 @@ h1{
                                     <tr>
                                         <th>Fieldset name</th>
                                         <th>Database table</th>
+                                        <th>Single element</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -82,6 +83,7 @@ h1{
                                     <tr v-for="(item, idx) in items">
                                         <td>{{ item.title }}</td>
                                         <td>{{ item.table }}</td>
+                                        <td>{{ item.single ? 'YES' : 'NO' }}</td>
                                         <td class="text-right">
 
                                             <div class="btn-group">
@@ -315,7 +317,7 @@ h1{
                 }).catch(response => {
                     
                     this.updateStatus = 'error';
-                    this.updateErrors = response.data;
+                    this.updateErrors = response.response.data;
 
                 });
             },
@@ -346,7 +348,7 @@ h1{
                 }).catch(response => {
 
                     this.destroyStatus = 'error';
-                    this.destroyErrors = response.data;
+                    this.destroyErrors = response.response.data;
 
                 });
 

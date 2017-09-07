@@ -25,6 +25,7 @@
                         v-model="item[field.name]"
                         :name="uniqId + field.name"
                         :error="getError(field.name)"
+                        :css="editorCss"
                         @input="updated">
                     </component>
 
@@ -43,6 +44,9 @@
     import inputWrapperHorizontal from 'vue-crud/src/inputs-wrappers/InputWrapperHorizontal.vue'
 
     import inputText from 'vue-crud/src/inputs/InputText.vue'
+    import inputUrl from 'vue-crud/src/inputs/InputUrl.vue'
+    import inputPassword from 'vue-crud/src/inputs/InputPassword.vue'
+    import inputPhone from 'vue-crud/src/inputs/InputPhone.vue'
     import inputEmail from 'vue-crud/src/inputs/InputEmail.vue'
     import inputSelect from 'vue-crud/src/inputs/InputSelect.vue'
     import inputTextarea from 'vue-crud/src/inputs/InputTextarea.vue'
@@ -57,6 +61,9 @@
             inputWrapperHorizontal: inputWrapperHorizontal,
 
             inputText: inputText,
+            inputUrl: inputUrl,
+            inputPassword: inputPassword,
+            inputPhone: inputPhone,
             inputEmail: inputEmail,
             inputSelect: inputSelect,
             inputTextarea: inputTextarea,
@@ -70,6 +77,11 @@
                 required: true
             },
             uriPrefix: {
+                type: String,
+                required: false,
+                default: ''
+            },
+            editorCss: {
                 type: String,
                 required: false,
                 default: ''

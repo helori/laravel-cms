@@ -223,6 +223,7 @@ td .badge{
                             :uri-prefix="uriPrefix"
                             :item-org="updateItem"
                             :errors-org="updateErrors"
+                            :editor-css="editorCss"
                             @change="updateFormUpdated">
                         </page-form-update>
 
@@ -382,6 +383,11 @@ td .badge{
 
         props: {
             uriPrefix: {
+                type: String,
+                required: false,
+                default: ''
+            },
+            editorCss: {
                 type: String,
                 required: false,
                 default: ''

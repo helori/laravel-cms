@@ -135,7 +135,8 @@ h1{
                             :fieldset="fieldset"
                             :uri-prefix="uriPrefix"
                             :item-org="updateItem"
-                            :errors-org="updateErrors">
+                            :errors-org="updateErrors"
+                            :editor-css="editorCss">
                         </element-form-update>
 
                     </div>
@@ -159,7 +160,8 @@ h1{
                     :fieldset="fieldset"
                     :uri-prefix="uriPrefix"
                     :item-org="createItem"
-                    :errors-org="createErrors">
+                    :errors-org="createErrors"
+                    :editor-css="editorCss">
                 </element-form-create>
             </div>
 
@@ -231,6 +233,11 @@ h1{
             },
             fieldsetId: {
                 required: true
+            },
+            editorCss: {
+                type: String,
+                required: false,
+                default: ''
             }
         },
 

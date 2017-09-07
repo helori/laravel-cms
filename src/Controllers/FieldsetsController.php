@@ -68,10 +68,12 @@ class FieldsetsController extends Controller
 
         $table_name = $request->input('table');
         
-        try{
-            Schema::rename($item->table, $table_name);
-        }catch(\Exception $e){
-            abort(500, 'Ouch! the table "'.$item->table.'" could not be renamed to "'.$table_name.'". Maybe you already have a fieldset with a title leading to the same table name?');
+        if($table_name !== $item->table){
+            try{
+                Schema::rename($item->table, $table_name);
+            }catch(\Exception $e){
+                abort(500, 'Ouch! the table "'.$item->table.'" could not be renamed to "'.$table_name.'". Maybe you already have a fieldset with a title leading to the same table name?');
+            }
         }
         
         $item->update($request->except(['fields']));
