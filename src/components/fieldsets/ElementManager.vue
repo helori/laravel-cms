@@ -32,7 +32,10 @@ h1{
                             :uri-prefix="uriPrefix"
                             :item-org="item"
                             :errors-org="updateErrors"
-                            :editor-css="editorCss">
+                            :editor-css="editorCss"
+                            :editor-assets-url="editorAssetsUrl"
+                            :editor-options="editorOptions"
+                            @change="updateFormUpdated">
                         </element-form-update>
 
                         <button type="button" 
@@ -75,6 +78,8 @@ h1{
             return{
                 item: {},
                 fieldset: {},
+
+                modifying: false,
                 
                 readStatus: null,
                 readErrors: null,
@@ -97,6 +102,18 @@ h1{
                 type: String,
                 required: false,
                 default: ''
+            },
+            editorAssetsUrl: {
+                type: String,
+                required: false,
+                default: ''
+            },
+            editorOptions: {
+                type: Object,
+                required: false,
+                default(){
+                    return {};
+                }
             }
         },
 
@@ -136,6 +153,7 @@ h1{
                 axios.put(this.uriPrefix + '/api/fieldset/' + this.fieldsetId + '/element/' + item.id, item).then(response => {
 
                     this.updateStatus = 'success';
+                    this.modifying = false;
                     this.read();
 
                 }).catch(response => {
@@ -144,6 +162,12 @@ h1{
                     this.updateErrors = response.data;
 
                 });
+            },
+
+            updateFormUpdated(){
+                this.item = this.$refs.updateForm.item;
+                this.updateErrors = this.$refs.updateForm.errors;
+                this.modifying = true;
             },
         }
     }

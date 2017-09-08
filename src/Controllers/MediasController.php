@@ -23,7 +23,7 @@ class MediasController extends Controller
             $search = $request->input('text', '');
             $order = 'created_at';
             $reverse = true;
-
+            
             $query = Media::orderBy($order, $reverse ? 'desc' : 'asc');
 
             if($search){
@@ -36,7 +36,11 @@ class MediasController extends Controller
                 });
             }
 
-            return $query->paginate($limit);
+            if($limit == 0){
+                return $query->get();
+            }else{
+                return $query->paginate($limit);
+            }
         }
     }
 

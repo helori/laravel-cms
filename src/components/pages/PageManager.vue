@@ -135,7 +135,7 @@ td .badge{
 
                     <button type="button" 
                         class="btn btn-primary btn-block"
-                        @click="update"
+                        @click="update()"
                         :disabled="updateStatus === 'loading'">
                         <i class="fa fa-spinner fa-spin" v-if="updateStatus === 'loading'"></i> Save modifications
                     </button>
@@ -224,6 +224,8 @@ td .badge{
                             :item-org="updateItem"
                             :errors-org="updateErrors"
                             :editor-css="editorCss"
+                            :editor-assets-url="editorAssetsUrl"
+                            :editor-options="editorOptions"
                             @change="updateFormUpdated">
                         </page-form-update>
 
@@ -248,6 +250,21 @@ td .badge{
                     :errors-org="createErrors"
                     @change="createFormUpdated">
                 </page-form-create>
+            </div>
+
+        </dialog-edit>
+
+        <dialog-edit
+            ref="modifyingDialog"
+            title="Quit without saving ?"
+            :status="updateStatus"
+            save-text="Save and quit"
+            cancel-text="Quit without saving"
+            @save="update(true)"
+            @cancel="openUpdate(null, true)">
+
+            <div slot="body">
+                You are about to leave without saving your work. What do you you want to do ?
             </div>
 
         </dialog-edit>
@@ -341,6 +358,8 @@ td .badge{
                 items: [],
                 menus: [],
 
+                modifying: false,
+
                 // ---
                 
                 readStatus: null,
@@ -391,6 +410,18 @@ td .badge{
                 type: String,
                 required: false,
                 default: ''
+            },
+            editorAssetsUrl: {
+                type: String,
+                required: false,
+                default: ''
+            },
+            editorOptions: {
+                type: Object,
+                required: false,
+                default(){
+                    return {};
+                }
             }
         },
 
@@ -460,13 +491,19 @@ td .badge{
                 this.createErrors = this.$refs.createForm.errors;
             },
 
-            openUpdate(item){
-                this.updateItem = item;
-                this.updateErrors = null;
-                this.updateStatus = null;
+            openUpdate(item, force){
+                if(item === null && !force && this.modifying){
+                    this.$refs.modifyingDialog.open();
+                }else{
+                    this.updateItem = item;
+                    this.updateErrors = null;
+                    this.updateStatus = null;
+                }
             },
 
-            update(){
+            update(shouldQuit){
+
+                console.log(shouldQuit);
 
                 var item = this.$refs.updatePageForm.item;
                 this.updateStatus = 'loading';
@@ -474,7 +511,13 @@ td .badge{
                 axios.put(this.uriPrefix +'/api/page/' + item.id, item).then(response => {
 
                     this.updateStatus = 'success';
+                    this.modifying = false;
+                    this.$refs.modifyingDialog.close();
                     this.read();
+
+                    if(shouldQuit){
+                        this.openUpdate(null);
+                    }
 
                 }).catch(response => {
                     
@@ -485,8 +528,9 @@ td .badge{
             },
 
             updateFormUpdated(){
-                this.updateItem = this.$refs.updateForm.item;
-                this.updateErrors = this.$refs.updateForm.errors;
+                this.updateItem = this.$refs.updatePageForm.item;
+                this.updateErrors = this.$refs.updatePageForm.errors;
+                this.modifying = true;
             },
 
             openDestroy(item){

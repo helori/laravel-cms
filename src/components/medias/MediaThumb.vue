@@ -57,7 +57,7 @@
                 v-if="item.mime && item.mime.indexOf('image') !== -1"
                 :style="'background-image:url(/' + item.filepath + '?' + item.decache + ')'">
             </div>
-            <video controls v-else-if="item.mime && item.mime.indexOf('video') !== -1">
+            <video v-else-if="item.mime && item.mime.indexOf('video') !== -1">
                 <source :src="'/' + item.filepath + '?' + item.decache" :type="item.mime" />
             </video>
             <div class="text-wrapper" v-else>

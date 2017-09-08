@@ -113,6 +113,8 @@
                     :name="uniqId + 'content'"
                     :error="getError('content')"
                     :css="editorCss"
+                    :assets-url="editorAssetsUrl"
+                    :editor-options="editorOptions"
                     @input="updated">
                 </input-editor>
             </div>
@@ -173,6 +175,18 @@
                 type: String,
                 required: false,
                 default: ''
+            },
+            editorAssetsUrl: {
+                type: String,
+                required: false,
+                default: ''
+            },
+            editorOptions: {
+                type: Object,
+                required: false,
+                default(){
+                    return {};
+                }
             }
         }
     }

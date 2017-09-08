@@ -26,6 +26,8 @@
                         :name="uniqId + field.name"
                         :error="getError(field.name)"
                         :css="editorCss"
+                        :assets-url="editorAssetsUrl"
+                        :editor-options="editorOptions"
                         @input="updated">
                     </component>
 
@@ -85,6 +87,18 @@
                 type: String,
                 required: false,
                 default: ''
+            },
+            editorAssetsUrl: {
+                type: String,
+                required: false,
+                default: ''
+            },
+            editorOptions: {
+                type: Object,
+                required: false,
+                default(){
+                    return {};
+                }
             }
         }
     }

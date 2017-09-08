@@ -10,6 +10,9 @@ h1{
     font-style: italic;
     margin: 0 0 15px 0;   
 }
+.col-left .btn-block, .col-left .alert{
+    margin: 0 0 15px 0;
+}
 </style>
 
 <template>
@@ -63,7 +66,7 @@ h1{
 
                     <button type="button" 
                         class="btn btn-primary btn-block"
-                        @click="update"
+                        @click="update()"
                         :disabled="updateStatus === 'loading'">
                         <i class="fa fa-spinner fa-spin" v-if="updateStatus === 'loading'"></i> Save modifications
                     </button>
@@ -136,7 +139,10 @@ h1{
                             :uri-prefix="uriPrefix"
                             :item-org="updateItem"
                             :errors-org="updateErrors"
-                            :editor-css="editorCss">
+                            :editor-css="editorCss"
+                            :editor-assets-url="editorAssetsUrl"
+                            :editor-options="editorOptions"
+                            @change="updateFormUpdated">
                         </element-form-update>
 
                     </div>
@@ -163,6 +169,21 @@ h1{
                     :errors-org="createErrors"
                     :editor-css="editorCss">
                 </element-form-create>
+            </div>
+
+        </dialog-edit>
+
+        <dialog-edit
+            ref="modifyingDialog"
+            title="Quit without saving ?"
+            :status="updateStatus"
+            save-text="Save and quit"
+            cancel-text="Quit without saving"
+            @save="update(true)"
+            @cancel="openUpdate(null, true)">
+
+            <div slot="body">
+                You are about to leave without saving your work. What do you you want to do ?
             </div>
 
         </dialog-edit>
@@ -205,6 +226,8 @@ h1{
             return{
                 items: [],
                 fieldset: {},
+
+                modifying: false,
                 
                 // ---
                 
@@ -238,6 +261,18 @@ h1{
                 type: String,
                 required: false,
                 default: ''
+            },
+            editorAssetsUrl: {
+                type: String,
+                required: false,
+                default: ''
+            },
+            editorOptions: {
+                type: Object,
+                required: false,
+                default(){
+                    return {};
+                }
             }
         },
 
@@ -316,13 +351,17 @@ h1{
                 });
             },
 
-            openUpdate(item){
-                this.updateItem = item;
-                this.updateErrors = null;
-                this.updateStatus = null;
+            openUpdate(item, force){
+                if(item === null && !force && this.modifying){
+                    this.$refs.modifyingDialog.open();
+                }else{
+                    this.updateItem = item;
+                    this.updateErrors = null;
+                    this.updateStatus = null;
+                }
             },
 
-            update(){
+            update(shouldQuit){
 
                 var item = this.$refs.updateForm.item;
                 this.updateStatus = 'loading';
@@ -330,7 +369,13 @@ h1{
                 axios.put(this.uriPrefix + '/api/fieldset/' + this.fieldsetId + '/element/' + item.id, item).then(response => {
 
                     this.updateStatus = 'success';
+                    this.modifying = false;
+                    this.$refs.modifyingDialog.close();
                     this.read();
+
+                    if(shouldQuit){
+                        this.openUpdate(null);
+                    }
 
                 }).catch(response => {
                     
@@ -338,6 +383,12 @@ h1{
                     this.updateErrors = response.data;
 
                 });
+            },
+
+            updateFormUpdated(){
+                this.updateItem = this.$refs.updateForm.item;
+                this.updateErrors = this.$refs.updateForm.errors;
+                this.modifying = true;
             },
 
             openDestroy(item){
