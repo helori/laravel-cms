@@ -37,6 +37,7 @@ class CmsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/assets/admin.js' => base_path('resources/assets/js/admin.js'),
             __DIR__.'/assets/admin.scss' => base_path('resources/assets/sass/admin.scss'),
+            __DIR__.'/assets/tinymce.scss' => base_path('resources/assets/sass/tinymce.scss'),
         ], 'laravel-cms-assets');
 	}
 }

@@ -2,9 +2,40 @@
     <div>
         
         <input-wrapper-horizontal 
+            :title="uniqId + 'short_title'"
+            :error="getError('short_title')"
+            label="Short title"
+            help="Titre affiché dans le menu principal du site">
+            <div slot="input">
+                <input-text
+                    v-model="item.short_title"
+                    :title="uniqId + 'short_title'"
+                    :error="getError('short_title')"
+                    @input="updated">
+                </input-text>
+            </div>
+        </input-wrapper-horizontal>
+
+        <input-wrapper-horizontal 
+            :title="uniqId + 'seo_title'"
+            :error="getError('seo_title')"
+            label="SEO title"
+            help="Titre dans les résultats Google">
+            <div slot="input">
+                <input-text
+                    v-model="item.seo_title"
+                    :title="uniqId + 'seo_title'"
+                    :error="getError('seo_title')"
+                    @input="updated">
+                </input-text>
+            </div>
+        </input-wrapper-horizontal>
+
+        <input-wrapper-horizontal 
             :title="uniqId + 'title'"
             :error="getError('title')"
-            label="Title">
+            label="Title"
+            help="Titre affiché dans la page">
             <div slot="input">
                 <input-text
                     v-model="item.title"
@@ -18,7 +49,8 @@
         <input-wrapper-horizontal 
             :title="uniqId + 'subtitle'"
             :error="getError('subtitle')"
-            label="Subtitle">
+            label="Subtitle"
+            help="Sous-titre affiché dans la page">
             <div slot="input">
                 <input-text
                     v-model="item.subtitle"

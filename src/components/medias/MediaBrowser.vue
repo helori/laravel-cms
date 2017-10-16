@@ -113,7 +113,7 @@
                 readStatus: null,
                 readErrors: null,
                 dialog: null,
-                selected: []
+                selected: this.value
             };
         },
 
@@ -144,6 +144,11 @@
                 },
                 deep: true
             },
+            value: {
+                handler(value){
+                    this.selected = value;
+                }
+            }
         },
 
         mounted() {

@@ -15,6 +15,7 @@ class CreateMenusTable extends Migration
 
                 $table->integer('position')->unsigned()->default(0);
                 $table->string('title')->nullable()->default(null);
+                $table->string('short_title')->nullable()->default(null);
                 $table->string('slug')->nullable()->default(null);
                 $table->string('subtitle')->nullable()->default(null);
             });
