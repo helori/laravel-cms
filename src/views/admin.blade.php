@@ -1,4 +1,4 @@
-@extends('admin.layout')
+@extends('laravel-cms::layout')
 @section('content')
 
 <div id="admin-app">

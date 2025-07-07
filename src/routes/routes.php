@@ -4,7 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Helori\LaravelCms\Controllers\CmsController;
 
-Route::get('/user', [CmsController::class, 'user']);
+Route::get('/login', [CmsController::class, 'login'])->name('login');
+Route::post('/login', [CmsController::class, 'authenticate'])->name('authenticate');
+Route::post('/logout', [CmsController::class, 'logout'])->name('logout');
+Route::get('/admin', [CmsController::class, 'admin'])->name('admin')->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')
     ->prefix('admin')

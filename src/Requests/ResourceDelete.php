@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace Helori\LaravelCms\Requests;
 
 
 class ResourceDelete extends ResourceCreate

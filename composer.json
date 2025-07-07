@@ -1,6 +1,6 @@
 {
     "name": "helori/laravel-cms",
-    "description": "Work still in progress... Secured admin panel, website components creation, AMP layout, structured data, database management, media manager, image and video processing",
+    "description": "Configurable CMS backend for Laravel",
     "keywords": ["laravel", "CMS"],
     "license": "MIT",
     "authors": [
@@ -22,11 +22,7 @@
         }
     },
     "require": {
-        "php": ">=5.5.9",
-        "doctrine/dbal": "^2.5",
-        "intervention/image": "^2.3",
-        "laravel/scout": "^3.0",
-        "algolia/algoliasearch-client-php": "^1.18"
+        
     },
     "require-dev": {
         

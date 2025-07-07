@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Helori\LaravelCms\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use App\Models\User;
 
 use App\Http\Requests\Admin\MediaRead;
 use App\Http\Requests\Admin\MediaDownload;
@@ -18,18 +17,18 @@ use App\Http\Requests\Admin\ResourceUpdate;
 use App\Http\Requests\Admin\ResourceDelete;
 
 
-class AdminController extends Controller
+class CmsController extends Controller
 {
     public function admin(Request $request)
     {
-        return view('admin.admin', [
+        return view('laravel-cms::admin', [
             'user' => $request->user(),
         ]);
     }
 
     public function login(Request $request)
     {
-        return view('admin.login');
+        return view('laravel-cms::login');
     }
 
     public function authenticate(Request $request)
@@ -61,8 +60,6 @@ class AdminController extends Controller
         }
         return redirect()->route('login');
     }
-
-    public function user(Request $request) { return $request->user(); }
 
     public function mediaRead(MediaRead $request, $id) { return $request->handle($id); }
     public function mediaDownload(MediaDownload $request, $id) { return $request->handle($id); }

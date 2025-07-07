@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace Helori\LaravelCms\Requests;
 
 use App\Models\Media;
 

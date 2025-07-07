@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Helori\LaravelCms\Models;
 
 trait HasMedia
 {

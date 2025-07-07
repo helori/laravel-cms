@@ -1,9 +1,9 @@
-@extends('admin.layout')
+@extends('laravel-cms::layout')
 @section('content')
 
 <div class="min-h-screen bg-gray-100 dark:bg-primary-900 py-10 flex flex-col justify-center">
     <div class="mx-auto">
-        @include('logo', [
+        @include('laravel-cms::logo', [
             'align' => 'center'
         ])
     </div>

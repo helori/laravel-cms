@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Helori\LaravelCms\Models;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Model;

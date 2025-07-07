@@ -1,4 +1,4 @@
-@extends('admin.layout-auth')
+@extends('laravel-cms::layout-auth')
 @section('auth-content')
 
 <div class="">
@@ -28,7 +28,7 @@
                 class="input w-full mb-2"
                 placeholder="Votre mot de passe...">
 
-            @include('admin.errors')
+            @include('laravel-cms::errors')
 
             <button
                 type="submit"
