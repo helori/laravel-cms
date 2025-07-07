@@ -32,7 +32,9 @@ class CmsController extends Controller
 
     public function login(Request $request)
     {
-        return view('laravel-cms::login');
+        return view('laravel-cms::login', [
+            'config' => CmsConfig::config(),
+        ]);
     }
 
     public function authenticate(Request $request)
