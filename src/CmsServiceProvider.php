@@ -19,25 +19,23 @@ class CmsServiceProvider extends ServiceProvider
     public function boot()
 	{
         $this->loadRoutesFrom(__DIR__.'/routes/routes.php');
-        $this->loadMigrationsFrom(__DIR__.'/migrations');
-		$this->loadViewsFrom(__DIR__.'/views', 'laravel-cms');
+        $this->loadViewsFrom(__DIR__.'/views', 'laravel-cms');
 
         $this->publishes([
             __DIR__.'/config/laravel-cms.php' => config_path('laravel-cms.php'),
         ], 'laravel-cms-config');
+
+        $this->publishesMigrations([
+            __DIR__.'/../migrations' => database_path('migrations'),
+        ]);
         
-        /*$this->publishes([
+        $this->publishes([
             __DIR__.'/views' => base_path('resources/views/vendor/laravel-cms'),
-        ], 'laravel-cms-views');*/
+        ], 'laravel-cms-views');
 
         $this->publishes([
-            __DIR__.'/components' => base_path('resources/assets/js/components/laravel-cms'),
-        ], 'laravel-cms-components');
-
-        $this->publishes([
-            __DIR__.'/assets/admin.js' => base_path('resources/assets/js/admin.js'),
-            __DIR__.'/assets/admin.scss' => base_path('resources/assets/sass/admin.scss'),
-            __DIR__.'/assets/tinymce.scss' => base_path('resources/assets/sass/tinymce.scss'),
+            __DIR__.'/assets/admin.js' => base_path('resources/js/admin.js'),
+            __DIR__.'/assets/admin.scss' => base_path('resources/css/admin.css'),
         ], 'laravel-cms-assets');
 	}
 }

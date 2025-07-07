@@ -1,48 +1,58 @@
-@extends('laravel-cms::layout')
-@section('content')
-<div id="login">
-    <div class="container">
+@extends('admin.layout-auth')
+@section('auth-content')
 
-        <div class="row">
-            <div class="col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-4 col-lg-4">
-                
-                <h1>Connexion Administrateur</h1>
+<div class="">
+    <div class="mb-4 text-center text-xl font-bold">
+        Connexion
+    </div>
+    <div>
+        <form method="post" action="/login">
 
-                <form class="form" role="form" method="POST" action="{{ route('admin-post-login') }}">
-        
-                    {!! csrf_field() !!}
+            @csrf
 
-                    <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email" autofocus>
-                        @if ($errors->has('email'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('email') }}</strong>
-                            </span>
-                        @endif
-                    </div>
+            <input
+                required
+                autofocus
+                id="email"
+                type="text"
+                name="email"
+                class="input w-full mb-2"
+                placeholder="Votre email..."
+                value="{{ old('email') }}">
 
-                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                        <input type="password" class="form-control" name="password" placeholder="Mot de passe">
-                        @if ($errors->has('password'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                        @endif
-                    </div>
+            <input
+                required
+                id="password"
+                type="password"
+                name="password"
+                class="input w-full mb-2"
+                placeholder="Votre mot de passe...">
 
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <i class="fa fa-btn fa-sign-in"></i> Connexion
-                        </button>
-                        <a class="btn btn-block btn-default" href="{{ route('admin-password-forgot') }}">
-                            <i class="fa fa-btn fa-question-mark"></i> Mot de passe perdu ?
-                        </a>
-                    </div>
-                </form>
+            @include('admin.errors')
 
-            </div>
-        </div>
+            <button
+                type="submit"
+                class="btn btn-primary w-full mb-2">
+                Connexion
+            </button>
+
+            @if(session('status'))
+                <div class="alert alert-green mb-2">
+                    {{ session('status') }}
+                </div>
+            @endif
+
+        </form>
+    </div>
+
+    <div class="text-center mt-4">
+
+        <a href="{{ url('/forgot-password') }}"
+            class="text-sm text-primary-900 dark:text-primary-400 no-underline mx-2 pb-1 border-b border-primary-900 dark:border-primary-400">
+            Mot de passe perdu
+        </a>
 
     </div>
 </div>
+
 @endsection
