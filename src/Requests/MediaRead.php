@@ -2,8 +2,8 @@
 
 namespace Helori\LaravelCms\Requests;
 
-use App\Models\Media;
-use App\Http\Resources\Media as MediaResource;
+use Helori\LaravelCms\Models\Media;
+use Helori\LaravelCms\resources\Media as MediaResource;
 
 
 class MediaRead extends AdminBase

@@ -22,10 +22,10 @@
         }
     },
     "require": {
-        
+        "laravel/sanctum": "^4.0"
     },
     "require-dev": {
-        
+
     },
     "extra": {
         "laravel": {

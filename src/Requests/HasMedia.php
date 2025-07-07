@@ -4,7 +4,7 @@ namespace Helori\LaravelCms\Requests;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Media;
+use Helori\LaravelCms\Models\Media;
 
 
 trait HasMedia

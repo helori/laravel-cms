@@ -4,6 +4,7 @@ namespace Helori\LaravelCms\Requests;
 
 use App\Http\Requests\BaseRequest;
 use Illuminate\Support\Str;
+use App\Cms\CmsConfig;
 
 
 class AdminBase extends BaseRequest
@@ -20,7 +21,7 @@ class AdminBase extends BaseRequest
 
     protected function getResourceConfig(string $resourceName): array
     {
-        $resourcesConfig = collect(config('cms')['resources']);
+        $resourcesConfig = collect(CmsConfig::resources());
 
         return $resourcesConfig->first(function($resource) use($resourceName) {
             return $resource['name'] === $resourceName;

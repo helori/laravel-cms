@@ -22,7 +22,7 @@
     @yield('content')
 
     <script>
-        window.cms = {!! json_encode(config('cms')) !!};
+        window.cms = {!! json_encode($config) !!};
     </script>
 
     @vite('resources/js/admin.js')

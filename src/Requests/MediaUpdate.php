@@ -2,8 +2,8 @@
 
 namespace Helori\LaravelCms\Requests;
 
-use App\Models\Media;
-use App\Http\Resources\Media as MediaResource;
+use Helori\LaravelCms\Models\Media;
+use Helori\LaravelCms\Resources\Media as MediaResource;
 
 
 class MediaUpdate extends AdminBase

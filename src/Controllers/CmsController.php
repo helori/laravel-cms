@@ -4,17 +4,20 @@ namespace Helori\LaravelCms\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Controllers\Controller;
 
-use App\Http\Requests\Admin\MediaRead;
-use App\Http\Requests\Admin\MediaDownload;
-use App\Http\Requests\Admin\MediaUpdate;
-use App\Http\Requests\Admin\MediaDelete;
+use Helori\LaravelCms\Requests\MediaRead;
+use Helori\LaravelCms\Requests\MediaDownload;
+use Helori\LaravelCms\Requests\MediaUpdate;
+use Helori\LaravelCms\Requests\MediaDelete;
 
-use App\Http\Requests\Admin\ResourceCreate;
-use App\Http\Requests\Admin\ResourceList;
-use App\Http\Requests\Admin\ResourceRead;
-use App\Http\Requests\Admin\ResourceUpdate;
-use App\Http\Requests\Admin\ResourceDelete;
+use Helori\LaravelCms\Requests\ResourceCreate;
+use Helori\LaravelCms\Requests\ResourceList;
+use Helori\LaravelCms\Requests\ResourceRead;
+use Helori\LaravelCms\Requests\ResourceUpdate;
+use Helori\LaravelCms\Requests\ResourceDelete;
+
+use App\Cms\CmsConfig;
 
 
 class CmsController extends Controller
@@ -23,6 +26,7 @@ class CmsController extends Controller
     {
         return view('laravel-cms::admin', [
             'user' => $request->user(),
+            'config' => CmsConfig::config(),
         ]);
     }
 

@@ -2,7 +2,7 @@
 
 namespace Helori\LaravelCms\Requests;
 
-use App\Models\Media;
+use Helori\LaravelCms\Models\Media;
 
 
 class MediaDelete extends AdminBase

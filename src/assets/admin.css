@@ -1,0 +1,352 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+
+    body{
+        @apply text-sm bg-gray-100 dark:bg-gray-700;
+    }
+
+    aside a{
+        @apply px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600;
+    }
+
+    a.content-link, span.content-link{
+        @apply text-primary-900 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200 underline font-medium cursor-pointer;
+    }
+
+    .pagination-link{
+        @apply block px-3 py-2 bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600;
+    }
+    .pagination-link.disabled{
+        @apply text-gray-500 hover:bg-white dark:hover:bg-gray-800;
+    }
+    .pagination-link:not(.disabled){
+        @apply cursor-pointer;
+    }
+    .pagination-link.active{
+        @apply bg-primary-900 dark:bg-primary-600 text-white border border-primary-900 dark:border-primary-300;
+    }
+
+    /* ----------------------------------------
+    Buttons
+    ---------------------------------------- */
+    .btn{
+        @apply inline-block px-4 py-2 font-medium border border-transparent rounded-md shadow-sm text-center transition cursor-pointer;
+    }
+    .btn:focus{
+        @apply outline-none ring;
+    }
+    .btn:disabled, .btn.disabled{
+        @apply opacity-25;
+    }
+    .btn.btn-sm{
+        @apply inline-block px-3 py-1 text-sm;
+    }
+    .btn.btn-xs{
+        @apply inline-block px-2 py-2 text-xs;
+    }
+    .btn-round{
+        @apply border border-transparent rounded-full shadow-sm text-center transition;
+    }
+
+    /* ----------------------------------------
+    Buttons by meaning
+    ---------------------------------------- */
+    .btn-primary{
+        @apply bg-primary-600 border-primary-600 text-white;
+    }
+    .btn-primary:hover{
+        @apply bg-primary-500;
+    }
+    .btn-primary:active{
+        @apply bg-primary-600;
+    }
+    .btn-primary:focus{
+        @apply border-primary-600 ring-primary-300;
+    }
+
+    .btn-danger{
+        @apply bg-red-900 dark:bg-red-600 border-red-950 text-white;
+    }
+    .btn-danger:hover{
+        @apply bg-red-600 dark:bg-red-500;
+    }
+    .btn-danger:active{
+        @apply bg-red-900;
+    }
+    .btn-danger:focus{
+        @apply border-red-900 ring-red-300;
+    }
+
+    .btn-excel{
+        background-color: #476F51;
+        @apply text-gray-200;
+    }
+    .btn-excel:hover{
+        background-color: #578863;
+        @apply text-white;
+    }
+    .btn-excel.disabled{
+        background-color: #578863;
+        @apply text-gray-400;
+    }
+
+    .btn-dashboard{
+        @apply btn btn-primary text-base md:text-xl rounded-lg px-8 py-3 w-full md:w-3/4 flex items-center gap-4 justify-start text-left;
+    }
+
+    /* ----------------------------------------
+    Buttons by color
+    ---------------------------------------- */
+    .btn-blue{
+        @apply bg-blue-900 dark:bg-blue-600 text-white;
+    }
+    .btn-blue:hover{
+        @apply bg-blue-600 dark:bg-blue-500;
+    }
+    .btn-blue:active{
+        @apply bg-blue-900;
+    }
+    .btn-blue:focus{
+        @apply border-blue-900 ring-blue-300;
+    }
+
+    .btn-gray{
+        @apply bg-gray-500 text-white;
+    }
+    .btn-gray:hover{
+        @apply bg-gray-400;
+    }
+    .btn-gray:active{
+        @apply bg-gray-600;
+    }
+    .btn-gray:focus{
+        @apply border-gray-500 ring-gray-200;
+    }
+
+    .btn-red{
+        @apply bg-red-700 text-white;
+    }
+    .btn-red:hover{
+        @apply bg-red-600;
+    }
+    .btn-red:active{
+        @apply bg-red-800;
+    }
+    .btn-red:focus{
+        @apply border-red-900 ring-red-300;
+    }
+
+    .btn-green{
+        @apply bg-green-900 text-white;
+    }
+    .btn-green:hover{
+        @apply bg-green-600;
+    }
+    .btn-green:active{
+        @apply bg-green-900;
+    }
+    .btn-green:focus{
+        @apply border-green-900 ring-green-300;
+    }
+
+    .btn-yellow{
+        @apply bg-yellow-900 text-white;
+    }
+    .btn-yellow:hover{
+        @apply bg-yellow-600;
+    }
+    .btn-yellow:active{
+        @apply bg-yellow-900;
+    }
+    .btn-yellow:focus{
+        @apply border-yellow-900 ring-yellow-300;
+    }
+
+    .btn-white{
+        @apply bg-white border-gray-300 text-gray-700 dark:bg-gray-700 dark:border-gray-700 dark:text-white;
+    }
+    .btn-white:hover{
+        @apply text-gray-500 dark:bg-gray-500 dark:text-white;
+    }
+    .btn-white:active{
+        @apply bg-gray-50 text-gray-800;
+    }
+    .btn-white:focus{
+        @apply border-primary-300 ring-primary-200;
+    }
+
+    .btn-outline-blue{
+        @apply border-blue-900 text-blue-900 bg-transparent dark:border-blue-200 dark:text-blue-200 dark:bg-blue-900;
+    }
+    .btn-outline-blue:hover{
+        @apply border-blue-600 bg-blue-600 text-white;
+    }
+    .btn-outline-blue:active{
+        @apply bg-blue-900 text-white;
+    }
+    .btn-outline-blue:focus{
+        @apply border-blue-900 ring-blue-300;
+    }
+
+    .btn-outline-black{
+        @apply border-gray-900 text-gray-900 bg-transparent dark:border-gray-200 dark:text-gray-200;
+    }
+    .btn-outline-black:hover{
+        @apply border-black text-black dark:border-white dark:text-white;
+    }
+    .btn-outline-black:active{
+        @apply border-black text-black dark:border-white dark:text-white;
+    }
+    .btn-outline-black:focus{
+        @apply ring-gray-300;
+    }
+
+    /* ----------------------------------------
+    Inputs
+    ---------------------------------------- */
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type=number] {
+        -moz-appearance:textfield;
+    }
+
+    input[type=checkbox]{
+        @apply appearance-none h-5 w-5 border border-gray-300 rounded-sm bg-white checked:bg-primary-600 checked:border-primary-600 focus:outline-none transition duration-100 align-top bg-no-repeat bg-center bg-contain float-left cursor-pointer;
+    }
+    .input{
+        @apply font-medium autofill:autofill-text-white autofill:shadow-autofill dark:autofill:!shadow-gray-700 px-4 py-2 border border-gray-300 rounded-md shadow-sm dark:border-gray-900 bg-white dark:bg-gray-800 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-500;
+    }
+    select.input{
+        @apply pr-8;
+    }
+    .input:focus{
+        @apply border-blue-300 ring ring-blue-200 ring-opacity-50;
+    }
+    .input-grouped{
+        @apply min-w-0 flex-grow rounded-none border-none px-1 font-semibold;
+    }
+    .label{
+        @apply block font-medium text-sm text-gray-700 dark:text-gray-200;
+    }
+    .input.invalid{
+        @apply border-red-700 bg-red-100 text-red-900;
+    }
+
+    .autofill-text-white{
+        -webkit-text-fill-color: black;
+    }
+    .dark .autofill-text-white{
+        -webkit-text-fill-color: white;
+    }
+
+    /* ----------------------------------------
+    Alerts
+    ---------------------------------------- */
+    .alert{
+        @apply px-4 py-2 border border-transparent rounded-md font-semibold text-center;
+    }
+    .alert-red{
+        @apply bg-red-100 border-red-900 text-red-900;
+    }
+    .alert-green{
+        @apply bg-green-100 border-green-900 text-green-900;
+    }
+
+    /* ----------------------------------------
+    Dropdown
+    ---------------------------------------- */
+    .dropdown-link{
+        @apply block w-full px-4 py-2 text-sm leading-5 text-gray-700 dark:text-gray-200 text-left transition cursor-pointer flex items-center gap-2;
+    }
+    .dropdown-link:hover{
+        @apply bg-gray-100 dark:bg-gray-700;
+    }
+    .dropdown-link:focus{
+        @apply outline-none bg-gray-100 dark:bg-gray-800;
+    }
+
+    /* ----------------------------------------
+    Tables
+    ---------------------------------------- */
+    .table-wrapper{
+        @apply -mx-4 sm:mx-0 flex-grow bg-white dark:bg-gray-800 text-gray-900 dark:text-white;
+    }
+
+    .table-wrapper table{
+        @apply w-full;
+    }
+
+    .table-wrapper thead tr{
+        @apply border-t border-b border-gray-300 dark:border-gray-500;
+    }
+
+    .table-wrapper tbody tr{
+        @apply border-b border-gray-300 dark:border-gray-500 cursor-pointer;
+    }
+
+    .table-wrapper table th{
+        @apply sticky z-10 top-0 whitespace-nowrap !py-3 !px-4 font-bold border-t-0 border-b-0 bg-gray-200 dark:bg-gray-900;
+    }
+
+    .table-wrapper table tr:first-child th{
+        @apply text-left;
+    }
+
+    .table-wrapper table tr:not(:first-child) th{
+        @apply text-left;
+    }
+
+    .table-wrapper table td{
+        @apply !py-3 !px-4 dark:text-white;
+    }
+
+    .table-wrapper.nowrap table td,
+    .table-wrapper table td.nowrap{
+        @apply whitespace-nowrap;
+    }
+
+    .table-clickable tbody tr{
+        @apply  hover:bg-gray-200 hover:dark:bg-gray-700;
+    }
+
+    .table-stripped tbody tr:nth-child(odd){
+        @apply bg-gray-100 dark:bg-gray-800;
+    }
+    .table-stripped tbody tr:nth-child(even){
+        @apply bg-white dark:bg-gray-900;
+    }
+
+    .sidebar{
+        @apply absolute inset-y-0 left-0 w-[350px] bg-gray-200 dark:bg-gray-900 /*border-r-4 border-gray-300 dark:border-gray-900*/;
+    }
+    .sidebar-group-title{
+        @apply mb-4 uppercase font-semibold text-base text-blue-900 dark:text-gray-500;
+    }
+    .sidebar-separator{
+        @apply my-6 h-px w-full bg-gray-300 dark:bg-gray-600;
+    }
+    .sidebar-link{
+        @apply block -mx-10 px-10 border-l-4 py-2;
+    }
+    .sidebar-link-inactive{
+        @apply hover:bg-gray-100 dark:hover:bg-gray-700 hover:font-medium border-transparent hover:border-blue-600 text-gray-800 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100 dark:hover:border-blue-300;
+    }
+    .sidebar-link-active{
+        @apply bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white font-medium border-blue-600 dark:border-blue-300;
+    }
+
+    .menu-group{
+        @apply mt-8 mb-2 px-4 uppercase font-semibold text-xs text-primary-700;
+    }
+}
+
+

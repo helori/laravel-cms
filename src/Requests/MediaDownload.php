@@ -3,7 +3,7 @@
 namespace Helori\LaravelCms\Requests;
 
 use Illuminate\Support\Facades\Storage;
-use App\Models\Media;
+use Helori\LaravelCms\Models\Media;
 
 
 class MediaDownload extends AdminBase
