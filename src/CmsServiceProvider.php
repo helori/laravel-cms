@@ -5,6 +5,7 @@ namespace Helori\LaravelCms;
 use Illuminate\Support\ServiceProvider;
 use Helori\LaravelCms\Models\Element;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 
 class CmsServiceProvider extends ServiceProvider
@@ -16,6 +17,8 @@ class CmsServiceProvider extends ServiceProvider
 
     public function boot()
 	{
+        JsonResource::withoutWrapping();
+        
         $this->loadRoutesFrom(__DIR__.'/routes/routes.php');
         $this->loadViewsFrom(__DIR__.'/views', 'laravel-cms');
 
