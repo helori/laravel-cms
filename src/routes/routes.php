@@ -12,13 +12,15 @@ Route::middleware('web')->group(function ()
     Route::get('/admin', [CmsController::class, 'admin'])->name('admin')->middleware('auth:sanctum');
 });
 
-Route::middleware('api')->group(function ()
+Route::middleware('api')
+->prefix('api')
+->group(function ()
 {
     Route::get('/user', [CmsController::class, 'user']);
     Route::post('/locale', [CmsController::class, 'locale']);
 
     Route::middleware('auth:sanctum')
-        ->prefix('api/admin')
+        ->prefix('admin')
         ->group(function ()
     {
         Route::post('/resource/{resource}', [CmsController::class, 'resourceCreate']);
