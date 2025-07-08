@@ -18,7 +18,7 @@ class CmsServiceProvider extends ServiceProvider
     public function boot()
 	{
         JsonResource::withoutWrapping();
-        
+
         $this->loadRoutesFrom(__DIR__.'/routes/routes.php');
         $this->loadViewsFrom(__DIR__.'/views', 'laravel-cms');
 
@@ -30,9 +30,9 @@ class CmsServiceProvider extends ServiceProvider
             __DIR__.'/migrations' => database_path('migrations'),
         ], 'laravel-cms-migrations');
 
-        /*$this->publishes([
+        $this->publishes([
             __DIR__.'/views' => base_path('resources/views/vendor/laravel-cms'),
-        ], 'laravel-cms-views');*/
+        ], 'laravel-cms-views');
 
         $this->publishes([
             __DIR__.'/assets/admin.js' => base_path('resources/js/admin.js'),
