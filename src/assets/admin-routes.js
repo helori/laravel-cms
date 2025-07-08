@@ -1,7 +1,6 @@
 import AdminLayout from './Admin/AdminLayout'
 import Dashboard from './Admin/Dashboard'
-import GenericTable from './Library/Components/GenericTable'
-import GenericSingleton from './Library/Components/GenericSingleton'
+import * as helorui from 'helorui'
 
 let routes =
 [
@@ -33,7 +32,7 @@ resources.forEach(function(resource)
     let route = {
         path: '/' + name,
         name,
-        component: (singleton === true) ? GenericSingleton : GenericTable,
+        component: (singleton === true) ? helorui.components.GenericSingleton : helorui.components.GenericTable,
         props: {
             title,
             resource: name,
