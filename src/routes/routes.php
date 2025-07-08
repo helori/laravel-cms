@@ -14,6 +14,9 @@ Route::middleware('web')->group(function ()
 
 Route::middleware('api')->group(function ()
 {
+    Route::get('/user', [CmsController::class, 'user']);
+    Route::post('/locale', [CmsController::class, 'locale']);
+
     Route::middleware('auth:sanctum')
         ->prefix('api/admin')
         ->group(function ()
