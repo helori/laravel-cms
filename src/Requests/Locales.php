@@ -13,6 +13,6 @@ class Locales extends FormRequest
 
     public function handle()
     {
-        return config('app.locales');
+        return config('app.locales', []);
     }
 }
