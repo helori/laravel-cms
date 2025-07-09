@@ -16,6 +16,8 @@
 
             <div class="flex-grow"></div>
 
+            <locale />
+            
             <dark-mode />
 
             <div class="relative">
@@ -66,11 +68,13 @@
 
 import { defineComponent, ref, inject } from "vue"
 import { useRouter } from 'vue-router'
+import Locale from'./Locale'
 import DarkMode from'./DarkMode'
 
 export default defineComponent({
 
     components: {
+        Locale,
         DarkMode
     },
 

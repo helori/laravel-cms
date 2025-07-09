@@ -17,6 +17,7 @@ Route::middleware('api')
 ->group(function ()
 {
     Route::get('/user', [CmsController::class, 'user']);
+    Route::get('/locales', [CmsController::class, 'locales']);
     Route::post('/locale', [CmsController::class, 'locale']);
 
     Route::middleware('auth:sanctum')

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use Helori\LaravelCms\Requests\Locale;
+use Helori\LaravelCms\Requests\Locales;
 
 use Helori\LaravelCms\Requests\MediaRead;
 use Helori\LaravelCms\Requests\MediaDownload;
@@ -68,8 +69,9 @@ class CmsController extends Controller
         return redirect()->route('login');
     }
 
-    public function locale(Locale $request) { return $request->handle(); }
     public function user(Request $request) { return $request->user(); }
+    public function locales(Locales $request) { return $request->handle(); }
+    public function locale(Locale $request) { return $request->handle(); }
     
     public function mediaRead(MediaRead $request, $id) { return $request->handle($id); }
     public function mediaDownload(MediaDownload $request, $id) { return $request->handle($id); }
