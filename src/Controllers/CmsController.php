@@ -28,6 +28,7 @@ class CmsController extends Controller
     {
         return view('laravel-cms::admin', [
             'user' => $request->user(),
+            'locale' => app()->getLocale(),
             'config' => CmsConfig::config(),
         ]);
     }
@@ -35,6 +36,7 @@ class CmsController extends Controller
     public function login(Request $request)
     {
         return view('laravel-cms::login', [
+            'locale' => app()->getLocale(),
             'config' => CmsConfig::config(),
         ]);
     }

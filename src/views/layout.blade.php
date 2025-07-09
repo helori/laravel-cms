@@ -22,6 +22,7 @@
     @yield('content')
 
     <script>
+        window.laravelLocale = "{{ $locale }}";
         window.cms = {!! json_encode($config) !!};
     </script>
 
