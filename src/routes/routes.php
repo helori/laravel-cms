@@ -24,7 +24,7 @@ Route::middleware('api')
     Route::get('/locales', [CmsController::class, 'locales']);
     Route::post('/locale', [CmsController::class, 'locale']);
 
-    Route::middleware(array_merge(['auth:sanctum', Locale::class], CmsConfig::adminMiddlewares()))
+    Route::middleware(['auth:sanctum', Locale::class])
         ->prefix('admin')
         ->group(function ()
     {
