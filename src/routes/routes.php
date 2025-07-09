@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Helori\LaravelCms\Controllers\CmsController;
+use Helori\LaravelCms\Middleware\Locale;
+use App\Cms\CmsConfig;
 
 Route::middleware('web')->group(function ()
 {
@@ -20,7 +22,8 @@ Route::middleware('api')
     Route::get('/locales', [CmsController::class, 'locales']);
     Route::post('/locale', [CmsController::class, 'locale']);
 
-    Route::middleware('auth:sanctum')
+    Route::middleware(['auth:sanctum', Locale::class])
+        ->middleware(CmsConfig::adminMiddlewares())
         ->prefix('admin')
         ->group(function ()
     {

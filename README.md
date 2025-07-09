@@ -13,6 +13,7 @@ php artisan install:api
 php artisan vendor:publish --tag=laravel-cms-migrations
 php artisan vendor:publish --tag=laravel-cms-config
 php artisan vendor:publish --tag=laravel-cms-assets --force
+php artisan vendor:publish --tag=laravel-cms-view
 
 npm i --save-dev helorui axios luxon numeral postcss tailwindcss:3.* tinymce:7.* vue:3.* vue-flatpickr-component vue-i18n
 

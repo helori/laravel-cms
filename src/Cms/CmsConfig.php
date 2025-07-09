@@ -22,4 +22,11 @@ class CmsConfig
     {
         return [];
     }
+
+    static public function adminMiddlewares():array
+    {
+        return [
+            
+        ];
+    }
 }
