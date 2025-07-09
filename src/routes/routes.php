@@ -11,7 +11,9 @@ Route::middleware('web')->group(function ()
     Route::get('/login', [CmsController::class, 'login'])->name('login');
     Route::post('/login', [CmsController::class, 'authenticate'])->name('authenticate');
     Route::post('/logout', [CmsController::class, 'logout'])->name('logout');
-    Route::get('/admin', [CmsController::class, 'admin'])->name('admin')->middleware('auth:sanctum');
+    
+    Route::get('/admin', [CmsController::class, 'admin'])->name('admin')
+        ->middleware(['auth:sanctum', Locale::class]);
 });
 
 Route::middleware('api')
