@@ -9,6 +9,7 @@ cd my-project
 
 ```console
 php artisan install:api
+php artisan config:publish cors
 ```
 
 Modify your .env file using your project name as follows :
@@ -24,6 +25,12 @@ Modify your bootstrap/app.php file :
 ->withMiddleware(function (Middleware $middleware) {
     $middleware->statefulApi();
 })
+```
+
+Modify your config/cors.php as follows :
+
+```
+'supports_credentials' => true,
 ```
 
 ### Install Laravel CMS
