@@ -3,7 +3,7 @@
 namespace Helori\LaravelCms\Requests;
 
 
-class ResourceDelete extends ResourceCreate
+class ResourceDelete extends AdminBase
 {
     public function handle($resourceName, $id)
     {
