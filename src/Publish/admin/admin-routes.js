@@ -27,6 +27,7 @@ resources.forEach(function(resource)
         title,
         singleton,
         table,
+        fields,
     } = resource;
 
     let route = {
@@ -35,8 +36,9 @@ resources.forEach(function(resource)
         component: (singleton === true) ? helorui.components.GenericSingleton : helorui.components.GenericTable,
         props: {
             title,
-            resource: name,
+            endpoint: '/api/admin/resource/' + name,
             ...table,
+            fields,
         },
     }
 
