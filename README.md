@@ -37,14 +37,19 @@ Modify your config/cors.php as follows :
 
 ```console
 composer require helori/laravel-cms
+
 # This will create migrations for medias and updated users table
 php artisan vendor:publish --tag=laravel-cms-migrations
+
 # This will publish the app\Cms folder containing your CMS config :
 php artisan vendor:publish --tag=laravel-cms-config
+
 # This will publish the project's default config files for npm dependencies, tailwind, vite and postcss
 php artisan vendor:publish --tag=laravel-cms-assets-setup --force
+
 # This will publish sources files for the admin application
 php artisan vendor:publish --tag=laravel-cms-assets-admin --force
+
 # This will publish boilerplate files for the website (be careful when using --force to overwrite !)
 php artisan vendor:publish --tag=laravel-cms-assets-website --force
 ```
