@@ -47,11 +47,18 @@ class ResourceCreate extends AdminBase
         {
             if($this->has($field['name']))
             {
+                // Format value if needed
                 if($this->input($field['name']) === 'null')
                 {
                     $item->{$field['name']} = null;
                 }
-                else if($field['type'] === 'boolean')
+
+                // Set value according to field type
+                else if($field['type'] === 'integer' || $field['type'] === 'number')
+                {
+                    $item->{$field['name']} = (int) $this->input($field['name']);
+                }
+                if($field['type'] === 'boolean')
                 {
                     $item->{$field['name']} = $this->boolean($field['name']);
                 }
@@ -67,7 +74,7 @@ class ResourceCreate extends AdminBase
                 {
                     $item->{$field['name']} = Hash::make($this->input($field['name']));
                 }
-                else if(in_array($field['type'], ['text', 'email', 'number', 'html', 'textarea', 'date']))
+                else if(in_array($field['type'], ['text', 'select', 'email', 'number', 'html', 'textarea', 'date']))
                 {
                     $item->{$field['name']} = $this->input($field['name']);
                 }
