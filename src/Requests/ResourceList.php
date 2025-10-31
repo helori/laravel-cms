@@ -28,11 +28,14 @@ class ResourceList extends AdminBase
             }
         }
 
-        if($this->has('search') && $this->search){
-            $search = $this->search;
-            /*$query->where(function($q) use($search){
-                $q->where(DB::raw('LOWER(title)'), 'LIKE', '%'.$search.'%');
-            });*/
+        $tableConfig = $this->getResourceConfig($resourceName)['table']['searchable'] ?? [];
+
+        if($this->has('search') && $this->search && !empty($tableConfig)){
+            $query->where(function($q) use($tableConfig){
+                foreach($tableConfig as $fieldName){
+                    $q->orWhere(DB::raw('LOWER('.$fieldName.')'), 'LIKE', '%'.strtolower($this->search).'%');
+                }
+            });
         }
 
         $items = $this->queryList($query);
