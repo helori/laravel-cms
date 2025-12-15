@@ -22,6 +22,7 @@ trait HasMedia
             {
                 $media = $this->createMediaForFile($file);
                 $media->collection = $field;
+                $media->position = $item->{$field}()->selectRaw('MAX(position) + 1 AS position')->first()?->position ?? 0;
                 $media->save();
                 $item->{$field}()->save($media);
             }
@@ -42,6 +43,7 @@ trait HasMedia
 
                 $media = $this->createMediaForFile($file);
                 $media->collection = $field;
+                $media->position = $item->{$field}()->selectRaw('MAX(position) + 1 AS position')->first()?->position ?? 0;
                 $media->save();
                 $item->{$field}()->save($media);
             }
@@ -75,6 +77,7 @@ trait HasMedia
         $media->filename = $file_name.'.'.$file_ext;
         $media->title = $file->getClientOriginalName();
         $media->filepath = $directory.'/'.$media->filename;
+        $media->position = 0;
 
         $storage = Storage::disk('public');
         $media->filepath = $storage->putFileAs($directory, $file, $media->filename);

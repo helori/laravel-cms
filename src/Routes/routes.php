@@ -35,11 +35,11 @@ Route::middleware('api')
         Route::delete('/resource/{resource}/{id}', [CmsController::class, 'resourceDelete']);
         Route::post('/resource/{resource}/reorder', [CmsController::class, 'resourceReorder']);
 
-        //Route::post('/media', [CmsController::class, 'mediaCreate']);
-        //Route::get('/media', [CmsController::class, 'mediaList']);
-        Route::get('/media/{id}', [CmsController::class, 'mediaRead']);
-        Route::get('/media/{id}/download', [CmsController::class, 'mediaDownload']);
-        Route::put('/media/{id}', [CmsController::class, 'mediaUpdate']);
-        Route::delete('/media/{id}', [CmsController::class, 'mediaDelete']);
+        Route::get('/resource/{resource}/{resourceId}/media', [CmsController::class, 'resourceMediaList']);
+        Route::get('/resource/{resource}/{resourceId}/media/{mediaId}', [CmsController::class, 'resourceMediaRead']);
+        Route::get('/resource/{resource}/{resourceId}/media/{mediaId}/download', [CmsController::class, 'resourceMediaDownload']);
+        Route::put('/resource/{resource}/{resourceId}/media/{mediaId}', [CmsController::class, 'resourceMediaUpdate']);
+        Route::delete('/resource/{resource}/{resourceId}/media/{mediaId}', [CmsController::class, 'resourceMediaDelete']);
+        Route::post('/resource/{resource}/{resourceId}/media/reorder', [CmsController::class, 'resourceMediaReorder']);
     });
 });

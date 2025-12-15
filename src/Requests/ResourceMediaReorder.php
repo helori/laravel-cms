@@ -3,46 +3,48 @@
 namespace Helori\LaravelCms\Requests;
 
 
-class ResourceReorder extends AdminBase
+class ResourceMediaReorder extends AdminBase
 {
     public function rules()
     {
         return [
+            'collection' => 'sometimes|string',
             'from_position' => 'required|integer',
             'to_position' => 'required|integer',
-            'position_field' => 'required|string',
         ];
     }
 
-    public function handle($resourceName)
+    public function handle($resourceName, $resourceId)
     {
         $classname = $this->getResourceClass($resourceName);
-        $positionField = $this->input('position_field', 'position');
+        $resource = $classname::findOrFail($resourceId);
+
+        $collection = $this->input('collection', null);
+        $positionField = 'position';
         
-        $itemStart = $classname::query()
+        $queryMedias = $resource->medias()
+            ->where('collection', $collection);
+
+        $mediaStart = (clone $queryMedias)
             ->where($positionField, $this->from_position)
             ->firstOrFail();
-
-        $items = $classname::query()
-            ->whereBetween($positionField, [$this->from_position + 1, $this->to_position])
-            ->get();
 
         if($this->from_position < $this->to_position)
         {
             // Move down
-            $classname::query()
+            (clone $queryMedias)
                 ->whereBetween($positionField, [$this->from_position + 1, $this->to_position])
                 ->decrement($positionField);
         }
         else
         {
             // Move up
-            $classname::query()
+            (clone $queryMedias)
                 ->whereBetween($positionField, [$this->to_position, $this->from_position - 1])
                 ->increment($positionField);
         }
 
-        $itemStart->{$positionField} = $this->to_position;
-        $itemStart->save();
+        $mediaStart->{$positionField} = $this->to_position;
+        $mediaStart->save();
     }
 }

@@ -3,14 +3,16 @@
 namespace Helori\LaravelCms\Requests;
 
 use Illuminate\Support\Facades\Storage;
-use Helori\LaravelCms\Models\Media;
 
 
-class MediaDownload extends AdminBase
+class ResourceMediaDownload extends AdminBase
 {
-    public function handle($id)
+    public function handle($resourceName, $resourceId, $mediaId)
     {
-        $item = Media::findOrFail($id);
+        $classname = $this->getResourceClass($resourceName);
+        $resource = $classname::findOrFail($resourceId);
+
+        $item = $resource->medias()->findOrFail($mediaId);
 
         $storage = Storage::disk('public');
         $content = $storage->get($item->filepath);

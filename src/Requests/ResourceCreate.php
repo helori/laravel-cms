@@ -4,6 +4,7 @@ namespace Helori\LaravelCms\Requests;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 
 class ResourceCreate extends AdminBase
@@ -26,12 +27,35 @@ class ResourceCreate extends AdminBase
         return $rules;
     }
 
+    public function prepareForValidation(): void
+    {
+        foreach($this->all() as $key => $value)
+        {
+            if($value === 'null')
+            {
+                $this->merge([
+                    $key => null,
+                ]);
+            }
+        }
+    }
+
     public function handle($resourceName, $id = null)
     {
         $classname = $this->getResourceClass($resourceName);
         $apiResource = $this->getResourceApiClass($resourceName);
 
+        $config = $this->getResourceConfig($resourceName);
+        $hasPosition = $config['has_position'] ?? false;
+
         $item = new $classname();
+
+        if($hasPosition)
+        {
+            $nextPosition = $classname::selectRaw('MAX(position) + 1 AS position')->first()?->position ?? 0;
+            $item->position = $nextPosition;
+        }
+
         $item->save();
 
         $this->setInput($item, $resourceName);

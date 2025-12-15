@@ -7,7 +7,8 @@ trait HasMedia
     // Polymorphic relation
     public function medias()
     {
-        return $this->morphMany(Media::class, 'mediable');
+        return $this->morphMany(Media::class, 'mediable')
+            ->orderBy('position', 'asc');
     }
 
     public function media()
