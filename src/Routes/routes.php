@@ -33,6 +33,7 @@ Route::middleware('api')
         Route::get('/resource/{resource}/{id}', [CmsController::class, 'resourceRead']);
         Route::put('/resource/{resource}/{id}', [CmsController::class, 'resourceUpdate']);
         Route::delete('/resource/{resource}/{id}', [CmsController::class, 'resourceDelete']);
+        Route::post('/resource/{resource}/reorder', [CmsController::class, 'resourceReorder']);
 
         //Route::post('/media', [CmsController::class, 'mediaCreate']);
         //Route::get('/media', [CmsController::class, 'mediaList']);

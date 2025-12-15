@@ -18,6 +18,7 @@ use Helori\LaravelCms\Requests\ResourceList;
 use Helori\LaravelCms\Requests\ResourceRead;
 use Helori\LaravelCms\Requests\ResourceUpdate;
 use Helori\LaravelCms\Requests\ResourceDelete;
+use Helori\LaravelCms\Requests\ResourceReorder;
 
 use App\Cms\CmsConfig;
 
@@ -85,4 +86,5 @@ class CmsController extends Controller
     public function resourceRead(ResourceRead $request, $resource, $id) { return $request->handle($resource, $id); }
     public function resourceUpdate(ResourceUpdate $request, $resource, $id) { return $request->handle($resource, $id); }
     public function resourceDelete(ResourceDelete $request, $resource, $id) { return $request->handle($resource, $id); }
+    public function resourceReorder(ResourceReorder $request, $resource) { return $request->handle($resource); }
 }
