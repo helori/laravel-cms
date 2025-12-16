@@ -10,34 +10,35 @@ class ResourceReorder extends AdminBase
         return [
             'from_position' => 'required|integer',
             'to_position' => 'required|integer',
-            'position_field' => 'required|string',
         ];
     }
 
     public function handle($resourceName)
     {
-        $classname = $this->getResourceClass($resourceName);
-        $positionField = $this->input('position_field', 'position');
-        
-        $itemStart = $classname::query()
+        $query = $this->queryForResource($resourceName, true);
+        $config = $this->getResourceConfig($resourceName);
+        $positionField = $config['position'] ?? null;
+
+        if(!$positionField)
+        {
+            throw new \Exception("Resource '{$resourceName}' does not support reordering (position field must be set in resource config)");
+        }
+
+        $itemStart = (clone $query)
             ->where($positionField, $this->from_position)
             ->firstOrFail();
-
-        $items = $classname::query()
-            ->whereBetween($positionField, [$this->from_position + 1, $this->to_position])
-            ->get();
 
         if($this->from_position < $this->to_position)
         {
             // Move down
-            $classname::query()
+            (clone $query)
                 ->whereBetween($positionField, [$this->from_position + 1, $this->to_position])
                 ->decrement($positionField);
         }
         else
         {
             // Move up
-            $classname::query()
+            (clone $query)
                 ->whereBetween($positionField, [$this->to_position, $this->from_position - 1])
                 ->increment($positionField);
         }

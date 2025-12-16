@@ -16,7 +16,6 @@ use Helori\LaravelCms\Requests\ResourceDelete;
 use Helori\LaravelCms\Requests\ResourceReorder;
 
 use Helori\LaravelCms\Requests\ResourceMediaList;
-use Helori\LaravelCms\Requests\ResourceMediaCreate;
 use Helori\LaravelCms\Requests\ResourceMediaRead;
 use Helori\LaravelCms\Requests\ResourceMediaDownload;
 use Helori\LaravelCms\Requests\ResourceMediaUpdate;
@@ -87,7 +86,6 @@ class CmsController extends Controller
     public function resourceReorder(ResourceReorder $request, $resource) { return $request->handle($resource); }
 
     public function resourceMediaList(ResourceMediaList $request, $resource, $resourceId) { return $request->handle($resource, $resourceId); }
-    public function resourceMediaCreate(ResourceMediaCreate $request, $resource, $resourceId) { return $request->handle($resource, $resourceId); }
     public function resourceMediaRead(ResourceMediaRead $request, $resource, $resourceId, $mediaId) { return $request->handle($resource, $resourceId, $mediaId); }
     public function resourceMediaDownload(ResourceMediaDownload $request, $resource, $resourceId, $mediaId) { return $request->handle($resource, $resourceId, $mediaId); }
     public function resourceMediaUpdate(ResourceMediaUpdate $request, $resource, $resourceId, $mediaId) { return $request->handle($resource, $resourceId, $mediaId); }

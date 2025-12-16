@@ -16,8 +16,8 @@ class ResourceMediaList extends AdminBase
 
     public function handle($resourceName, $resourceId)
     {
-        $classname = $this->getResourceClass($resourceName);
-        $resource = $classname::findOrFail($resourceId);
+        $query = $this->queryForResource($resourceName);
+        $resource = $query->findOrFail($resourceId);
 
         $query = $resource->medias();
 

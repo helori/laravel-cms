@@ -7,8 +7,8 @@ class ResourceMediaDelete extends AdminBase
 {
     public function handle($resourceName, $resourceId, $mediaId)
     {
-        $classname = $this->getResourceClass($resourceName);
-        $resource = $classname::findOrFail($resourceId);
+        $query = $this->queryForResource($resourceName);
+        $resource = $query->findOrFail($resourceId);
 
         $item = $resource->medias()->findOrFail($mediaId);
         $collection = $item->collection;

@@ -7,10 +7,9 @@ class ResourceUpdate extends ResourceCreate
 {
     public function handle($resourceName, $id = null)
     {
-        $classname = $this->getResourceClass($resourceName);
         $apiResource = $this->getResourceApiClass($resourceName);
-
-        $item = $classname::findOrFail($id);
+        $query = $this->queryForResource($resourceName, true);
+        $item = $query->findOrFail($id);
 
         $this->setInput($item, $resourceName);
 

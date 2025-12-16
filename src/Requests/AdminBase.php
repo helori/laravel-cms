@@ -47,20 +47,25 @@ class AdminBase extends FormRequest
      */
     protected function queryList($query)
     {
-        $limit = intVal($this->input('limit', 10));
+        if(empty($query->getQuery()->orders))
+        {
+            $tableName = $query->getModel()->getTable();
+            $orderBy = $tableName.'.id';
+            // If order_by is sent, use it as is (table name must be prepended if necessary) :
+            if($this->has('order_by')){
+                $orderBy = $this->order_by;
+            }
 
-        $tableName = $query->getModel()->getTable();
-        $orderBy = $tableName.'.id';
-
-        // If order_by is sent, use it as is (table name must be prepended if necessary) :
-        if($this->has('order_by')){
-            $orderBy = $this->order_by;
+            $orderDir = $this->has('order_dir') ? $this->order_dir : 'asc';
+            $query->orderBy($orderBy, $orderDir);
+            //$query->orderByRaw($orderBy, $orderDir);
+            //$query->orderByRaw($orderBy.' '.$orderDir.' NULLS LAST');
+            //$query->orderByRaw('ISNULL('.$orderBy.'), '.$orderBy.' '.$orderDir);
         }
 
-        $orderDir = $this->has('order_dir') ? $this->order_dir : 'asc';
-        //$query->orderByRaw($orderBy, $orderDir);
-        //$query->orderByRaw($orderBy.' '.$orderDir.' NULLS LAST');
-        $query->orderByRaw('ISNULL('.$orderBy.'), '.$orderBy.' '.$orderDir);
+        $limit = intVal($this->input('limit', 10));
+
+        //dump($query->toSql());
 
         return ($limit === 0) ? $query->get() : $query->paginate($limit);
     }
@@ -68,10 +73,7 @@ class AdminBase extends FormRequest
     protected function getResourceConfig(string $resourceName): array
     {
         $resourcesConfig = collect(CmsConfig::resources());
-
-        return $resourcesConfig->first(function($resource) use($resourceName) {
-            return $resource['name'] === $resourceName;
-        });
+        return $resourcesConfig->firstWhere('name', $resourceName);
     }
 
     protected function getResourceFields(string $resourceName): array
@@ -81,11 +83,44 @@ class AdminBase extends FormRequest
 
     protected function getResourceClass(string $resourceName): string
     {
-        return 'App\\Models\\'.Str::studly($resourceName);
+        $config = $this->getResourceConfig($resourceName);
+        return $config['classname'];
     }
 
     protected function getResourceApiClass(string $resourceName): string
     {
-        return 'App\\Http\\Resources\\'.Str::studly($resourceName);
+        $config = $this->getResourceConfig($resourceName);
+        return $config['resource_classname'];
+    }
+
+    protected function queryForResource(string $resourceName, bool $withMedias = false)
+    {
+        $query = $this->getResourceClass($resourceName)::query();
+        $config = $this->getResourceConfig($resourceName);
+        
+        $whereClauses = $config['query'] ?? [];
+        if(!empty($whereClauses)){
+            $query->where($whereClauses);
+        }
+
+        $positionField = $config['position'] ?? null;
+        if($positionField)
+        {
+            $query->orderBy($positionField, 'asc');
+        }
+
+        if($withMedias)
+        {
+            $fields = $config['fields'];
+            foreach($fields as $field)
+            {
+                if(in_array($field['type'], ['media', 'medias']))
+                {
+                    $query->with($field['name']);
+                }
+            }
+        }
+
+        return $query;
     }
 }

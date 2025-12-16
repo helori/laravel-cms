@@ -7,8 +7,8 @@ class ResourceDelete extends AdminBase
 {
     public function handle($resourceName, $id)
     {
-        $classname = $this->getResourceClass($resourceName);
-        $item = $classname::findOrFail($id);
-        $item->delete();
+        $this->queryForResource($resourceName)
+            ->findOrFail($id)
+            ->delete();
     }
 }

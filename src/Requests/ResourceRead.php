@@ -7,11 +7,9 @@ class ResourceRead extends AdminBase
 {
     public function handle($resourceName, $id)
     {
-        $classname = $this->getResourceClass($resourceName);
         $apiResource = $this->getResourceApiClass($resourceName);
-
-        $item = $classname::findOrFail($id);
-
+        $query = $this->queryForResource($resourceName, true);
+        $item = $query->findOrFail($id);
         return new $apiResource($item);
     }
 }

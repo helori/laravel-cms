@@ -11,22 +11,25 @@ class ResourceCreate extends AdminBase
 {
     use HasMedia;
 
+    /**
+     * Return the field's rules defined in the resource config
+     */
     public function rules()
     {
         $resourceName = $this->route()->parameter('resource');
-        $fields = $this->getResourceFields($resourceName);
-        $rules = [];
-
-        foreach($fields as $field)
-        {
-            if(isset($field['rules'])){
-                $rules[$field['name']] = $field['rules'];
-            }
-        }
-
-        return $rules;
+        $config = $this->getResourceConfig($resourceName);
+        
+        return collect($config['fields'])
+            ->pluck('rules', 'name')
+            ->filter()
+            ->all();
     }
 
+    /**
+     * This is called before validation is performed.
+     * As input may have been submitted using FormData, 
+     * we need to convert 'null' strings to actual null values.
+     */
     public function prepareForValidation(): void
     {
         foreach($this->all() as $key => $value)
@@ -42,18 +45,20 @@ class ResourceCreate extends AdminBase
 
     public function handle($resourceName, $id = null)
     {
+        $config = $this->getResourceConfig($resourceName);
         $classname = $this->getResourceClass($resourceName);
         $apiResource = $this->getResourceApiClass($resourceName);
 
-        $config = $this->getResourceConfig($resourceName);
-        $hasPosition = $config['has_position'] ?? false;
+        $positionField = $config['position'] ?? false;
 
         $item = new $classname();
 
-        if($hasPosition)
+        $item->fill($config['defaults'] ?? []);
+
+        if($positionField)
         {
-            $nextPosition = $classname::selectRaw('MAX(position) + 1 AS position')->first()?->position ?? 0;
-            $item->position = $nextPosition;
+            $nextPosition = $classname::selectRaw('MAX('.$positionField.') + 1 AS position')->first()?->position ?? 0;
+            $item->{$positionField} = $nextPosition;
         }
 
         $item->save();
@@ -71,14 +76,8 @@ class ResourceCreate extends AdminBase
         {
             if($this->has($field['name']))
             {
-                // Format value if needed
-                if($this->input($field['name']) === 'null')
-                {
-                    $item->{$field['name']} = null;
-                }
-
                 // Set value according to field type
-                else if($field['type'] === 'integer' || $field['type'] === 'number')
+                if($field['type'] === 'integer' || $field['type'] === 'number')
                 {
                     $item->{$field['name']} = (int) $this->input($field['name']);
                 }
