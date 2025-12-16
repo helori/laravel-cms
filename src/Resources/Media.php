@@ -33,7 +33,7 @@ class Media extends JsonResource
             'decache' => $this->decache,
             'position' => $this->position,
 
-            'url' => $this->filepath ? Storage::url($this->filepath) : null,
+            'url' => $this->filepath ? Storage::disk('public')->url($this->filepath) : null,
         ];
     }
 }

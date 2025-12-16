@@ -19,8 +19,13 @@ class Media extends Model
 
     public function deleteFiles()
     {
-        if(Storage::exists($this->filepath)){
-            Storage::delete($this->filepath);
+        if(Storage::disk('public')->exists($this->filepath)){
+            Storage::disk('public')->delete($this->filepath);
         }
+    }
+
+    public function getFullUrl()
+    {
+        return $this->filepath ? url(Storage::disk('public')->url($this->filepath)) : null;
     }
 }
